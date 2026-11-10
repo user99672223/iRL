@@ -1,0 +1,238 @@
+# iRL ARM64 Linux bench: the CPU-translation stack on a real ARM64 CPU.
+# Upstream Wine 11.4 (ARM64EC, like Madeira's Wine) + FEX irl-fex-aot built for a Linux Wine host,
+# then: smoke test, FEX AOT round trip, AOT on Rocket League's real modules, and a boot attempt.
+# Game files come from the private repo user99672223/irl-assets (read-only deploy key) and are
+# NEVER uploaded as artifacts.
+name: ARM64 bench
+
+on:
+  push:
+    branches: [ci-arm64]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: arm64-bench-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  WINE_TAG: wine-11.4
+  LLVM_MINGW: llvm-mingw-20260421-ucrt-ubuntu-22.04-aarch64
+  FEX_REPO: https://github.com/user99672223/FEX
+  FEX_BRANCH: irl-fex-aot
+
+jobs:
+  wine:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 300
+    steps:
+      - id: cache
+        uses: actions/cache@v4
+        with:
+          key: wine-${{ env.WINE_TAG }}-arm64ec-aarch64-x11-v1
+          path: ~/wine
+      - name: Build deps
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gcc g++ make flex bison pkg-config gettext \
+            libx11-dev libxext-dev libxrender-dev libxrandr-dev libxi-dev libxcursor-dev libxcomposite-dev \
+            libxfixes-dev libxinerama-dev libxxf86vm-dev libfreetype-dev libfontconfig-dev libgnutls28-dev \
+            libgl-dev libegl-dev libosmesa6-dev libvulkan-dev libdbus-1-dev libpulse-dev libasound2-dev libunwind-dev
+      - name: llvm-mingw
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/20260421/${LLVM_MINGW}.tar.xz" | tar -xJ -C ~
+      - name: Build Wine (ARM64EC + aarch64)
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          export PATH=~/$LLVM_MINGW/bin:$PATH
+          git clone -q --depth 1 -b "$WINE_TAG" https://gitlab.winehq.org/wine/wine.git src || \
+            git clone -q --depth 1 -b "$WINE_TAG" https://github.com/wine-mirror/wine.git src
+          mkdir build && cd build
+          ../src/configure --prefix="$HOME/wine" --enable-archs=arm64ec,aarch64 --disable-tests --with-x \
+            > ~/wine-configure.log 2>&1 || { tail -60 ~/wine-configure.log; exit 1; }
+          grep -E "^configure: (WARNING|error)" ~/wine-configure.log | head -40 || true
+          make -j4 > ~/wine-build.log 2>&1 || { grep -nE "error|Error" ~/wine-build.log | head -40; tail -40 ~/wine-build.log; exit 1; }
+          make install > /dev/null
+          ls ~/wine/bin ~/wine/lib/wine
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.cache.outputs.cache-hit != 'true'
+        with:
+          name: wine-build-logs
+          path: ~/wine-*.log
+          if-no-files-found: ignore
+
+  fex:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    outputs:
+      sha: ${{ steps.sha.outputs.sha }}
+    steps:
+      - id: sha
+        run: echo "sha=$(git ls-remote "$FEX_REPO" "refs/heads/$FEX_BRANCH" | cut -f1)" >> "$GITHUB_OUTPUT"
+      - id: cache
+        uses: actions/cache@v4
+        with:
+          key: fex-linuxwine-arm64ec-${{ steps.sha.outputs.sha }}-v1
+          path: ~/fex-bin
+      - name: "Build FEX (ARM64EC module + FEXOfflineCompiler, Linux Wine host, no FEX_IOS_HOST)"
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ninja-build cmake python3
+          curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/20260421/${LLVM_MINGW}.tar.xz" | tar -xJ -C ~
+          export PATH=~/$LLVM_MINGW/bin:$PATH
+          git clone -q -b "$FEX_BRANCH" "$FEX_REPO" ~/FEX
+          git -C ~/FEX checkout -q "${{ steps.sha.outputs.sha }}"
+          git -C ~/FEX submodule update --init --recursive --depth 1 -q
+          cmake -S ~/FEX -B ~/fex-build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_DISABLE_FIND_PACKAGE_fmt=ON -DCMAKE_DISABLE_FIND_PACKAGE_range-v3=ON -DCMAKE_DISABLE_FIND_PACKAGE_unordered_dense=ON \
+            -DCMAKE_TOOLCHAIN_FILE=$HOME/FEX/Data/CMake/toolchain_mingw.cmake -DMINGW_TRIPLE=arm64ec-w64-mingw32 -DTUNE_CPU=generic \
+            -DENABLE_LTO=OFF -DENABLE_FEX_ALLOCATOR=ON -DENABLE_JEMALLOC_GLIBC_ALLOC=ON -DENABLE_OFFLINE_RUNTIME=ON \
+            -DBUILD_FEXCONFIG=OFF -DENABLE_CLANG_THUNKS=ON -DENABLE_CCACHE=OFF -DBUILD_TESTING=OFF -DBUILD_THUNKS=OFF \
+            -DENABLE_ASSERTIONS=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build ~/fex-build --target arm64ecfex FEXOfflineCompiler -j4
+          mkdir -p ~/fex-bin && cp ~/fex-build/Bin/libarm64ecfex.dll ~/fex-build/Bin/FEXOfflineCompiler.exe ~/fex-bin/
+          git -C ~/FEX log -1 --format='%H %s' > ~/fex-bin/VERSION
+      - run: ls -l ~/fex-bin && cat ~/fex-bin/VERSION
+
+  bench:
+    needs: [wine, fex]
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 300
+    env:
+      WINEPREFIX: /home/runner/pfx
+      WINEDEBUG: fixme-all,err+all
+      # FEX reads these through the Windows environment Wine inherits (Windows paths, trailing separator).
+      FEX_APP_CONFIG_LOCATION: 'Z:\home\runner\fexcfg\'
+      FEX_APP_CACHE_LOCATION: 'Z:\home\runner\fexcache\'
+      SMOKE_EXPECT: d1fb8ae3f4feca29   # same program, native x86-64 and x86 Wine on the laptop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          key: wine-${{ env.WINE_TAG }}-arm64ec-aarch64-x11-v1
+          path: ~/wine
+          fail-on-cache-miss: true
+      - uses: actions/cache/restore@v4
+        with:
+          key: fex-linuxwine-arm64ec-${{ needs.fex.outputs.sha }}-v1
+          path: ~/fex-bin
+          fail-on-cache-miss: true
+      - name: Runtime deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb x11-apps imagemagick mesa-utils libgl1-mesa-dri libegl1 libglx-mesa0 \
+            libfreetype6 libfontconfig1 libgnutls30t64 libxrandr2 libxi6 libxcursor1 libxcomposite1 libxinerama1 libxxf86vm1 \
+            python3-pefile python3-xxhash llvm
+          curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/20260421/${LLVM_MINGW}.tar.xz" | tar -xJ -C ~
+          echo "$HOME/wine/bin" >> "$GITHUB_PATH"
+          mkdir -p ~/out ~/fexcfg ~/fexcache
+          cp tools/bench/fex-config.json ~/fexcfg/Config.json
+      - name: Prefix + FEX as the x86-64 emulator
+        run: |
+          mkdir -p ~/out
+          wineboot -i > ~/out/wineboot.log 2>&1 || { cat ~/out/wineboot.log | tail -40; exit 1; }
+          S=$WINEPREFIX/drive_c/windows/system32
+          cp ~/fex-bin/libarm64ecfex.dll $S/libarm64ecfex.dll
+          cp ~/fex-bin/libarm64ecfex.dll $S/xtajit64.dll
+          cp ~/fex-bin/FEXOfflineCompiler.exe $S/FEXOfflineCompiler.exe
+          wine reg add 'HKLM\Software\Microsoft\Wow64\amd64' /ve /d libarm64ecfex.dll /f
+          wineserver -w
+          cat ~/fex-bin/VERSION | tee ~/out/fex-version.txt
+      - name: Smoke test (JIT)
+        run: |
+          ~/$LLVM_MINGW/bin/x86_64-w64-mingw32-clang -O2 -o ~/smoke.exe tools/bench/smoke.c
+          file ~/smoke.exe
+          /usr/bin/time -v wine ~/smoke.exe > ~/out/smoke-jit.txt 2> ~/out/smoke-jit.stderr.log; echo "exit=$?" >> ~/out/smoke-jit.txt
+          cat ~/out/smoke-jit.txt; grep -E "Elapsed|Maximum resident" ~/out/smoke-jit.stderr.log
+          grep -q "checksum $SMOKE_EXPECT" ~/out/smoke-jit.txt || { echo "::error::smoke checksum mismatch under FEX JIT"; tail -50 ~/out/smoke-jit.stderr.log; exit 1; }
+          ls -la ~/fexcache/codemap/new/ 2>/dev/null | tee ~/out/codemap-new.txt || echo "no code maps recorded" | tee ~/out/codemap-new.txt
+      - name: Smoke test (AOT round trip)
+        run: |
+          wineserver -w
+          /usr/bin/time -v wine FEXOfflineCompiler.exe process-all > ~/out/smoke-aot-compile.log 2>&1; echo "exit=$?" >> ~/out/smoke-aot-compile.log
+          tail -30 ~/out/smoke-aot-compile.log
+          ls -la ~/fexcache/cache/ | tee ~/out/smoke-cache-dir.txt
+          wine ~/smoke.exe > ~/out/smoke-aot.txt 2> ~/out/smoke-aot.stderr.log; echo "exit=$?" >> ~/out/smoke-aot.txt
+          cat ~/out/smoke-aot.txt
+          grep -E "Loaded cache|Failed to load cache" ~/out/smoke-aot.stderr.log | tee ~/out/smoke-aot-cacheload.txt || echo "no cache-load lines" | tee ~/out/smoke-aot-cacheload.txt
+          grep -q "checksum $SMOKE_EXPECT" ~/out/smoke-aot.txt || { echo "::error::smoke checksum mismatch with AOT cache"; exit 1; }
+      - name: Fetch Rocket League files (private repo, never uploaded)
+        id: assets
+        env:
+          KEY: ${{ secrets.IRL_ASSETS_KEY }}
+        run: |
+          [ -n "$KEY" ] || { echo "no IRL_ASSETS_KEY"; echo "have=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          mkdir -p ~/.ssh && printf '%s\n' "$KEY" > ~/.ssh/irl_assets && chmod 600 ~/.ssh/irl_assets
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/irl_assets -o StrictHostKeyChecking=accept-new"
+          if ! git clone -q --depth 1 git@github.com:user99672223/irl-assets.git ~/assets 2>~/out/assets-clone.log; then
+            cat ~/out/assets-clone.log; echo "have=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          ls ~/assets | head
+          if [ -x ~/assets/restore.sh ]; then
+            GIT_SSH_COMMAND="$GIT_SSH_COMMAND" bash ~/assets/restore.sh "$WINEPREFIX/drive_c/games/rocketleague" > ~/out/assets-restore.log 2>&1 || { tail -30 ~/out/assets-restore.log; }
+          elif [ -d ~/assets/rocketleague ]; then
+            mkdir -p "$WINEPREFIX/drive_c/games" && cp -r ~/assets/rocketleague "$WINEPREFIX/drive_c/games/"
+          fi
+          G="$WINEPREFIX/drive_c/games/rocketleague"
+          if [ -f "$G/Binaries/Win64/RocketLeague.exe" ]; then
+            echo "have=true" >> "$GITHUB_OUTPUT"
+            echo "menu=$([ -d "$G/TAGame/CookedPCConsole" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+            du -sh "$G" | tee ~/out/assets-size.txt; find "$G" -type f | wc -l >> ~/out/assets-size.txt
+          else
+            echo "have=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: AOT on Rocket League modules
+        if: steps.assets.outputs.have == 'true'
+        run: |
+          G="$WINEPREFIX/drive_c/games/rocketleague"
+          python3 tools/aot/gen_codemaps.py --game "$G" --out ~/cm-seed > ~/out/rl-codemaps.log 2>&1
+          python3 tools/aot/call_targets.py --objdump "$(command -v llvm-objdump)" --game "$G" --manifest ~/cm-seed/manifest.json --out ~/call-targets.json >> ~/out/rl-codemaps.log 2>&1
+          python3 tools/aot/gen_codemaps.py --game "$G" --extra ~/call-targets.json --out ~/cm-ready >> ~/out/rl-codemaps.log 2>&1
+          python3 tools/aot/check_codemap.py $(ls ~/cm-ready/* | grep -v manifest.json) >> ~/out/rl-codemaps.log 2>&1
+          cp ~/cm-ready/manifest.json ~/out/rl-manifest.json
+          tail -25 ~/out/rl-codemaps.log
+          mkdir -p ~/fexcache/codemap/ready && cp $(ls ~/cm-ready/* | grep -v manifest.json) ~/fexcache/codemap/ready/
+          wineserver -w
+          start=$(date +%s)
+          /usr/bin/time -v wine FEXOfflineCompiler.exe process-all > ~/out/rl-aot-compile.log 2>&1; echo "exit=$?" >> ~/out/rl-aot-compile.log
+          echo "seconds=$(( $(date +%s) - start ))" >> ~/out/rl-aot-compile.log
+          grep -E "Generating|Updating|Successfully|ERROR|error|Parsed|exit=|seconds=|Maximum resident|Elapsed" ~/out/rl-aot-compile.log | tail -80
+          ls -la ~/fexcache/cache/ | tee ~/out/rl-cache-dir.txt
+          du -sh ~/fexcache/cache | tee -a ~/out/rl-cache-dir.txt
+      - name: Boot Rocket League toward the main menu (Xvfb + llvmpipe + wined3d)
+        if: steps.assets.outputs.have == 'true' && steps.assets.outputs.menu == 'true'
+        timeout-minutes: 60
+        run: |
+          G="$WINEPREFIX/drive_c/games/rocketleague"
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1280x720x24 > ~/out/xvfb.log 2>&1 &
+          sleep 3
+          glxinfo -B > ~/out/glxinfo.txt 2>&1 || true
+          ARGS=$(cat ~/assets/launch-args.txt 2>/dev/null || echo "-nomovie")
+          echo "args: $ARGS" | tee ~/out/rl-args.txt
+          mkdir -p ~/out/shots
+          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+loaddll timeout 2700 wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
+          for i in $(seq 1 22); do
+            sleep 120
+            import -window root ~/out/shots/shot-$(printf %02d $i).png 2>/dev/null || xwd -root -silent | convert xwd:- ~/out/shots/shot-$(printf %02d $i).png
+            echo "[$(date +%T)] shot $i, wine procs: $(pgrep -c -f 'RocketLeague.exe' || true), log lines: $(wc -l < ~/out/rl-wine.log)" | tee -a ~/out/rl-progress.txt
+            pgrep -f 'RocketLeague.exe' > /dev/null || break
+          done
+          wineserver -k || true
+          tail -60 ~/out/rl-wine.log
+      - name: Collect JIT-miss code maps and logs
+        if: always()
+        run: |
+          mkdir -p ~/out/codemap-new && cp -r ~/fexcache/codemap/new/. ~/out/codemap-new/ 2>/dev/null || true
+          # Never ship game files: only logs, screenshots, code maps (addresses + module names) and listings.
+          find ~/out -type f -size +200M -delete
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arm64-bench-results
+          path: ~/out
+          if-no-files-found: warn

@@ -1,0 +1,12 @@
+{
+  "Config": {
+    "EnableCodeCachingWIP": "1",
+    "Multiblock": "1",
+    "TSOEnabled": "1",
+    "VectorTSOEnabled": "0",
+    "MemcpySetTSOEnabled": "0",
+    "HalfBarrierTSOEnabled": "1",
+    "X87ReducedPrecision": "0",
+    "SilentLog": "0"
+  }
+}

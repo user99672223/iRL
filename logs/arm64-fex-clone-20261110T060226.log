@@ -1,0 +1,2 @@
+# 2026-11-10T06:02:26+01:00 git clone --depth 50 -b irl-fex-aot https://github.com/user99672223/FEX FEX && submodule update --init --recursive --depth 1
+exit=0

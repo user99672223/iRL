@@ -1,0 +1,4 @@
+# 2026-11-10T06:06:27+01:00 iOS-flag build check of irl-fex-aot after non-iOS fixes
+CMake Error: The source directory "/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX-ios-check" does not exist.
+Specify --help for usage, or press the help button on the CMake GUI.
+exit=1
