@@ -66,9 +66,9 @@ final class GameCheck: ObservableObject {
         return merged > 0 ? "Placed \(merged) files from Incoming. " + result : result
     }
 
-    nonisolated static func verify() -> String {
-        guard let url = Bundle.main.url(forResource: "GameFiles", withExtension: "tsv"),
-              let text = try? String(contentsOf: url, encoding: .utf8) else {
+    nonisolated static func verify(list: String? = nil) -> String {
+        guard let text = list ?? Bundle.main.url(forResource: "GameFiles", withExtension: "tsv")
+                .flatMap({ try? String(contentsOf: $0, encoding: .utf8) }) else {
             return "No file list in this IPA"
         }
         let fm = FileManager.default

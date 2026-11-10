@@ -57,6 +57,7 @@ final class SelfTest: ObservableObject {
         shaderCache()
         aotInvalidation()
         gameLink()
+        gameFileCheck()
         launchArguments()
         crashWriter()
         await announce(.home)
@@ -223,6 +224,30 @@ final class SelfTest: ObservableObject {
         let dest = try? fm.destinationOfSymbolicLink(atPath: Paths.game.path)
         check("C:\\games\\rocketleague links to Documents/Games/rocketleague", dest == Paths.gameStore.path, dest ?? "no link")
         check("game reported missing without RocketLeague.exe", !Paths.gameFound)
+    }
+
+    private func gameFileCheck() {
+        let g = Paths.gameStore
+        func put(_ url: URL, _ n: Int) {
+            try? fm.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? Data(repeating: 7, count: n).write(to: url)
+        }
+        let list = "3\tBinaries/Win64/a.dll\n5\tTAGame/b.upk\n4\tTAGame/Sub/c.tfc\n"
+        put(g.appendingPathComponent("Binaries/Win64/a.dll"), 3)
+        put(g.appendingPathComponent("TAGame/b.upk"), 2)                       // cut short, like a failed transfer
+        let first = GameCheck.verify(list: list)
+        let report = (try? String(contentsOf: GameCheck.report, encoding: .utf8)) ?? ""
+        check("game check finds missing and partial files", first.hasPrefix("2 of 3")
+              && report.contains("missing\tTAGame/Sub/c.tfc") && report.contains("size\tTAGame/b.upk\t2/5"), first)
+        let sent = GameCheck.incoming.appendingPathComponent("rocketleague")
+        put(sent.appendingPathComponent("TAGame/b.upk"), 5)
+        put(sent.appendingPathComponent("TAGame/Sub/c.tfc"), 4)
+        let moved = GameCheck.mergeIncoming()
+        let second = GameCheck.verify(list: list)
+        check("Incoming files placed at their game paths", moved == 2 && second == "All 3 files OK"
+              && !fm.fileExists(atPath: sent.path), "moved \(moved): \(second)")
+        for p in ["Binaries/Win64/a.dll", "TAGame"] { try? fm.removeItem(at: g.appendingPathComponent(p)) }
+        try? fm.removeItem(at: GameCheck.report)
     }
 
     private func launchArguments() {
