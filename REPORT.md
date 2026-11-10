@@ -103,6 +103,10 @@ Rocket League needs, and build iRL's own small app shell around them.
 
 ## 4. Known issues / uncertainties (the device test settles these)
 
+- **Offline / sign-in failure:** Rocket League exits (hands off to the Epic launcher) if it starts
+  without the `-AUTH_*` arguments. With a dummy exchange code it reaches the main menu and stays
+  offline (verified on the laptop). iRL's fallback when Epic sign-in fails uses that form. Startup to
+  the menu took about 2 minutes natively on the laptop, so expect a long black screen on first launch.
 - **Memory reserve (if iOS kills the game for memory):** Madeira has an opt-in "donor pool": its
   MadeiraMemoryHost extension hands Wine memory that isn't billed to the app's footprint (`DonorPool.m`,
   enabled by `donor-pool-mb` in madeira.cfg; off by default in Madeira too). iRL leaves the extension out
