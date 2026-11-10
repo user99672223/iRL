@@ -1,0 +1,16 @@
+# 2026-11-10T05:19:29+01:00 tools/shaders/build-airconv-linux.sh (+libstdc++ force-includes)
+CXX dxbc_instructions.cpp
+CXX dxbc_signature.cpp
+CXX metallib_writer.cpp
+CXX nt/air_builder.cpp
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/nt/air_builder.cpp:1849:33: error: call to member function 'CreateExtractElement' is ambiguous
+ 1849 |       builder.CreateAnd(builder.CreateExtractElement(Mask, 0ull), builder.CreateExtractElement(Mask, 1ull)),
+      |                         ~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2276:10: note: candidate function
+ 2276 |   Value *CreateExtractElement(Value *Vec, Value *Idx,
+      |          ^
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2283:10: note: candidate function
+ 2283 |   Value *CreateExtractElement(Value *Vec, uint64_t Idx,
+      |          ^
+1 error generated.
+exit=1

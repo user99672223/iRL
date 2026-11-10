@@ -1,0 +1,8 @@
+# 2026-11-10T05:20:41+01:00 tools/shaders/build-airconv-linux.sh (generic LP64 literal fix)
+CXX dxbc_converter_ts.cpp
+CXX nt/air_builder.cpp
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/air_builder.cpp:1:10: fatal error: 'air_builder.hpp' file not found
+    1 | #include "air_builder.hpp"
+      |          ^~~~~~~~~~~~~~~~~
+1 error generated.
+exit=1

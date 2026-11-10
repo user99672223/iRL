@@ -1,0 +1,38 @@
+# 2026-11-10T05:16:09+01:00 tools/shaders/build-airconv-linux.sh (+native win/dx headers)
+CXX dxso_compile.cpp
+CXX ffp_compile.cpp
+CXX air_type.cpp
+CXX air_signature.cpp
+CXX air_operations.cpp
+CXX dxbc_converter.cpp
+CXX dxbc_converter_gs.cpp
+CXX dxbc_converter_ts.cpp
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxbc_converter_ts.cpp:845:33: error: call to member function 'CreateExtractElement' is ambiguous
+  845 |   auto workload_index = builder.CreateExtractElement(function->getArg(tg_id_idx), 0ull);
+      |                         ~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2276:10: note: candidate function
+ 2276 |   Value *CreateExtractElement(Value *Vec, Value *Idx,
+      |          ^
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2283:10: note: candidate function
+ 2283 |   Value *CreateExtractElement(Value *Vec, uint64_t Idx,
+      |          ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxbc_converter_ts.cpp:846:31: error: call to member function 'CreateExtractElement' is ambiguous
+  846 |   auto thread_index = builder.CreateExtractElement(function->getArg(thread_id_idx), 0ull);
+      |                       ~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2276:10: note: candidate function
+ 2276 |   Value *CreateExtractElement(Value *Vec, Value *Idx,
+      |          ^
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2283:10: note: candidate function
+ 2283 |   Value *CreateExtractElement(Value *Vec, uint64_t Idx,
+      |          ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxbc_converter_ts.cpp:939:27: error: call to member function 'CreateInsertElement' is ambiguous
+  939 |     domain_bary = builder.CreateInsertElement(domain_bary, u, 0ull);
+      |                   ~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2298:10: note: candidate function
+ 2298 |   Value *CreateInsertElement(Value *Vec, Value *NewElt, Value *Idx,
+      |          ^
+/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include/llvm/IR/IRBuilder.h:2305:10: note: candidate function
+ 2305 |   Value *CreateInsertElement(Value *Vec, Value *NewElt, uint64_t Idx,
+      |          ^
+3 errors generated.
+exit=1

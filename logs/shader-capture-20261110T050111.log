@@ -1,0 +1,79 @@
+[2026-11-10T05:01:11+01:00] capture start, run 1800s, dump=/home/familybadgujarwilly/Pictures/iRL/build/shaders/raw-20261110T050111
+[2026-11-10T05:01:11+01:00] cmd: /opt/Heroic/resources/app.asar.unpacked/build/bin/x64/linux/legendary launch Sugar --dry-run --override-exe Binaries/Win64/RocketLeague.exe --skip-version-check --json
+[cli] INFO: Logging in...
+[Core] INFO: Trying to re-use existing login session...
+[Core] INFO: Getting authentication token...
+[2026-11-10T05:01:12+01:00] env: STEAM_COMPAT_DATA_PATH=/home/familybadgujarwilly/Games/Heroic/Prefixes/Rocket League DXVK_SHADER_DUMP_PATH=/home/familybadgujarwilly/Pictures/iRL/build/shaders/raw-20261110T050111 DXVK_LOG_LEVEL=info MESA_VK_DEVICE_SELECT=8086:9a49
+[2026-11-10T05:01:12+01:00] cmd: /home/familybadgujarwilly/.config/heroic/tools/proton/GE-Proton-latest/proton waitforexitandrun /home/familybadgujarwilly/Games/Heroic/rocketleague/Binaries/Win64/RocketLeague.exe -AUTH_LOGIN=unused -AUTH_PASSWORD=<redacted> -AUTH_TYPE=exchangecode -epicapp=Sugar -epicenv=Prod -EpicPortal -epicusername=<redacted> -epicuserid=<redacted> -epiclocale=en -epicsandboxid=9773aa1aa54f4f7b80e44bef04986cea
+[2026-11-10T05:01:42+01:00] t=0s dumped=6945
+[2026-11-10T05:02:12+01:00] t=30s dumped=10823
+[2026-11-10T05:02:42+01:00] t=60s dumped=13536
+[2026-11-10T05:03:12+01:00] t=90s dumped=15456
+[2026-11-10T05:03:42+01:00] t=120s dumped=17159
+[2026-11-10T05:04:12+01:00] t=150s dumped=18978
+[2026-11-10T05:04:42+01:00] t=180s dumped=20535
+[2026-11-10T05:05:13+01:00] t=210s dumped=21473
+[2026-11-10T05:05:43+01:00] t=240s dumped=21817
+[2026-11-10T05:06:13+01:00] t=270s dumped=22345
+[2026-11-10T05:06:43+01:00] t=300s dumped=23742
+[2026-11-10T05:07:13+01:00] t=330s dumped=25070
+[2026-11-10T05:07:43+01:00] t=360s dumped=26288
+[2026-11-10T05:08:13+01:00] t=390s dumped=27070
+[2026-11-10T05:08:43+01:00] t=420s dumped=27348
+[2026-11-10T05:09:13+01:00] t=450s dumped=27724
+[2026-11-10T05:09:43+01:00] t=480s dumped=28856
+[2026-11-10T05:10:13+01:00] t=510s dumped=29701
+[2026-11-10T05:10:43+01:00] t=540s dumped=30466
+[2026-11-10T05:11:14+01:00] t=570s dumped=30823
+[2026-11-10T05:11:44+01:00] t=600s dumped=30973
+[2026-11-10T05:12:14+01:00] t=630s dumped=31290
+[2026-11-10T05:12:44+01:00] t=660s dumped=31707
+[2026-11-10T05:13:14+01:00] t=690s dumped=32188
+[2026-11-10T05:13:45+01:00] t=720s dumped=32620
+[2026-11-10T05:14:15+01:00] t=750s dumped=33033
+[2026-11-10T05:14:45+01:00] t=780s dumped=33239
+[2026-11-10T05:15:15+01:00] t=810s dumped=33396
+[2026-11-10T05:15:45+01:00] t=840s dumped=33779
+[2026-11-10T05:16:16+01:00] t=870s dumped=34242
+[2026-11-10T05:16:46+01:00] t=900s dumped=34693
+[2026-11-10T05:17:16+01:00] t=930s dumped=35077
+[2026-11-10T05:17:46+01:00] t=960s dumped=35227
+[2026-11-10T05:18:16+01:00] t=990s dumped=35373
+[2026-11-10T05:18:47+01:00] t=1020s dumped=35855
+[2026-11-10T05:19:17+01:00] t=1050s dumped=36195
+[2026-11-10T05:19:47+01:00] t=1080s dumped=36567
+[2026-11-10T05:20:17+01:00] t=1110s dumped=36809
+[2026-11-10T05:20:47+01:00] t=1140s dumped=36954
+[2026-11-10T05:21:18+01:00] t=1170s dumped=37095
+[2026-11-10T05:21:48+01:00] t=1200s dumped=37486
+[2026-11-10T05:22:18+01:00] t=1230s dumped=37861
+[2026-11-10T05:22:48+01:00] t=1260s dumped=38254
+[2026-11-10T05:23:18+01:00] t=1290s dumped=38396
+[2026-11-10T05:23:49+01:00] t=1320s dumped=38546
+[2026-11-10T05:24:19+01:00] t=1350s dumped=38822
+[2026-11-10T05:24:49+01:00] t=1380s dumped=39186
+[2026-11-10T05:25:19+01:00] t=1410s dumped=39582
+[2026-11-10T05:25:50+01:00] t=1440s dumped=39763
+[2026-11-10T05:26:20+01:00] t=1470s dumped=39880
+[2026-11-10T05:26:50+01:00] t=1500s dumped=40039
+[2026-11-10T05:27:20+01:00] t=1530s dumped=40387
+[2026-11-10T05:27:50+01:00] t=1560s dumped=40749
+[2026-11-10T05:28:21+01:00] t=1590s dumped=41003
+[2026-11-10T05:28:51+01:00] t=1620s dumped=41142
+[2026-11-10T05:29:21+01:00] t=1650s dumped=41320
+[2026-11-10T05:29:51+01:00] t=1680s dumped=41703
+[2026-11-10T05:30:21+01:00] t=1710s dumped=42082
+[2026-11-10T05:30:52+01:00] t=1740s dumped=42319
+[2026-11-10T05:31:22+01:00] t=1770s dumped=42482
+[2026-11-10T05:31:22+01:00] stopping game
+ProtonFixes[19379] INFO: Running protonfixes on "GE-Proton11-9", build at 2026-10-14 00:11:35+00:00.
+ProtonFixes[19379] INFO: Running checks
+ProtonFixes[19379] INFO: All checks successful
+ProtonFixes[19379] INFO: Using early stage global defaults for UNKNOWN (0)
+ProtonFixes[19379] INFO: No early stage global protonfix found for UNKNOWN (0)
+ProtonFixes[19379] INFO: Running protonfixes on "GE-Proton11-9", build at 2026-10-14 00:11:35+00:00.
+ProtonFixes[19379] INFO: Running checks
+ProtonFixes[19379] INFO: All checks successful
+ProtonFixes[19379] INFO: Using main stage global defaults for UNKNOWN (0)
+ProtonFixes[19379] INFO: No main stage global protonfix found for UNKNOWN (0)
+[2026-11-10T05:31:28+01:00] capture end: 42483 files

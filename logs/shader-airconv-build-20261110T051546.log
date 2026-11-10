@@ -1,0 +1,53 @@
+# 2026-11-10T05:15:46+01:00 tools/shaders/build-airconv-linux.sh (compile phase; link expected to fail until LLVM libs finish)
++ set -euo pipefail
++++ dirname tools/shaders/build-airconv-linux.sh
+++ cd tools/shaders/../..
+++ pwd
++ ROOT=/home/familybadgujarwilly/Pictures/iRL
++ SRC=/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt
++ LLVM=/home/familybadgujarwilly/Pictures/iRL/build/llvm15
++ OUT=/home/familybadgujarwilly/Pictures/iRL/build/airconv
++ mkdir -p /home/familybadgujarwilly/Pictures/iRL/build/airconv/shim /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen /home/familybadgujarwilly/Pictures/iRL/build/airconv/obj
++ :
++ for n in air_msad air_samplepos air_tessellation
++ '[' -s /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen/air_msad.h ']'
++ '[' -f /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen/air_msad.real ']'
++ printf 'unsigned char %s[] = {0x00};\nunsigned int %s_len = 1;\n' air_msad air_msad
++ for n in air_msad air_samplepos air_tessellation
++ '[' -s /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen/air_samplepos.h ']'
++ '[' -f /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen/air_samplepos.real ']'
++ printf 'unsigned char %s[] = {0x00};\nunsigned int %s_len = 1;\n' air_samplepos air_samplepos
++ for n in air_msad air_samplepos air_tessellation
++ '[' -s /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen/air_tessellation.h ']'
++ '[' -f /home/familybadgujarwilly/Pictures/iRL/build/airconv/gen/air_tessellation.real ']'
++ printf 'unsigned char %s[] = {0x00};\nunsigned int %s_len = 1;\n' air_tessellation air_tessellation
++ FLAGS=(-std=c++20 -O2 -fno-exceptions -funwind-tables -fno-rtti -D_FILE_OFFSET_BITS=64 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-extern-c-compat -I"$SRC/include" -I"$SRC/libs" -I"$SRC/src/airconv" -I"$OUT/gen" -I"$OUT/shim" -I"$LLVM/llvm/include" -I"$LLVM/build/include")
++ SRCS=(airconv_context.cpp dxso_compile.cpp ffp_compile.cpp air_type.cpp air_signature.cpp air_operations.cpp dxbc_converter.cpp dxbc_converter_gs.cpp dxbc_converter_ts.cpp dxbc_converter_basicblock.cpp dxbc_converter_cfg.cpp dxbc_instructions.cpp dxbc_signature.cpp metallib_writer.cpp nt/air_builder.cpp nt/dxbc_converter_base.cpp transforms/lower_16bit_texread.cpp airconv_cli.cpp)
++ PARSER=(BlobContainer.cpp DXBCUtils.cpp ShaderBinary.cpp)
++ OBJS=()
++ for s in "${SRCS[@]}"
+++ echo airconv_context.cpp
+++ tr / _
++ o=/home/familybadgujarwilly/Pictures/iRL/build/airconv/obj/airconv_context.cpp.o
++ OBJS+=("$o")
++ '[' /home/familybadgujarwilly/Pictures/iRL/build/airconv/obj/airconv_context.cpp.o -nt /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/airconv_context.cpp ']'
++ echo 'CXX airconv_context.cpp'
+CXX airconv_context.cpp
++ clang++ -std=c++20 -O2 -fno-exceptions -funwind-tables -fno-rtti -D_FILE_OFFSET_BITS=64 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-extern-c-compat -I/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/include -I/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs -I/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv -I/home/familybadgujarwilly/Pictures/iRL/build/airconv/gen -I/home/familybadgujarwilly/Pictures/iRL/build/airconv/shim -I/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include -I/home/familybadgujarwilly/Pictures/iRL/build/llvm15/build/include -c /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/airconv_context.cpp -o /home/familybadgujarwilly/Pictures/iRL/build/airconv/obj/airconv_context.cpp.o
++ for s in "${SRCS[@]}"
+++ tr / _
+++ echo dxso_compile.cpp
++ o=/home/familybadgujarwilly/Pictures/iRL/build/airconv/obj/dxso_compile.cpp.o
++ OBJS+=("$o")
++ '[' /home/familybadgujarwilly/Pictures/iRL/build/airconv/obj/dxso_compile.cpp.o -nt /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxso_compile.cpp ']'
++ echo 'CXX dxso_compile.cpp'
+CXX dxso_compile.cpp
++ clang++ -std=c++20 -O2 -fno-exceptions -funwind-tables -fno-rtti -D_FILE_OFFSET_BITS=64 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-extern-c-compat -I/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/include -I/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs -I/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv -I/home/familybadgujarwilly/Pictures/iRL/build/airconv/gen -I/home/familybadgujarwilly/Pictures/iRL/build/airconv/shim -I/home/familybadgujarwilly/Pictures/iRL/build/llvm15/llvm/include -I/home/familybadgujarwilly/Pictures/iRL/build/llvm15/build/include -c /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxso_compile.cpp -o /home/familybadgujarwilly/Pictures/iRL/build/airconv/obj/dxso_compile.cpp.o
+In file included from /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxso_compile.cpp:7:
+In file included from /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxso_compile.hpp:3:
+In file included from /home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxso_decoder.hpp:10:
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/src/airconv/dxso_header.hpp:3:10: fatal error: 'd3d9.h' file not found
+    3 | #include "d3d9.h"
+      |          ^~~~~~~~
+1 error generated.
+exit=1

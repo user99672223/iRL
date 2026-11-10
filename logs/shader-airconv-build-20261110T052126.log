@@ -1,0 +1,50 @@
+# 2026-11-10T05:21:26+01:00 tools/shaders/build-airconv-linux.sh (include dir for patched copies)
+CXX nt/air_builder.cpp
+CXX nt/dxbc_converter_base.cpp
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/dxbc_converter_base.cpp:46:16: warning: ISO C++ requires field designators to be specified in declaration order; field 'phase' will be initialized after field 'regid' [-Wreorder-init-list]
+   46 |       .regid = SrcOpIndex.regid,
+      |       ~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/dxbc_converter_base.cpp:45:16: note: previous initialization for field 'phase' is here
+   45 |       .phase = SrcOpIndex.phase,
+      |                ^~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/dxbc_converter_base.cpp:58:19: warning: ISO C++ requires field designators to be specified in declaration order; field 'phase' will be initialized after field 'regindex' [-Wreorder-init-list]
+   58 |       .regindex = SrcOpIndex.regid,
+      |       ~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/dxbc_converter_base.cpp:57:16: note: previous initialization for field 'phase' is here
+   57 |       .phase = SrcOpIndex.phase,
+      |                ^~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/dxbc_converter_base.cpp:59:18: warning: ISO C++ requires field designators to be specified in declaration order; field 'regindex' will be initialized after field 'regfile' [-Wreorder-init-list]
+   59 |       .regfile = SrcOpIndex.regfile,
+      |       ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/build/airconv/patched/nt/dxbc_converter_base.cpp:58:19: note: previous initialization for field 'regindex' is here
+   58 |       .regindex = SrcOpIndex.regid,
+      |                   ^~~~~~~~~~~~~~~~
+3 warnings generated.
+CXX transforms/lower_16bit_texread.cpp
+CXX airconv_cli.cpp
+CXX DXBCParser/BlobContainer.cpp
+CXX DXBCParser/DXBCUtils.cpp
+CXX DXBCParser/ShaderBinary.cpp
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:25:5: error: cannot use 'throw' with exceptions disabled
+   25 |     throw E_FAIL;
+      |     ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:428:5: error: cannot use 'throw' with exceptions disabled
+  428 |     throw E_FAIL;
+      |     ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:485:9: error: cannot use 'throw' with exceptions disabled
+  485 |         throw E_FAIL;
+      |         ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:624:9: error: cannot use 'throw' with exceptions disabled
+  624 |         throw E_OUTOFMEMORY;
+      |         ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:659:11: error: cannot use 'throw' with exceptions disabled
+  659 |           throw E_OUTOFMEMORY;
+      |           ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:721:7: error: cannot use 'throw' with exceptions disabled
+  721 |       throw E_OUTOFMEMORY;
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/dxmt/libs/DXBCParser/ShaderBinary.cpp:757:7: error: cannot use 'throw' with exceptions disabled
+  757 |       throw E_OUTOFMEMORY;
+      |       ^
+7 errors generated.
+exit=1

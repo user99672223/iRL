@@ -1,0 +1,23 @@
+[2026-11-10T04:58:31+01:00] capture start, run 120s, dump=/home/familybadgujarwilly/Pictures/iRL/build/shaders/raw-20261110T045831
+[2026-11-10T04:58:31+01:00] cmd: /opt/Heroic/resources/app.asar.unpacked/build/bin/x64/linux/legendary launch Sugar --dry-run --override-exe Binaries/Win64/RocketLeague.exe --skip-version-check --json
+[cli] INFO: Logging in...
+[Core] INFO: Trying to re-use existing login session...
+[Core] INFO: Getting authentication token...
+[2026-11-10T04:58:32+01:00] env: STEAM_COMPAT_DATA_PATH=/home/familybadgujarwilly/Games/Heroic/Prefixes/Rocket League DXVK_SHADER_DUMP_PATH=/home/familybadgujarwilly/Pictures/iRL/build/shaders/raw-20261110T045831 DXVK_LOG_LEVEL=info MESA_VK_DEVICE_SELECT=8086:9a49
+[2026-11-10T04:58:32+01:00] cmd: /home/familybadgujarwilly/.config/heroic/tools/proton/GE-Proton-latest/proton waitforexitandrun /home/familybadgujarwilly/Games/Heroic/rocketleague/Binaries/Win64/RocketLeague.exe -AUTH_LOGIN=unused -AUTH_PASSWORD=<redacted> -AUTH_TYPE=exchangecode -epicapp=Sugar -epicenv=Prod -EpicPortal -epicusername=<redacted> -epicuserid=<redacted> -epiclocale=en -epicsandboxid=9773aa1aa54f4f7b80e44bef04986cea
+[2026-11-10T04:59:02+01:00] t=0s dumped=3640
+[2026-11-10T04:59:32+01:00] t=30s dumped=7408
+[2026-11-10T05:00:02+01:00] t=60s dumped=8874
+[2026-11-10T05:00:32+01:00] t=90s dumped=9964
+[2026-11-10T05:00:32+01:00] stopping game
+ProtonFixes[14500] INFO: Running protonfixes on "GE-Proton11-9", build at 2026-10-14 00:11:35+00:00.
+ProtonFixes[14500] INFO: Running checks
+ProtonFixes[14500] INFO: All checks successful
+ProtonFixes[14500] INFO: Using early stage global defaults for UNKNOWN (0)
+ProtonFixes[14500] INFO: No early stage global protonfix found for UNKNOWN (0)
+ProtonFixes[14500] INFO: Running protonfixes on "GE-Proton11-9", build at 2026-10-14 00:11:35+00:00.
+ProtonFixes[14500] INFO: Running checks
+ProtonFixes[14500] INFO: All checks successful
+ProtonFixes[14500] INFO: Using main stage global defaults for UNKNOWN (0)
+ProtonFixes[14500] INFO: No main stage global protonfix found for UNKNOWN (0)
+[2026-11-10T05:00:37+01:00] capture end: 9965 files

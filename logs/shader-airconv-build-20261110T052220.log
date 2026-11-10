@@ -1,0 +1,23 @@
+# 2026-11-10T05:22:20+01:00 tools/shaders/build-airconv-linux.sh (DXBCParser with exceptions)
+CXX DXBCParser/ShaderBinary.cpp
+LD airconv
+/usr/bin/ld: cannot find -lLLVMPasses: No such file or directory
+/usr/bin/ld: cannot find -lLLVMTarget: No such file or directory
+/usr/bin/ld: cannot find -lLLVMObjCARCOpts: No such file or directory
+/usr/bin/ld: cannot find -lLLVMCoroutines: No such file or directory
+/usr/bin/ld: cannot find -lLLVMipo: No such file or directory
+/usr/bin/ld: cannot find -lLLVMInstrumentation: No such file or directory
+/usr/bin/ld: cannot find -lLLVMVectorize: No such file or directory
+/usr/bin/ld: cannot find -lLLVMLinker: No such file or directory
+/usr/bin/ld: cannot find -lLLVMIRReader: No such file or directory
+/usr/bin/ld: cannot find -lLLVMAsmParser: No such file or directory
+/usr/bin/ld: cannot find -lLLVMFrontendOpenMP: No such file or directory
+/usr/bin/ld: cannot find -lLLVMScalarOpts: No such file or directory
+/usr/bin/ld: cannot find -lLLVMInstCombine: No such file or directory
+/usr/bin/ld: cannot find -lLLVMAggressiveInstCombine: No such file or directory
+/usr/bin/ld: cannot find -lLLVMTransformUtils: No such file or directory
+/usr/bin/ld: cannot find -lLLVMBitWriter: No such file or directory
+/usr/bin/ld: cannot find -lLLVMAnalysis: No such file or directory
+/usr/bin/ld: cannot find -lLLVMProfileData: No such file or directory
+clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+exit=1
