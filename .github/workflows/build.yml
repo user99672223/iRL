@@ -42,7 +42,7 @@ jobs:
       - name: Check scripts and project
         run: |
           for f in tools/build/*.sh; do bash -n "$f"; done
-          python3 -c "import yaml; yaml.safe_load(open('app/project.yml'))"
+          ruby -ryaml -e 'YAML.load_file("app/project.yml")'
           plutil -lint app/iRL/Info.plist app/iRL/iRL.entitlements
 
   llvm:
