@@ -81,3 +81,17 @@ The output is a valid `MTLB` container written by DXMT's own `MetallibWriter`. N
 - **Final `.metallib` vs `MTLBinaryArchive`:** per-shader metallibs skip DXBC→AIR conversion and
   Metal's front end on the device. GPU-binary pipeline archives (`MTLBinaryArchive`) can only be
   produced on Apple hardware. Harvest them on the device on first run.
+
+## Precompiled DXMT cache (what ships in the IPA)
+
+`build_dxmt_db.py` (with `dxmt_precompile`, built by `build-precompile.sh`) compiles every captured pixel
+shader exactly as DXMT does at runtime, and writes DXMT's own on-device cache database
+`build/shaders/out/dxmt/shaders_320.db`: SQLite, table `cache_19`, key = SHA-1(DXBC) ‖ variant digest,
+value = the compiled bitcode with function name `ps_<sha1[:8]>_<digest>`. On the phone DXMT reads it as
+ordinary cache hits, so DXMT needs no changes. `make-final-ipa.sh` injects it, and the app copies it to
+`Library/Caches/dxmt/` and points `DXMT_SHADER_CACHE_PATH` there.
+- Covered: 15,428 pixel shaders, default variant (all-ones sample mask, no dual-source, depth output
+  kept, no unorm reinterpretation). That's the variant nearly every draw uses.
+- Not covered yet: the 5,820 vertex shaders. Their variant digest hashes the runtime input layout, so
+  they get added once a device log (DXMT_CACHE_STATS=1 misses plus layouts) shows which ones are used.
+- Metal version 320: on iOS ≥ 15 with an Apple7+ GPU DXMT uses Metal 3.2 (`dxmt_device.cpp`).
