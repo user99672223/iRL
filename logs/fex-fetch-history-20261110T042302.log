@@ -1,0 +1,5 @@
+# 2026-11-10T04:23:02+01:00 git fetch --unshallow origin; git fetch upstream main --tags
+ * branch            e70a88a5df082b81596f41d11d304f276f4e3e0e -> FETCH_HEAD
+From https://github.com/catchorg/Catch2
+ * branch              d4b0b34561a0ffe71216894caa35694e1aabdd5b -> FETCH_HEAD
+exit=0

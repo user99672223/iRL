@@ -1,0 +1,102 @@
+Auto-merging CMakeLists.txt
+CONFLICT (content): Merge conflict in CMakeLists.txt
+Failed to merge submodule External/rpmalloc (commits don't follow merge-base)
+CONFLICT (submodule): Merge conflict in External/rpmalloc
+Auto-merging FEXCore/Scripts/config_generator.py
+CONFLICT (content): Merge conflict in FEXCore/Scripts/config_generator.py
+Auto-merging FEXCore/Scripts/json_ir_generator.py
+Auto-merging FEXCore/Source/CMakeLists.txt
+CONFLICT (content): Merge conflict in FEXCore/Source/CMakeLists.txt
+Auto-merging FEXCore/Source/Interface/Config/Config.cpp
+Auto-merging FEXCore/Source/Interface/Config/Config.json.in
+Auto-merging FEXCore/Source/Interface/Context/Context.h
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Context/Context.h
+Auto-merging FEXCore/Source/Interface/Core/ArchHelpers/Arm64Emitter.cpp
+Auto-merging FEXCore/Source/Interface/Core/ArchHelpers/Arm64Emitter.h
+Auto-merging FEXCore/Source/Interface/Core/CPUBackend.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/CPUBackend.cpp
+Auto-merging FEXCore/Source/Interface/Core/CPUBackend.h
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/CPUBackend.h
+Auto-merging FEXCore/Source/Interface/Core/CPUID.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/CPUID.cpp
+Auto-merging FEXCore/Source/Interface/Core/CPUID.h
+Auto-merging FEXCore/Source/Interface/Core/CodeCache.cpp
+Auto-merging FEXCore/Source/Interface/Core/Core.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/Core.cpp
+Auto-merging FEXCore/Source/Interface/Core/Dispatcher/Dispatcher.cpp
+Auto-merging FEXCore/Source/Interface/Core/Frontend.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/Frontend.cpp
+Auto-merging FEXCore/Source/Interface/Core/Frontend.h
+Auto-merging FEXCore/Source/Interface/Core/JIT/AtomicOps.cpp
+Auto-merging FEXCore/Source/Interface/Core/JIT/BranchOps.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/JIT/BranchOps.cpp
+Auto-merging FEXCore/Source/Interface/Core/JIT/JIT.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/JIT/JIT.cpp
+Auto-merging FEXCore/Source/Interface/Core/JIT/JITClass.h
+Auto-merging FEXCore/Source/Interface/Core/JIT/MemoryOps.cpp
+Auto-merging FEXCore/Source/Interface/Core/JIT/MiscOps.cpp
+Auto-merging FEXCore/Source/Interface/Core/LookupCache.h
+Auto-merging FEXCore/Source/Interface/Core/OpcodeDispatcher.cpp
+Auto-merging FEXCore/Source/Interface/Core/OpcodeDispatcher.h
+Auto-merging FEXCore/Source/Interface/Core/X86Tables/X86Tables.h
+Auto-merging FEXCore/Source/Interface/IR/IR.json
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/IR/IR.json
+Auto-merging FEXCore/Source/Interface/IR/IREmitter.h
+Auto-merging FEXCore/Source/Interface/IR/PassManager.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/IR/PassManager.cpp
+Auto-merging FEXCore/Source/Interface/IR/Passes/RedundantFlagCalculationElimination.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/IR/Passes/RedundantFlagCalculationElimination.cpp
+Auto-merging FEXCore/Source/Interface/IR/Passes/RegisterAllocationPass.cpp
+Auto-merging FEXCore/Source/Interface/IR/Passes/x87StackOptimizationPass.cpp
+Auto-merging FEXCore/Source/Utils/Allocator.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Utils/Allocator.cpp
+Auto-merging FEXCore/Source/Utils/AllocatorHooks.cpp
+Auto-merging FEXCore/include/FEXCore/Core/CoreState.h
+Auto-merging FEXCore/include/FEXCore/HLE/SyscallHandler.h
+Auto-merging FEXCore/include/FEXCore/Utils/AllocatorHooks.h
+Auto-merging FEXCore/include/FEXCore/Utils/PrctlUtils.h
+CONFLICT (content): Merge conflict in FEXCore/include/FEXCore/Utils/PrctlUtils.h
+Auto-merging FEXCore/include/FEXCore/Utils/SignalScopeGuards.h
+Auto-merging FEXCore/include/FEXCore/Utils/SpinWaitLock.h
+Auto-merging FEXCore/include/FEXCore/Utils/WritePriorityMutex.h
+Auto-merging FEXHeaderUtils/FEXHeaderUtils/Filesystem.h
+Auto-merging FEXHeaderUtils/FEXHeaderUtils/Syscalls.h
+CONFLICT (content): Merge conflict in FEXHeaderUtils/FEXHeaderUtils/Syscalls.h
+hint: Recursive merging with submodules currently only supports trivial cases.
+hint: Please manually handle the merging of each conflicted submodule.
+hint: This can be accomplished with the following steps:
+hint:  - go to submodule (External/rpmalloc), and either merge commit ed22744
+hint:    or update to an existing commit which has merged those changes
+hint:  - come back to superproject and run:
+hint:
+hint:       git add External/rpmalloc
+hint:
+hint:    to record the above merge or update
+hint:  - resolve any other conflicts in the superproject
+hint:  - commit the resulting index in the superproject
+hint:
+hint: Disable this message with "git config advice.submoduleMergeConflict false"
+Auto-merging Readme.md
+CONFLICT (content): Merge conflict in Readme.md
+Auto-merging Source/Common/HostFeatures.cpp
+Auto-merging Source/Tools/CodeSizeValidation/Main.cpp
+Auto-merging Source/Windows/ARM64EC/Module.S
+CONFLICT (content): Merge conflict in Source/Windows/ARM64EC/Module.S
+Auto-merging Source/Windows/ARM64EC/Module.cpp
+CONFLICT (content): Merge conflict in Source/Windows/ARM64EC/Module.cpp
+Auto-merging Source/Windows/Common/CPUFeatures.cpp
+CONFLICT (content): Merge conflict in Source/Windows/Common/CPUFeatures.cpp
+Auto-merging Source/Windows/Common/CRT/Alloc.cpp
+Auto-merging Source/Windows/Common/CRT/CMakeLists.txt
+CONFLICT (content): Merge conflict in Source/Windows/Common/CRT/CMakeLists.txt
+Auto-merging Source/Windows/Common/Exception.h
+Auto-merging Source/Windows/Common/FEXUnixLib.cpp
+CONFLICT (content): Merge conflict in Source/Windows/Common/FEXUnixLib.cpp
+Auto-merging Source/Windows/Common/Logging.cpp
+Auto-merging Source/Windows/Common/Priv.h
+CONFLICT (content): Merge conflict in Source/Windows/Common/Priv.h
+Auto-merging Source/Windows/Common/WinAPI/IO.cpp
+CONFLICT (content): Merge conflict in Source/Windows/Common/WinAPI/IO.cpp
+Auto-merging Source/Windows/WOW64/Module.cpp
+CONFLICT (content): Merge conflict in Source/Windows/WOW64/Module.cpp
+Automatic merge failed; fix conflicts and then commit the result.
