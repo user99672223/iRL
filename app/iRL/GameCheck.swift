@@ -10,7 +10,7 @@ final class GameCheck: ObservableObject {
     @Published private(set) var summary: String?
     @Published private(set) var running = false
 
-    static var report: URL { Paths.documents.appendingPathComponent("game-check.txt") }
+    nonisolated static var report: URL { Paths.documents.appendingPathComponent("game-check.txt") }
 
     func run() {
         guard !running else { return }
