@@ -217,6 +217,11 @@ final class SelfTest: ObservableObject {
               && args.contains("-epicsandboxid=9773aa1aa54f4f7b80e44bef04986cea"))
         let red = RocketLeagueLaunch.redacted(args)
         check("launch arguments: secrets redacted in logs", !red.contains("CODE123") && !red.contains("ACCT") && !red.contains("=Name"), red)
+        let offline = RocketLeagueLaunch.arguments(exchangeCode: nil, accountID: "", displayName: "")
+        let offlineKeys = offline.map { $0.split(separator: "=").first.map(String.init) ?? $0 }
+        check("offline launch: full set with a dummy code, no user name/id",
+              offlineKeys == expected.filter { $0 != "-epicusername" && $0 != "-epicuserid" }
+              && offline.contains("-AUTH_PASSWORD=" + String(repeating: "0", count: 32)), offline.joined(separator: " "))
         check("game exe path", Paths.gameExeWindows == #"C:\games\rocketleague\Binaries\Win64\RocketLeague.exe"#)
     }
 

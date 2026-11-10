@@ -40,7 +40,7 @@ final class Runtime: ObservableObject {
                     args = try await Self.epicArguments()
                 } catch {
                     // Offline launch is allowed (CanRunOffline=true); the game then runs without Epic services.
-                    LogStore.shared.log("[launch] Epic exchange code unavailable (\((error as? EpicAuthError)?.reason ?? "error")): offline launch", level: .error)
+                    LogStore.shared.log("[launch] Epic exchange code unavailable (\((error as? EpicAuthError)?.reason ?? "error")): offline launch (dummy exchange code)", level: .error)
                     args = RocketLeagueLaunch.arguments(exchangeCode: nil, accountID: "", displayName: "")
                 }
             }

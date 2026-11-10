@@ -225,21 +225,26 @@ enum RocketLeagueLaunch {
     static let appName = "Sugar"                                       // Heroic's installed.json
     static let sandboxID = "9773aa1aa54f4f7b80e44bef04986cea"          // Sugar.json namespace
 
+    /// A dummy exchange code for offline launches. Without -AUTH_* the game hands off to the Epic
+    /// launcher (LaunchURL) and exits; with the full set and an unknown code it reports
+    /// EOS_Auth_ExchangeCodeNotFound and continues offline to the main menu (laptop trace).
+    static let offlineCode = String(repeating: "0", count: 32)
+
     static func arguments(exchangeCode: String?, accountID: String, displayName: String) -> [String] {
-        // Legendary passes the bare language code (ground truth: -epiclocale=en, launch-args.txt).
-        let locale = Locale.current.language.languageCode?.identifier ?? "en"
-        return [
+        let locale = Locale.current.language.languageCode?.identifier ?? "en"   // Legendary: bare code, e.g. "en"
+        var args = [
             "-AUTH_LOGIN=unused",
-            "-AUTH_PASSWORD=\(exchangeCode ?? "")",
+            "-AUTH_PASSWORD=\(exchangeCode ?? offlineCode)",
             "-AUTH_TYPE=exchangecode",
             "-epicapp=\(appName)",
             "-epicenv=Prod",
             "-EpicPortal",
-            "-epicusername=\(displayName)",
-            "-epicuserid=\(accountID)",
-            "-epiclocale=\(locale)",
-            "-epicsandboxid=\(sandboxID)",
         ]
+        if !displayName.isEmpty { args.append("-epicusername=\(displayName)") }   // unknown offline: omitted
+        if !accountID.isEmpty { args.append("-epicuserid=\(accountID)") }
+        args.append("-epiclocale=\(locale)")
+        args.append("-epicsandboxid=\(sandboxID)")
+        return args
     }
 
     /// Windows command-line quoting (MADEIRA_ARGS is parsed with CommandLineToArgvW rules).
