@@ -11,7 +11,7 @@ _Last updated: 2026-11-10 (run in progress)._
 | FEX pin | **Blocked: needs your decision** | Madeira's `ios-port-2607` can't load AOT caches on the Windows/ARM64EC path. See D1. |
 | AOT code maps | Done, verified | `tools/aot/gen_codemaps.py`: 22 modules, ~158k seeded blocks (RocketLeague.exe: 81,786) |
 | AOT cache generation | Not done | Depends on D1. Plan: run on the iPhone (D2). |
-| iRL app / Actions IPA | Building | Workflow `Build iRL IPA` on macos-26. `plan` passed; LLVM/FEX/Wine native jobs take hours on the first run. |
+| iRL app / Actions IPA | Building (interim) | Workflow `Build iRL IPA` on macos-26. `plan` passed. This interim full-Madeira build mainly seeds the LLVM/FEX caches; the lean shell (D5) replaces it. |
 | Shaders (.metallib) | Not started | |
 | Step 5 AOT optimizations | Blocked by policy | See decision D4 |
 
@@ -57,9 +57,23 @@ first run. FileId and the format follow the pinned source exactly (`ImageTracker
 `CodeCache.h`), and `check_codemap.py` verifies them. Later PGO and JIT-miss logs merge in through
 `--extra`.
 
-**D3. iRL = Madeira (pinned submodule) + iRL overlay.** Madeira already has the Wine
-ARM64EC/wineserver thread, FEX, DXMT, StikDebug JIT, IML, Game Mode, file sharing and an Epic
-exchange-code launch. Reusing it is higher quality than rewriting it.
+**D3 (superseded by D5). ~~iRL = Madeira + overlay.~~** The first CI run still builds that way
+(it fills the LLVM and FEX caches, which D5 keeps). The overlay and generated workflow are temporary.
+
+**D5. Owner's rule (2026-11-10): lean iRL, not a rebranded Madeira.** Take only the runtime pieces
+Rocket League needs, and build iRL's own small app shell around them.
+- **Keep:** Wine ARM64EC + wineserver thread, FEX ARM64EC, DXMT d3d11/dxgi + the LLVM it needs for
+  runtime shader conversion, the JIT allocator + StikDebug attach (JIT fully on), the Epic
+  sign-in/exchange-code launch from `EpicGames.swift` (only that part, read before porting),
+  GnuTLS, FreeType.
+- **Drop:** Steam/Madeira Dock, GOG/EA/itch libraries, cloud saves, D3D12/Mesa/zink/MoltenVK/
+  KosmicKrisp/Vulkan, the whole i386/WoW64 build (CI jobs too), the built-in StikJIT/rppairing helper
+  (StikDebug covers JIT), touch controls, the animated library UI.
+- **FFmpeg: drop.** Checked the installed game: it ships no video files (no .bik/.bk2/.mp4/.wmv/.webm/.usm).
+  Audio is Wwise (.bnk/.wem, decoded by Wwise itself), and the splash is a PNG. If a device log ever
+  shows a Media Foundation or GStreamer call, revisit.
+- Madeira's runtime defaults (logging, overlays, allocator settings) get **measured, not copied**.
+- The phone screen gets a **still diagnostics view only**. CI is trimmed to match.
 
 **D4. FEX's own policy.** `FEX/CLAUDE.md` says AI must not be used to generate code for
 contributions to FEX. I have not modified FEX source. All AOT tooling lives in iRL's `tools/`.
