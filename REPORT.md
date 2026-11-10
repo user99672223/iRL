@@ -17,16 +17,19 @@ _Last updated: 2026-11-10 (run in progress)._
 
 ## 2. Setup steps for the owner
 
-1. **Get the IPA:** `dist/iRL-final.ipa` in the repo folder on the laptop. It's the CI-built app
-   with the AOT code maps (and precompiled shaders, once converted) injected by `tools/aot/inject-ipa.sh`.
+1. **Get the IPA:** `dist/iRL-final.ipa` in the repo folder on the laptop. To rebuild it from the
+   newest green CI run, run `bash tools/release/make-final-ipa.sh`. It adds the AOT code maps and
+   precompiled shaders.
 2. **Install with Impactor:** iPhone on USB → Impactor → sign in with your Apple ID → pick
    `iRL-final.ipa` → install. Impactor adds Increased Memory Limit automatically. Extended Virtual
    Addressing was removed from the entitlements on purpose (free account).
 3. **Trust the profile:** Settings → General → VPN & Device Management → your Apple ID → Trust.
-4. **Import the game:** connect the iPhone to the laptop and, in Finder/Files (or with
-   `ifuse`/the Files app over USB), copy the whole `/home/familybadgujarwilly/Games/Heroic/rocketleague`
-   folder into **iRL › Games › rocketleague**. The app maps it to `C:\games\rocketleague` in the
-   Wine prefix. The AOT code maps use that exact path.
+4. **Import the game (once, about 42 GB over USB):** open iRL once, then with the iPhone plugged in,
+   unlocked and trusted, run in the repo folder:
+   `bash tools/release/push-game.sh`
+   It mounts iRL's Documents over USB, checks free space, and copies the game folder into
+   **iRL › Games › rocketleague**, skipping EasyAntiCheat. If the cable drops, re-run it and it
+   resumes. iRL exposes that folder to Wine as `C:\games\rocketleague`, the path the AOT code maps use.
 5. **Enable JIT:** open StikDebug → pick iRL → enable JIT. iRL shows "JIT: on" on its home screen.
 6. **Prepare AOT (once per game patch):** in iRL tap **Prepare AOT**. FEX's offline compiler
    translates the game's x86-64 code to ARM64 and writes the caches. Keep the phone on power;
