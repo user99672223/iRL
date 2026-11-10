@@ -121,9 +121,11 @@ Rocket League needs, and build iRL's own small app shell around them.
 - **AOT memory:** the real caches total 385 MB (rocketleague.exe 205 MB, EOS SDK 135 MB), loaded into
   the JIT pool, which counts as dirty memory. If iOS kills the game for memory, drop the mostly cold
   EOS SDK from AOT first, then use the donor pool.
-- **CI boot test (ARM64 Linux, software rendering):** RL ran PreInit, EOS init, D3D11 adapter setup and
-  global shaders on AOT code, then stopped at a missing `Core.upk` in the CI asset subset (a packaging
-  gap, being fixed). Not a translation problem.
+- **CI boot test (ARM64 Linux, software rendering): Rocket League reached its MAIN MENU** on Wine 11.4
+  ARM64EC + FEX irl-fex-aot with the AOT caches (run 42764735660): the game log shows `Game class is
+  'GameInfo_GFxMenu_TA'` and `Bringing World menu_main_p up for play` after 28.7 s of startup, offline
+  with the dummy exchange code. A diagnostics re-run (thread names, exception log, real RSS at the menu)
+  is in progress. This doesn't test Metal/DXMT or the iPhone's JIT; the device test settles those.
 - **Prepare AOT runs `FEXOfflineCompiler.exe` under Wine on the phone.** It's a verified ARM64EC
   binary (`llvm-readobj`: COFF-ARM64EC, CHPE metadata) that imports only ntdll, kernel32 and the CRT.
   It has never run, because there's no ARM64 Windows/Wine on the laptop. If it fails, the game still
