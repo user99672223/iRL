@@ -238,6 +238,14 @@ jobs:
           sleep 5
           grep -nE "menu_main_p|Bringing World|Fatal|Critical|appError|Exiting" ~/out/Launch.log 2>/dev/null | tail -20
           tail -40 ~/out/rl-wine.log
+      - name: AOT feedback loop (merge this boot's JIT misses, regenerate)
+        if: steps.assets.outputs.have == 'true'
+        run: |
+          set +e
+          mkdir -p ~/out/codemap-new-boot1 && cp -r ~/fexcache/codemap/new/. ~/out/codemap-new-boot1/ 2>/dev/null
+          wineserver -w
+          wine FEXOfflineCompiler.exe process-all > ~/out/rl-aot-feedback.log 2>&1; echo "exit=$?" >> ~/out/rl-aot-feedback.log
+          grep -E "Importing|new blocks|Updating|Generating|Successfully|ERROR|exit=" ~/out/rl-aot-feedback.log | tail -40
       - name: Collect JIT-miss code maps and logs
         if: always()
         run: |
