@@ -236,7 +236,7 @@ jobs:
           wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f > /dev/null 2>&1; wineserver -w
           # Every read of the texture caches (sparse in the asset subset), so the missing ranges are exact.
           TFC=$(for f in "$G"/TAGame/CookedPCConsole/*.tfc; do printf -- '-P %q ' "$f"; done)
-          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 strace -f -qq --seccomp-bpf -e trace=openat,pread64,preadv,preadv2,read,lseek -o ~/out/tfc-reads.strace $(eval echo $TFC) wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
+          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 strace -f -qq -y --seccomp-bpf -e trace=openat,pread64,preadv,preadv2,read,lseek -o ~/out/tfc-reads.strace $(eval echo $TFC) wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
           start=$(date +%s); menu_at=""; peak=0
           while :; do
             sleep 5
