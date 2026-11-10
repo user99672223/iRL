@@ -44,7 +44,7 @@ step() {
 }
 
 stage_deps() {
-    brew install cmake ninja meson pkg-config autoconf automake libtool bison flex sevenzip xcodegen || true
+    brew install cmake ninja meson pkg-config autoconf automake libtool bison flex sevenzip llvm xcodegen || true
 }
 
 stage_llvm() {
@@ -114,7 +114,8 @@ ntdll_lean() {
 stage_native() {
     git -C "$M" submodule update --init --depth 1 wine
     git -C "$M" submodule update --init --recursive --depth 1 dxmt
-    export PATH="$(brew --prefix bison)/bin:$PATH"
+    # bison 3 first (Wine tools); Homebrew LLVM last, only for llvm-objcopy and friends that Xcode lacks.
+    export PATH="$(brew --prefix bison)/bin:$PATH:$(brew --prefix llvm)/bin"
     step setup-mingw "$M/tools/build/setup-llvm-mingw.sh"
     step wine-host "$M/tools/build/build-wine.sh"
     step freetype "$M/tools/build/build-freetype-ios.sh"
@@ -175,7 +176,8 @@ prune_farm() {
 stage_windows() {
     git -C "$M" submodule update --init --depth 1 wine
     git -C "$M" submodule update --init --recursive --depth 1 dxmt
-    export PATH="$(brew --prefix bison)/bin:$PATH"
+    # bison 3 first (Wine tools); Homebrew LLVM last, only for llvm-objcopy and friends that Xcode lacks.
+    export PATH="$(brew --prefix bison)/bin:$PATH:$(brew --prefix llvm)/bin"
     step setup-mingw "$M/tools/build/setup-llvm-mingw.sh"
     step wine-host "$M/tools/build/build-wine.sh"
     step wine-pe wine_pe_arm64ec
