@@ -200,7 +200,7 @@ final class Runtime: ObservableObject {
 
     /// Static code maps from the IPA (laptop-generated) into <cache>/codemap/ready, where
     /// FEXOfflineCompiler process-all reads them alongside the JIT-miss maps in codemap/new.
-    private func stageCodemaps() {
+    func stageCodemaps() {
         let fm = FileManager.default
         let ready = Paths.fexCache.appendingPathComponent("codemap/ready", isDirectory: true)
         try? fm.createDirectory(at: ready, withIntermediateDirectories: true)

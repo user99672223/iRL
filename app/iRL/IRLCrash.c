@@ -28,10 +28,8 @@ static void putdec(int fd, long v)
     put(fd, b + i);
 }
 
-static void handler(int sig, siginfo_t *info, void *ctx)
+static void write_report(int fd, int sig, siginfo_t *info, void *ctx)
 {
-    int fd = g_path[0] ? open(g_path, O_WRONLY | O_CREAT | O_APPEND, 0644) : STDERR_FILENO;
-    if (fd < 0) fd = STDERR_FILENO;
     put(fd, "=== iRL crash ===\nsignal "); putdec(fd, sig);
     put(fd, " code "); putdec(fd, info ? info->si_code : 0);
     put(fd, " addr "); puthex(fd, info ? (uint64_t)(uintptr_t)info->si_addr : 0);
@@ -65,9 +63,33 @@ static void handler(int sig, siginfo_t *info, void *ctx)
         backtrace_symbols_fd(frames, n, fd);
     }
     put(fd, "=== end ===\n");
+}
+
+static void handler(int sig, siginfo_t *info, void *ctx)
+{
+    int fd = g_path[0] ? open(g_path, O_WRONLY | O_CREAT | O_APPEND, 0644) : STDERR_FILENO;
+    if (fd < 0) fd = STDERR_FILENO;
+    write_report(fd, sig, info, ctx);
     if (fd != STDERR_FILENO) { fsync(fd); close(fd); }
     signal(sig, SIG_DFL);
     raise(sig);
+}
+
+int irl_crash_selftest(void)
+{
+    /* The report writer exactly as a fatal signal runs it (without the signal): no context,
+     * a fake SIGSEGV at 0x1234, appended to the current crash.txt. */
+    siginfo_t info;
+    int fd;
+    memset(&info, 0, sizeof(info));
+    info.si_signo = SIGSEGV;
+    info.si_addr = (void *)0x1234;
+    if (!g_path[0]) return -1;
+    fd = open(g_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fd < 0) return -1;
+    write_report(fd, SIGSEGV, &info, NULL);
+    close(fd);
+    return 0;
 }
 
 void irl_crash_set_dir(const char *dir)

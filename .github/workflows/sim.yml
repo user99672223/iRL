@@ -1,0 +1,119 @@
+# iOS Simulator self-test: builds iRL for iphonesimulator (no Wine/FEX/DXMT: SimStubs stand in),
+# runs `-irl-selftest`, screenshots Home / Diagnostics / Settings, and uploads the screenshots and
+# the app's Documents/Logs. Fails on any self-test failure.
+name: Simulator self-test
+
+on:
+  push:
+    branches: [main, ci-sim]
+    paths-ignore: ['REPORT.md', 'PINS.md', 'logs/**', 'tools/aot/**', 'tools/shaders/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sim-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  selftest:
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - run: git submodule update --init --depth 1 madeira
+      - run: brew install xcodegen || true
+
+      - name: Build for the simulator
+        run: |
+          cd app && xcodegen generate --spec project.yml && cd ..
+          mkdir -p logs
+          set -o pipefail
+          xcodebuild -project app/iRL.xcodeproj -scheme iRL -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath app/DerivedData-sim CODE_SIGNING_ALLOWED=NO build 2>&1 | tee logs/sim-build.log | tail -40
+
+      - name: Add test AOT and shader inputs
+        run: |
+          APP=app/DerivedData-sim/Build/Products/Debug-iphonesimulator/iRL.app
+          test -d "$APP"
+          mkdir -p "$APP/AOT/codemaps" "$APP/Shaders/dxmt"
+          # Three dummy code maps in the real naming scheme (<module>-<fileid>): only staging is tested.
+          for m in rocketleague.exe-0123456789abcdef eossdk-win64-shipping.dll-0011223344556677 xinput1_3.dll-8899aabbccddeeff; do
+            head -c 64 /dev/urandom > "$APP/AOT/codemaps/$m"
+          done
+          echo '{"selftest": true}' > "$APP/AOT/manifest.json"
+          head -c 262144 /dev/urandom > "$APP/Shaders/dxmt/shaders_320.db"
+          codesign --force --sign - "$APP"
+
+      - name: Boot an iPhone 15 simulator (or the closest available)
+        id: sim
+        run: |
+          RUNTIME=$(xcrun simctl list runtimes -j | jq -r '[.runtimes[] | select(.platform=="iOS" and .isAvailable)] | sort_by(.version) | last | .identifier')
+          TYPES=$(xcrun simctl list devicetypes -j)
+          DT=""
+          for name in "iPhone 15" "iPhone 16" "iPhone 16e" "iPhone 17"; do
+            DT=$(echo "$TYPES" | jq -r --arg n "$name" '.devicetypes[] | select(.name==$n) | .identifier' | head -1)
+            [ -n "$DT" ] && { echo "device type: $name"; break; }
+          done
+          [ -n "$DT" ] || DT=$(echo "$TYPES" | jq -r '[.devicetypes[] | select(.name|startswith("iPhone"))] | last | .identifier')
+          UDID=$(xcrun simctl create irl-selftest "$DT" "$RUNTIME")
+          echo "runtime=$RUNTIME devicetype=$DT udid=$UDID" | tee logs/sim-device.txt
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Install and run the self-test
+        env:
+          UDID: ${{ steps.sim.outputs.udid }}
+        run: |
+          APP=app/DerivedData-sim/Build/Products/Debug-iphonesimulator/iRL.app
+          xcrun simctl install "$UDID" "$APP"
+          xcrun simctl launch --console-pty "$UDID" io.github.irl -irl-selftest > logs/sim-console.log 2>&1 &
+          mkdir -p shots
+          DATA=""
+          last=""
+          for i in $(seq 1 300); do
+            [ -n "$DATA" ] || DATA=$(xcrun simctl get_app_container "$UDID" io.github.irl data 2>/dev/null || true)
+            if [ -n "$DATA" ]; then
+              cur=$(cat "$DATA/Documents/selftest-screen.txt" 2>/dev/null || true)
+              if [ -n "$cur" ] && [ "$cur" != "$last" ]; then
+                sleep 2   # let the sheet finish presenting
+                xcrun simctl io "$UDID" screenshot "shots/$cur.png"
+                echo "screenshot: $cur"
+                last="$cur"
+              fi
+              [ -f "$DATA/Documents/selftest-result.txt" ] && break
+            fi
+            sleep 1
+          done
+          xcrun simctl io "$UDID" screenshot shots/final.png || true
+          echo "DATA=$DATA" >> "$GITHUB_ENV"
+          test -n "$DATA" && test -f "$DATA/Documents/selftest-result.txt" || { echo "::error::self-test did not finish"; exit 1; }
+
+      - name: Collect logs
+        if: always()
+        run: |
+          mkdir -p sim-logs
+          [ -n "${DATA:-}" ] && cp -R "$DATA/Documents/Logs" sim-logs/ 2>/dev/null || true
+          [ -n "${DATA:-}" ] && cp "$DATA/Documents/selftest-result.txt" sim-logs/ 2>/dev/null || true
+          cp logs/sim-*.log logs/sim-device.txt sim-logs/ 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sim-selftest
+          path: |
+            shots/
+            sim-logs/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Verdict
+        run: |
+          cat sim-logs/selftest-result.txt
+          echo "### Simulator self-test" >> "$GITHUB_STEP_SUMMARY"
+          sed 's/^/    /' sim-logs/selftest-result.txt >> "$GITHUB_STEP_SUMMARY"
+          for s in home diagnostics settings; do test -s "shots/$s.png" || { echo "::error::no screenshot of $s"; exit 1; }; done
+          head -1 sim-logs/selftest-result.txt | grep -qx PASS

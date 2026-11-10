@@ -10,7 +10,9 @@ struct HomeView: View {
     @State private var account: String?
     @State private var showSignIn = false
     @State private var showSettings = false
+    @State private var showDiagnostics = false
     @State private var shareURL: URL?
+    @ObservedObject private var selfTest = SelfTest.shared
 
     var body: some View {
         NavigationStack {
@@ -33,16 +35,7 @@ struct HomeView: View {
                         Button("Sign in") { showSignIn = true }
                     }
                 }
-                Section("Diagnostics") {
-                    row("Memory", "\(diag.last.footprintMB) MB used, \(diag.last.availableMB) MB free")
-                    row("CPU", String(format: "%.0f %% (%d threads)", diag.last.cpuPercent, diag.last.threads))
-                    row("GPU busy", String(format: "%.0f %%", diag.last.gpuBusyPercent))
-                    row("FPS", String(format: "%.1f  (p50 %.1f ms, p99 %.1f ms)", diag.last.fps, diag.last.frameP50ms, diag.last.frameP99ms))
-                    row("Thermal", diag.last.thermal)
-                    row("Battery", diag.last.battery < 0 ? "?" : "\(diag.last.battery) %\(diag.last.charging ? ", charging" : "")")
-                    row("Display", ExternalDisplay.shared.screen == nil ? "no monitor" : "\(ExternalDisplay.shared.outputSize.w)×\(ExternalDisplay.shared.outputSize.h)")
-                    row("AOT caches", "\(diag.last.aotCaches) modules")
-                }
+                DiagnosticsSection(diag: diag)
                 Section("Log") {
                     ForEach(Array(logs.recent.suffix(8).enumerated()), id: \.offset) { _, line in
                         Text(line).font(.caption2.monospaced()).lineLimit(2)
@@ -51,6 +44,7 @@ struct HomeView: View {
                 Section {
                     Button("Share logs") { shareURL = LaunchLogs.shared.zipLatest() }
                     Button("AOT Prepare") { runtime.start(.aotPrepare) }.disabled(runtime.state != .idle)
+                    Button("Diagnostics") { showDiagnostics = true }
                     Button("Settings") { showSettings = true }
                 }
             }
@@ -58,6 +52,12 @@ struct HomeView: View {
             .transaction { $0.animation = nil }
         }
         .task { await refreshAccount() }
+        .task { if SelfTest.requested { await SelfTest.shared.run() } }
+        .onChange(of: selfTest.screen) { _, screen in
+            showSettings = screen == .settings
+            showDiagnostics = screen == .diagnostics
+        }
+        .sheet(isPresented: $showDiagnostics) { DiagnosticsView() }
         .sheet(isPresented: $showSignIn, onDismiss: { Task { await refreshAccount() } }) { EpicSignInView() }
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(item: $shareURL) { url in ShareSheet(items: [url]) }
@@ -80,7 +80,38 @@ struct HomeView: View {
 
     private func start() { runtime.start(.game) }
     private func refreshAccount() async { account = await EpicAuth.shared.account()?.name }
+}
+
+/// The still diagnostics readout (1 Hz): on Home and as its own screen.
+struct DiagnosticsSection: View {
+    @ObservedObject var diag: Diagnostics
+    var body: some View {
+        Section("Diagnostics") {
+            row("Memory", "\(diag.last.footprintMB) MB used, \(diag.last.availableMB) MB free")
+            row("CPU", String(format: "%.0f %% (%d threads)", diag.last.cpuPercent, diag.last.threads))
+            row("GPU busy", String(format: "%.0f %%", diag.last.gpuBusyPercent))
+            row("FPS", String(format: "%.1f  (p50 %.1f ms, p99 %.1f ms)", diag.last.fps, diag.last.frameP50ms, diag.last.frameP99ms))
+            row("Thermal", diag.last.thermal)
+            row("Battery", diag.last.battery < 0 ? "?" : "\(diag.last.battery) %\(diag.last.charging ? ", charging" : "")")
+            row("Energy", String(format: "%.1f J", diag.last.energyJ))
+            row("Display", ExternalDisplay.shared.screen == nil ? "no monitor" : "\(ExternalDisplay.shared.outputSize.w)×\(ExternalDisplay.shared.outputSize.h)")
+            row("AOT caches", "\(diag.last.aotCaches) modules")
+        }
+    }
     private func row(_ k: String, _ v: String) -> some View { LabeledContent(k, value: v).font(.callout.monospacedDigit()) }
+}
+
+struct DiagnosticsView: View {
+    @ObservedObject private var diag = Diagnostics.shared
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationStack {
+            List { DiagnosticsSection(diag: diag) }
+                .navigationTitle("Diagnostics")
+                .toolbar { Button("Done") { dismiss() } }
+                .transaction { $0.animation = nil }
+        }
+    }
 }
 
 extension URL: @retroactive Identifiable { public var id: String { absoluteString } }
