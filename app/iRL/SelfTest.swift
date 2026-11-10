@@ -176,9 +176,12 @@ final class SelfTest: ObservableObject {
                        newDir.appendingPathComponent("rocketleague.exe-92e02b0b487870ca.1234.bin")]
         for f in planted { try? Data([0]).write(to: f) }
         let removed = RuntimeFiles.pruneSubfloorAOT()
-        check("sub-4 GB modules pruned from code maps and caches", removed.count == 3
-              && !planted[0...2].contains { fm.fileExists(atPath: $0.path) } && fm.fileExists(atPath: planted[3].path),
-              "\(removed.count) removed")
+        // Every planted sub-4 GB file is gone, the 64-bit-base module stays, and nothing else was
+        // removed (the CI's dummy xinput1_3.dll static map, staged above, is pruned too, correctly).
+        let onlySubfloor = removed.allSatisfy { r in RuntimeFiles.subfloorModules.contains { r.lowercased().contains("/" + $0 + "-") } }
+        check("sub-4 GB modules pruned from code maps and caches",
+              !planted[0...2].contains { fm.fileExists(atPath: $0.path) } && fm.fileExists(atPath: planted[3].path) && onlySubfloor,
+              "\(removed.count) removed: " + removed.joined(separator: ", "))
         try? fm.removeItem(at: planted[3])
         check("codemap/new exists for JIT-miss maps", fm.fileExists(atPath: Paths.fexCache.appendingPathComponent("codemap/new").path))
     }
