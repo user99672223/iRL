@@ -1,0 +1,9 @@
+name: Probe ARM64 Linux runner
+on:
+  push:
+    branches: [ci-probe]
+jobs:
+  probe:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - run: uname -a; nproc; free -g; df -h /; lscpu | grep -iE "model|flags" | head -3; cat /etc/os-release | head -2; apt-cache policy wine | head -3
