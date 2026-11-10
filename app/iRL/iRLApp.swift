@@ -20,6 +20,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         try? FileManager.default.createDirectory(at: Paths.gameStore, withIntermediateDirectories: true)
         try? FileManager.default.createDirectory(at: GameCheck.incoming, withIntermediateDirectories: true)
         Paths.linkGame()
+        Runtime.dropStaleAOTCaches()
         LogStore.shared.log("[game] \(Paths.gameFound ? "found" : "missing") at Documents/Games/rocketleague")
         let info = Bundle.main.infoDictionary ?? [:]
         LogStore.shared.log("[app] iRL \(info["CFBundleShortVersionString"] ?? "?") (\(info["CFBundleVersion"] ?? "?")) "

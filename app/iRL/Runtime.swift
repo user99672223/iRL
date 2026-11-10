@@ -299,6 +299,26 @@ final class Runtime: ObservableObject {
         return nil
     }
 
+    /// Bump when caches from an older FEXOfflineCompiler must not be loaded. 2: caches before it imported
+    /// ntdll's TEB TSD offset read the TEB from slot 0 and crashed the game at its first CPUID.
+    nonisolated static let aotFormat = "2"
+
+    /// Deletes AOT caches made by an older compiler (called at app start). Code maps stay.
+    nonisolated static func dropStaleAOTCaches() {
+        let fm = FileManager.default
+        let stamp = Paths.fexCache.appendingPathComponent("aot-format")
+        let have = (try? String(contentsOf: stamp, encoding: .utf8))?.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard have != aotFormat else { return }
+        let dir = Paths.fexCache.appendingPathComponent("cache", isDirectory: true)
+        let n = ((try? fm.contentsOfDirectory(atPath: dir.path)) ?? []).count
+        try? fm.removeItem(at: dir)
+        try? fm.createDirectory(at: Paths.fexCache, withIntermediateDirectories: true)
+        try? aotFormat.write(to: stamp, atomically: true, encoding: .utf8)
+        if n > 0 {
+            LogStore.shared.log("[aot] removed \(n) AOT caches from an older compiler (format \(have ?? "1") -> \(aotFormat)): run AOT Prepare again", level: .error)
+        }
+    }
+
     /// AOT state for the phone screen: how many module caches exist.
     nonisolated static func aotCacheCount() -> Int {
         let dir = Paths.fexCache.appendingPathComponent("cache", isDirectory: true)
