@@ -22,7 +22,7 @@ trap 'fusermount -u "$M" 2>/dev/null || true; rmdir "$M"' EXIT
 ifuse --documents "$BUNDLE" "$M" || { echo "Could not mount $BUNDLE Documents. Is iRL installed and opened once?"; exit 1; }
 mkdir -p "$M/Games/rocketleague"
 # --inplace/--partial: resumable on a 42 GB copy; no --delete (never remove anything on the phone).
-rsync -rt --partial --inplace --info=progress2 --exclude 'Binaries/Win64/EasyAntiCheat/' "$GAME/" "$M/Games/rocketleague/"
-echo "verify: $(find "$GAME" -type f ! -path '*EasyAntiCheat*' | wc -l) files on laptop, $(find "$M/Games/rocketleague" -type f | wc -l) on phone"
+rsync -rt --partial --inplace --info=progress2 "$GAME/" "$M/Games/rocketleague/"
+echo "verify: $(find "$GAME" -type f | wc -l) files on laptop, $(find "$M/Games/rocketleague" -type f | wc -l) on phone"
 cmp "$GAME/Binaries/Win64/RocketLeague.exe" "$M/Games/rocketleague/Binaries/Win64/RocketLeague.exe" && echo "RocketLeague.exe matches"
 echo "done"

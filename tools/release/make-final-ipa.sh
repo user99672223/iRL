@@ -28,14 +28,14 @@ if [ -d build/shaders/out ] && [ -n "$(ls -A build/shaders/out)" ]; then
   (cd "$W" && zip -qr -0 "$R/dist/iRL-final.ipa" "$APP/Shaders")
   echo "injected shaders: $(ls build/shaders/out | wc -l) files"
 fi
-# File list of the laptop's install (size<TAB>relative path, EasyAntiCheat left out) for iRL's
+# File list of the laptop's install (size<TAB>relative path, every file) for iRL's
 # "Check game files" (GameCheck.swift).
 GAME="${IRL_GAME:-/home/familybadgujarwilly/Games/Heroic/rocketleague}"
 if [ -d "$GAME" ]; then
   W2=$(mktemp -d)
   APP=$(unzip -Z1 dist/iRL-final.ipa | grep -m1 -oE '^Payload/[^/]+\.app/' || true); APP=${APP%/}
   mkdir -p "$W2/$APP"
-  (cd "$GAME" && find . -type f ! -path './Binaries/Win64/EasyAntiCheat/*' -printf '%s\t%P\n' | LC_ALL=C sort -t$'\t' -k2) > "$W2/$APP/GameFiles.tsv"
+  (cd "$GAME" && find . -type f -printf '%s\t%P\n' | LC_ALL=C sort -t$'\t' -k2) > "$W2/$APP/GameFiles.tsv"
   (cd "$W2" && zip -q "$R/dist/iRL-final.ipa" "$APP/GameFiles.tsv")
   echo "injected GameFiles.tsv: $(wc -l < "$W2/$APP/GameFiles.tsv") files"; rm -rf "$W2"
 fi
