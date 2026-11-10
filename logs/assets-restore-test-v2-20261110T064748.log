@@ -1,0 +1,29 @@
+# 2026-11-10T06:47:48+01:00 GIT_SSH_COMMAND='ssh -i <temp read-only deploy key> -o IdentitiesOnly=yes' git clone --depth 1 --branch menu-v2 git@github.com:user99672223/irl-assets.git clone; bash clone/restore.sh clone <target>
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Note: switching to '24e00033bf2734f9ec62d8d25efa2e0f9f3803a5'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+restored 281 files, 0 problems
+
+real	0m2.879s
+user	0m2.689s
+sys	0m0.888s
+restore_exit=0
+apparent 22G, on disk 686M
+Core.upk 501864
+Core.upk identical
+files in manifest 281 ; sparse ranges verified, 0 mismatches

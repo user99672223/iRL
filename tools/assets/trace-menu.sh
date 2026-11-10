@@ -34,6 +34,9 @@ fi
 export STEAM_COMPAT_DATA_PATH="$PREFIX" STEAM_COMPAT_CLIENT_INSTALL_PATH="$HOME/.steam" \
        STEAM_COMPAT_INSTALL_PATH="$GAME" SteamAppId=0 SteamGameId=0 \
        PROTON_LOG=1 PROTON_LOG_DIR="$OUT/proton-logs" MESA_VK_DEVICE_SELECT=8086:9a49 WINEDEBUG=-all
+# WINE_FILE_TRACE=1: Wine's own file channel (every NtCreateFile/CreateFileW with the full DOS path, opened
+# or not). It catches what strace's openat parsing missed (Wine resolves names relative to directory fds).
+[ -n "${WINE_FILE_TRACE:-}" ] && export WINEDEBUG=+file
 log "mode=$MODE run=${RUNSECS}s out=$OUT"
 log "cmd: strace -f ${TRACE_READS:+(tfc read ranges) }-o $OUT/strace $PROTON waitforexitandrun $GAME/Binaries/Win64/RocketLeague.exe ${ARGS[*]:-}"
 cd "$GAME/Binaries/Win64"

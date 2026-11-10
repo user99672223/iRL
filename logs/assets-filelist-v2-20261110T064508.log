@@ -1,0 +1,4 @@
+# 2026-11-10T06:45:08+01:00 python3 -I tools/assets/wine_file_paths.py --game <game> --old build/assets/menu-files-v1.txt --out tools/assets/menu-files.txt build/assets/trace-dummy-20261110T063948/proton-logs/steam-0.log
+wine=125 +strace=1 +startup-list=0 +config=94 -> 220 files, 21.91 GiB
+startup packages named in ini: 0
+exit=0

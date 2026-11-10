@@ -5,11 +5,11 @@
     the menu (strace read/pread64/lseek on those files), rounded out to 1 MiB; the rest are holes
   * all of Binaries/Win64
 Output: <out>/chunks/game.tar.zst.NNN (95 MB pieces, git-friendly), <out>/manifest.json, restore.sh.
-Usage: package.py --game DIR --files menu-files.txt --reads STRACE --out DIR"""
+Usage: package.py --game DIR --files menu-files.txt --reads STRACE [STRACE...] --out DIR --stage DIR"""
 import argparse, hashlib, json, os, re, shutil, subprocess, tempfile
 ap = argparse.ArgumentParser()
 ap.add_argument('--game', required=True); ap.add_argument('--files', required=True)
-ap.add_argument('--reads', required=True); ap.add_argument('--out', required=True)
+ap.add_argument('--reads', required=True, nargs='+', help='one or more read-range straces; ranges are unioned'); ap.add_argument('--out', required=True)
 ap.add_argument('--stage', required=True, help='scratch dir on the same disk (sparse files take little space)')
 a = ap.parse_args()
 game = os.path.realpath(a.game)
@@ -24,7 +24,8 @@ def fdpath(argstr):
 def add(path, off, n):
     if n > 0 and path.endswith('.tfc'):
         ranges.setdefault(path, []).append((off, off + n))
-for line in open(a.reads, errors='replace'):
+import itertools
+for line in itertools.chain.from_iterable(open(r, errors='replace') for r in a.reads):
     m = CALL.match(line.rstrip('\n'))
     if not m:
         continue
