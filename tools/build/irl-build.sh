@@ -111,6 +111,34 @@ ntdll_lean() {
     bash "$M/build/ntdll-unix/build-irl.sh"
 }
 
+shader_headers() {
+    # Madeira's build-shader-headers.sh adds a 5th argument to __metal_atomic_fetch_add_explicit
+    # when the Metal toolchain defines __METAL_MEMORY_FLAGS_NONE__ (Xcode 27). Xcode 26.6 defines the
+    # macro but its builtin still takes 4 arguments, so probe the builtin itself, and on a 4-argument
+    # toolchain mark the source so Madeira's patch leaves the 4-argument call in place.
+    local src="$M/dxmt/src/airconv/shaders/air_tessellation.metal" probe
+    probe="$(mktemp -d)/p.metal"
+    printf '#include <metal_stdlib>\nusing namespace metal;\nkernel void k(device atomic_int *c [[buffer(0)]]) { __metal_atomic_fetch_add_explicit(c, 1, int(memory_order_relaxed), __METAL_MEMORY_SCOPE_DEVICE__, __METAL_MEMORY_FLAGS_NONE__); }\n' > "$probe"
+    if xcrun -sdk iphoneos metal -c "$probe" -o "${probe%.metal}.air" 2>/dev/null; then
+        echo "Metal toolchain: 5-argument atomic builtin (Madeira's patch applies)"
+    else
+        echo "Metal toolchain: 4-argument atomic builtin, keeping the 4-argument call"
+        python3 - "$src" <<'PY'
+import sys, pathlib
+p = pathlib.Path(sys.argv[1]); s = p.read_text()
+call = "  return __metal_atomic_fetch_add_explicit(out_count, 1, int(memory_order_relaxed), __METAL_MEMORY_SCOPE_THREADGROUP__);\n"
+note = "// iRL: this toolchain defines __METAL_MEMORY_FLAGS_NONE__ but its builtin takes 4 arguments\n"
+if "#ifdef __METAL_MEMORY_FLAGS_NONE__" in s:
+    s = s.replace("#ifdef __METAL_MEMORY_FLAGS_NONE__", "#if 0 " + note.strip(), 1)
+elif note not in s:
+    assert call in s, "expected atomic call not found"
+    s = s.replace(call, note + call, 1)
+p.write_text(s)
+PY
+    fi
+    "$M/tools/build/build-shader-headers.sh"
+}
+
 stage_native() {
     git -C "$M" submodule update --init --depth 1 wine
     git -C "$M" submodule update --init --recursive --depth 1 dxmt
@@ -125,7 +153,7 @@ stage_native() {
     step ntdll-unix ntdll_lean
     step win32u-unix "$M/build/win32u-unix/build.sh"
     xcodebuild -downloadComponent MetalToolchain >/dev/null 2>&1 || true
-    step shader-headers "$M/tools/build/build-shader-headers.sh"
+    step shader-headers shader_headers
     step dxmt-ios "$M/tools/build/build-dxmt-ios.sh"
 }
 
