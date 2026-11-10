@@ -135,7 +135,19 @@ final class Runtime: ObservableObject {
         case .game:
             env.append(("MADEIRA_EXE", Paths.gameExeWindows))
             env.append(("MADEIRA_ARGS", RocketLeagueLaunch.commandLine(args)))
+            // Rocket League's thread names -> QoS classes (tools/runtime/rocketleague/thread-qos.txt,
+            // parsed by thread_ios.c tq_init_once): render/game threads on the P-cores.
+            if let url = Bundle.main.url(forResource: "thread-qos", withExtension: "txt"),
+               let rules = try? String(contentsOf: url, encoding: .utf8)
+                .split(whereSeparator: \.isNewline).first.map({ $0.trimmingCharacters(in: .whitespaces) }),
+               !rules.isEmpty {
+                env.append(("MADEIRA_THREAD_QOS", rules))
+            } else {
+                LogStore.shared.log("[launch] thread-qos.txt missing from the bundle: default thread QoS", level: .error)
+                unsetenv("MADEIRA_THREAD_QOS")
+            }
         case .aotPrepare:
+            unsetenv("MADEIRA_THREAD_QOS")
             // Its output (cache generation per module) goes to Wine's stderr, which the next app
             // start moves into this launch's folder as wine-stderr.log (LaunchLogs).
             // FEX's own offline compiler (same FEXCore build as xtajit64.dll), an ARM64EC program
@@ -145,23 +157,23 @@ final class Runtime: ObservableObject {
         }
         // Wine's log level. Verbose adds loader, exception and module channels.
         env.append(("WINEDEBUG", settings.verboseWine ? "+seh,+loaddll,+module,+timestamp,warn+all,err+all" : "fixme-all,err+all"))
-        // FEX: AOT caches (flat <cache>cache\<module>-<fileid>-<config>) and JIT-miss code maps.
+        // FEX: one global config (Config.json: EnableCodeCachingWIP=1, TSO policy, no reduced x87),
+        // the same for the game and FEXOfflineCompiler, so the AOT caches match what loads them.
+        // The cache is flat: <cache>cache\<module>-<fileid>-<config>; JIT misses go to codemap\new.
+        RuntimeFiles.installFEXConfig()
+        env.append(("FEX_APP_CONFIG_LOCATION", RuntimeFiles.fexConfigWindows))
         env.append(("FEX_APP_CACHE_LOCATION", Paths.fexCacheWindows))
-        env.append(("FEX_ENABLECODECACHINGWIP", "1"))
-        // The virtual monitor: the output resolution, or the internal one when MetalFX scales up.
-        let out = ExternalDisplay.shared.outputSize
-        let scale = settings.renderScale
-        let w = Int((Double(out.w) / scale).rounded()), h = Int((Double(out.h) / scale).rounded())
-        env.append(("MADEIRA_SCREEN_W", String(w)))
-        env.append(("MADEIRA_SCREEN_H", String(h)))
-        var dxmt: [String] = []
-        if scale > 1.01 {
-            env.append(("DXMT_METALFX_SPATIAL_SWAPCHAIN", "1"))
-            dxmt.append("d3d11.metalSpatialUpscaleFactor=\(String(format: "%.2f", min(scale, 2)))")
-        } else {
-            unsetenv("DXMT_METALFX_SPATIAL_SWAPCHAIN")
-        }
-        if !dxmt.isEmpty { env.append(("DXMT_CONFIG", dxmt.joined(separator: ";"))) } else { unsetenv("DXMT_CONFIG") }
+        if settings.avxCompat { env.append(("MADEIRA_FEX_AVX", "2")) } else { unsetenv("MADEIRA_FEX_AVX") }
+        // Display: the game renders at the preset's size (its fullscreen mode = the virtual monitor);
+        // DXMT's MetalFX spatial swapchain scales that to the 2560x1440 layer.
+        let preset = settings.preset
+        env.append(("MADEIRA_SCREEN_W", String(preset.w)))
+        env.append(("MADEIRA_SCREEN_H", String(preset.h)))
+        RuntimeFiles.installDXMTConfig(preset)
+        env.append(("DXMT_CONFIG_FILE", RuntimeFiles.dxmtConfWindows))
+        unsetenv("DXMT_CONFIG")
+        if preset.metalfx != nil { env.append(("DXMT_METALFX_SPATIAL_SWAPCHAIN", "1")) } else { unsetenv("DXMT_METALFX_SPATIAL_SWAPCHAIN") }
+        if mode == .game { RocketLeagueConfig.apply(preset) }
         if settings.verboseDXMT { env.append(("DXMT_LOG_LEVEL", "info")) }
         if settings.metalValidation { env.append(("MTL_DEBUG_LAYER", "1")) }
 
@@ -169,7 +181,10 @@ final class Runtime: ObservableObject {
         for (k, v) in env { setenv(k, v, 1) }
         let shown = env.map { $0.0 == "MADEIRA_ARGS" && mode == .game ? "\($0.0)=\(RocketLeagueLaunch.redacted(args))" : "\($0.0)=\($0.1)" }
         LogStore.shared.log("[launch] environment: " + shown.joined(separator: " | "))
-        LogStore.shared.log("[display] \(ExternalDisplay.shared.describe()) virtual-monitor=\(w)x\(h) render-scale=\(scale)")
+        let out = ExternalDisplay.shared.outputSize
+        LogStore.shared.log("[display] \(ExternalDisplay.shared.describe()) preset=\"\(preset.name)\" render=\(preset.w)x\(preset.h) "
+            + (preset.metalfx.map { String(format: "MetalFX x%.4g -> %dx%d", $0, Int((Double(preset.w) * $0).rounded()), Int((Double(preset.h) * $0).rounded())) } ?? "native")
+            + " layer=\(out.w)x\(out.h)")
     }
 
     /// Static code maps from the IPA (laptop-generated) into <cache>/codemap/ready, where

@@ -5,7 +5,7 @@ name: Build iRL IPA
 on:
   push:
     branches: [main]
-    paths-ignore: ['REPORT.md', 'PINS.md', 'logs/**', 'tools/aot/**']
+    paths-ignore: ['REPORT.md', 'PINS.md', 'logs/**', 'tools/aot/**', 'tools/shaders/**']
   workflow_dispatch:
 
 permissions:

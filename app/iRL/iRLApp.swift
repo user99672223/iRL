@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         irl_crash_install(logs.folder.path)        // before Wine installs its own handlers
         jit_install_trap_handler()                  // Madeira's JIT trap backstop (JITAllocator.c)
         logs.collectPreviousRun()
+        RuntimeFiles.installFEXConfig()
         let info = Bundle.main.infoDictionary ?? [:]
         LogStore.shared.log("[app] iRL \(info["CFBundleShortVersionString"] ?? "?") (\(info["CFBundleVersion"] ?? "?")) "
             + "iOS \(UIDevice.current.systemVersion) memory-limit-headroom=\(os_proc_available_memory() >> 20)MB "

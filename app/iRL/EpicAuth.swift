@@ -226,7 +226,8 @@ enum RocketLeagueLaunch {
     static let sandboxID = "9773aa1aa54f4f7b80e44bef04986cea"          // Sugar.json namespace
 
     static func arguments(exchangeCode: String?, accountID: String, displayName: String) -> [String] {
-        let locale = Locale.preferredLanguages.first?.replacingOccurrences(of: "_", with: "-") ?? "en-US"
+        // Legendary passes the bare language code (ground truth: -epiclocale=en, launch-args.txt).
+        let locale = Locale.current.language.languageCode?.identifier ?? "en"
         return [
             "-AUTH_LOGIN=unused",
             "-AUTH_PASSWORD=\(exchangeCode ?? "")",

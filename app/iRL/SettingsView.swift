@@ -7,11 +7,14 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(footer: Text("1.0 renders at the monitor's resolution. Higher values render lower and MetalFX scales up to it.")) {
-                    Picker("Render scale", selection: $s.renderScale) {
-                        ForEach([1.0, 1.25, 1.333, 1.5, 2.0], id: \.self) { Text(String(format: "%.2g×", $0)).tag($0) }
+                Section(footer: Text("The game renders at this size and MetalFX scales it to 2560×1440. Pick the highest preset the diagnostics show holding 60 fps.")) {
+                    Picker("Render resolution", selection: $s.presetName) {
+                        ForEach(Settings.presets, id: \.name) { Text($0.name).tag($0.name) }
                     }
                     Toggle("Dim the phone while playing", isOn: $s.dimPhone)
+                }
+                Section(footer: Text("Lets the game use its AVX code paths. Only for a game that stops with an illegal-instruction error. Changing it deletes the AOT cache: run AOT Prepare again.")) {
+                    Toggle("AVX (compat)", isOn: $s.avxCompat)
                 }
                 Section("Logging (applies at the next Start)") {
                     Toggle("Verbose Wine log", isOn: $s.verboseWine)

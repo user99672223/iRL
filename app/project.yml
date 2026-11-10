@@ -27,6 +27,15 @@ targets:
         buildPhase: resources
       - path: ../madeira/app/Madeira/prefix-template.tar.gz
         buildPhase: resources
+      # iRL runtime data (tools/runtime/*/README.md)
+      - path: ../tools/runtime/fex/Config.json
+        buildPhase: resources
+      - path: ../tools/runtime/dxmt/dxmt.conf
+        buildPhase: resources
+      - path: ../tools/runtime/rocketleague/TASystemSettings.overrides.json
+        buildPhase: resources
+      - path: ../tools/runtime/rocketleague/thread-qos.txt
+        buildPhase: resources
       # Runtime glue reused from Madeira, in place.
       - ../madeira/app/Madeira/WineServerBridge.m
       - ../madeira/app/Madeira/WineProcessBridge.m
