@@ -8,12 +8,12 @@ _Last updated: 2026-11-10 (run in progress)._
 |---|---|---|
 | GitHub repo | Done | Public: https://github.com/user99672223/iRL |
 | Clones and pins | Done | `workspace/` (git-ignored); exact SHAs in `PINS.md` |
-| FEX pin | **Blocked: needs your decision** | Madeira's `ios-port-2607` can't load AOT caches on the Windows/ARM64EC path. See D1. |
+| FEX pin | Done, compiling | `user99672223/FEX` branch `irl-fex-aot` = Madeira `ios-port-2607` + 6 upstream AOT-loader commits (D1). |
 | AOT code maps | Done, verified | `tools/aot/gen_codemaps.py`: 22 modules, ~158k seeded blocks (RocketLeague.exe: 81,786) |
-| AOT cache generation | Not done | Depends on D1. Plan: run on the iPhone (D2). |
+| AOT cache generation | In progress | FEXOfflineCompiler.exe built with the runtime FEX; runs on the iPhone (D2). |
 | iRL app / Actions IPA | Building (interim) | Workflow `Build iRL IPA` on macos-26. `plan` passed. This interim full-Madeira build mainly seeds the LLVM/FEX caches; the lean shell (D5) replaces it. |
-| Shaders (.metallib) | Not started | |
-| Step 5 AOT optimizations | Blocked by policy | See decision D4 |
+| Shaders (.metallib) | In progress | Capture running: RL under Heroic's Wine + DXVK shader dump, using Heroic's Epic login |
+| Step 5 AOT optimizations | Not started | Needs the merged FEX to build first |
 
 ## 2. Setup steps for the owner
 
@@ -21,19 +21,18 @@ _Filled in once the IPA build is green._
 
 ## 3. Decisions
 
-**D1 (revised). The pinned FEX cannot use AOT caches on Windows yet. Rebase pending your call.**
-In Madeira's `ios-port-2607`, `Source/Windows/Common/ImageTracker.cpp` maps cache files but never
-loads them (`// TODO: CodeCache::LoadCache, CodeCache::RegisterMappedCodeBuffer`, and the same for
-`EnableLoadedSection`). Upstream FEX finished this path (FEX-2609 `DiskCache`). Madeira's fork
-has no newer iOS branch. A test merge of `FEX-2611` into Madeira's 133 iOS commits stops with
-**27 conflicting files**, including `JIT.cpp`, `BranchOps.cpp`, `Allocator.cpp`, `Frontend.cpp` and
-the iOS transition code `ARM64EC/Module.S` / `Module.cpp` (merge aborted, nothing changed; log
-in `logs/fex-merge-*`). Resolving those means writing FEX source by hand, which D4 rules out
-for me. Options:
-1. You (or Madeira upstream) do the rebase onto FEX-2611. Everything else in the AOT pipeline is ready to plug in.
-2. You allow AI-written conflict resolution in a private, never-upstreamed fork. I would do it on a
-   branch with a full log, and nothing is verifiable before a device test.
-3. Ship JIT-only now (Madeira as is) and do AOT later.
+**D1 (final). FEX = Madeira `ios-port-2607` + upstream's AOT code-cache loader, cherry-picked.**
+Madeira's FEX mapped AOT caches on the Wine/ARM64EC path but never used them (`TODO: LoadCache`).
+A full merge of FEX-2611 (27 conflicting files) was tried and dropped. Upstream replaced the whole
+code-buffer model (`SharedCodeBufferManager`), and Madeira's iOS JIT-pool sweeper, generation
+counters and migrate locks are built on the old model. Porting them would mean rewriting the most
+crash-prone iOS code without a device to test on. Instead, these 6 upstream commits applied with no
+conflicts: wire up `LoadCache`/`EnableLoadedSection`, adapt the loading to FEXOfflineCompiler, the
+WoA syscall ABI fix, marking cache memory as EC code, and recording exe bitness in the code map.
+Upstream's separate runtime "DiskCache" (FEX-2609, ~60 commits) isn't needed for AOT, so it is left out.
+Skipped: running cache generation in a subprocess (iOS can't spawn processes; the Prepare step runs
+it as a Wine program instead). Fork: https://github.com/user99672223/FEX/tree/irl-fex-aot.
+Partial merge attempt kept in `logs/fex-full-merge-partial-resolution-*.patch`.
 
 **D2. The AOT caches are generated on the iPhone, not on the laptop under qemu-user.** Reasons found in the source:
 - FEX's offline compiler for Windows targets is itself an ARM64EC Windows program
@@ -75,10 +74,9 @@ Rocket League needs, and build iRL's own small app shell around them.
 - Madeira's runtime defaults (logging, overlays, allocator settings) get **measured, not copied**.
 - The phone screen gets a **still diagnostics view only**. CI is trimmed to match.
 
-**D4. FEX's own policy.** `FEX/CLAUDE.md` says AI must not be used to generate code for
-contributions to FEX. I have not modified FEX source. All AOT tooling lives in iRL's `tools/`.
-Step 5 items 1–4 and 7–8 are FEXCore code-generation changes. **You need to decide** whether
-those may be AI-written in your private fork (never upstreamed), or written by you.
+**D4. Upstream project policies don't apply.** iRL is private and nothing is upstreamed (owner, 2026-11-10).
+
+**D6. Never block.** Decide, log it here, keep going (owner, 2026-11-10). Shader capture uses Heroic's existing Epic login.
 
 ## 4. Known issues / uncertainties
 
