@@ -9,7 +9,7 @@ IN=$(realpath "$1"); OUT=$(realpath -m "$2"); CM=$(realpath "${3:-$(dirname "$0"
 [ -f "$CM/manifest.json" ] || { echo "no manifest.json in $CM (run gen_codemaps.py)" >&2; exit 1; }
 W=$(mktemp -d); trap 'rm -rf "$W"' EXIT
 cp "$IN" "$W/x.ipa"
-APP=$(unzip -Z1 "$W/x.ipa" | grep -oE '^Payload/[^/]+\.app/' | head -1)
+APP=$(unzip -Z1 "$W/x.ipa" | grep -m1 -oE '^Payload/[^/]+\.app/' || true)
 APP=${APP%/}
 [ -n "$APP" ] || { echo "no Payload/*.app in $IN" >&2; exit 1; }
 mkdir -p "$W/$APP/AOT/codemaps"

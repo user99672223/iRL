@@ -15,7 +15,7 @@ if [ -n "${1:-}" ]; then IN="$1"; else
   [ -n "$RUN" ] || { echo "no successful CI run yet"; exit 1; }
   rm -rf dist/ci && mkdir -p dist/ci
   gh run download "$RUN" -D dist/ci
-  IN=$(find dist/ci -name '*.ipa' | head -1)
+  IN=$(find dist/ci -name '*.ipa' -print -quit)
   echo "CI run $RUN -> $IN"
 fi
 [ -f "$IN" ] || { echo "no IPA found"; exit 1; }
@@ -23,7 +23,7 @@ fi
 bash tools/aot/inject-ipa.sh "$IN" dist/iRL-final.ipa build/aot/codemap-ready
 if [ -d build/shaders/out ] && [ -n "$(ls -A build/shaders/out)" ]; then
   W=$(mktemp -d); trap 'rm -rf "$W"' EXIT
-  APP=$(unzip -Z1 dist/iRL-final.ipa | grep -oE '^Payload/[^/]+\.app/' | head -1); APP=${APP%/}
+  APP=$(unzip -Z1 dist/iRL-final.ipa | grep -m1 -oE '^Payload/[^/]+\.app/' || true); APP=${APP%/}
   mkdir -p "$W/$APP/Shaders" && cp -r build/shaders/out/. "$W/$APP/Shaders/"
   (cd "$W" && zip -qr -0 "$R/dist/iRL-final.ipa" "$APP/Shaders")
   echo "injected shaders: $(ls build/shaders/out | wc -l) files"
