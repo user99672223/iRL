@@ -12,7 +12,7 @@ _Last updated: 2026-11-10 (run in progress)._
 | AOT code maps | Done, verified | `tools/aot/gen_codemaps.py`: 22 modules, ~158k seeded blocks (RocketLeague.exe: 81,786) |
 | AOT cache generation | In progress | FEXOfflineCompiler.exe built with the runtime FEX; runs on the iPhone (D2). |
 | iRL app / Actions IPA | Building (interim) | Workflow `Build iRL IPA` on macos-26. `plan` passed. This interim full-Madeira build mainly seeds the LLVM/FEX caches; the lean shell (D5) replaces it. |
-| Shaders (.metallib) | In progress | Capture running: RL under Heroic's Wine + DXVK shader dump, using Heroic's Epic login |
+| Shaders | Done (pixel), device-fed (vertex) | 21,248 shaders captured by playing RL through Heroic (menus, garage, Free Play, a 4v4 bot match). All 15,428 pixel shaders are precompiled into DXMT's own cache DB (`shaders_320.db`, exact keys), so the phone gets cache hits with no DXMT change. The 5,820 vertex shaders depend on runtime input layouts and get added from the first device log. |
 | Step 5 AOT optimizations | Not started | Needs the merged FEX to build first |
 
 ## 2. Setup steps for the owner
@@ -102,6 +102,12 @@ Rocket League needs, and build iRL's own small app shell around them.
 **D6. Never block.** Decide, log it here, keep going (owner, 2026-11-10). Shader capture uses Heroic's existing Epic login.
 
 ## 4. Known issues / uncertainties (the device test settles these)
+
+- **Shader cache hits:** precompiled pixel shaders only hit if the phone uses Metal 3.2 (`shaders_320.db`)
+  and DXMT's default pixel variant. The launch log prints DXMT's cache hit/miss counts
+  (`DXMT_CACHE_STATS=1`). Misses are converted on the phone and saved into the same DB.
+- **Shader coverage:** the capture covered menus, the garage, Free Play and one 4v4 bot match. Other
+  arenas, modes and goal explosions convert on the phone the first time they appear.
 
 - **Prepare AOT runs `FEXOfflineCompiler.exe` under Wine on the phone.** It's a verified ARM64EC
   binary (`llvm-readobj`: COFF-ARM64EC, CHPE metadata) that imports only ntdll, kernel32 and the CRT.
