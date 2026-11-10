@@ -25,6 +25,7 @@ struct HomeView: View {
                     Text(statusText).font(.callout).foregroundStyle(.secondary)
                     LabeledContent("Game", value: Paths.gameFound ? "found" : "missing")
                 }
+                StatusSection(diag: diag)
                 Section("Epic Games") {
                     if let account {
                         LabeledContent("Signed in", value: account)
@@ -80,6 +81,46 @@ struct HomeView: View {
 
     private func start() { runtime.start(.game) }
     private func refreshAccount() async { account = await EpicAuth.shared.account()?.name }
+}
+
+/// JIT and memory-limit status, refreshed with each diagnostics sample (1 Hz).
+struct StatusSection: View {
+    @ObservedObject var diag: Diagnostics
+    var body: some View {
+        let jit = jit_check_debugged()
+        let iml = Entitlements.provisioned("com.apple.developer.kernel.increased-memory-limit")
+        let limitMB = diag.last.footprintMB + diag.last.availableMB
+        Section("Status") {
+            LabeledContent("JIT") {
+                Text(jit ? "✅ enabled" : "❌ off: enable in StikDebug").foregroundStyle(jit ? .green : .red)
+            }
+            LabeledContent("Increased Memory Limit") {
+                Text(iml == true ? "✅ granted" : iml == false ? "❌ not in profile" : "? no profile")
+                    .foregroundStyle(iml == true ? .green : .red)
+            }
+            LabeledContent("Memory limit", value: String(format: "%.2f GB", Double(limitMB) / 1024))
+        }
+        .font(.callout.monospacedDigit())
+    }
+}
+
+/// Reads the entitlements the installed provisioning profile grants (embedded.mobileprovision, which
+/// Impactor writes when it signs). nil when there is no profile (simulator).
+enum Entitlements {
+    private static let granted: [String: Any]? = {
+        guard let url = Bundle.main.url(forResource: "embedded", withExtension: "mobileprovision"),
+              let data = try? Data(contentsOf: url),
+              let start = data.range(of: Data("<?xml".utf8)),
+              let end = data.range(of: Data("</plist>".utf8), in: start.lowerBound..<data.endIndex),
+              let plist = try? PropertyListSerialization.propertyList(from: data[start.lowerBound..<end.upperBound], format: nil) as? [String: Any]
+        else { return nil }
+        return plist["Entitlements"] as? [String: Any] ?? [:]
+    }()
+    static func provisioned(_ key: String) -> Bool? {
+        guard let granted else { return nil }
+        if let b = granted[key] as? Bool { return b }
+        return granted[key] != nil
+    }
 }
 
 /// The still diagnostics readout (1 Hz): on Home and as its own screen.

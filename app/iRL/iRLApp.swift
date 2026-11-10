@@ -23,7 +23,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         let info = Bundle.main.infoDictionary ?? [:]
         LogStore.shared.log("[app] iRL \(info["CFBundleShortVersionString"] ?? "?") (\(info["CFBundleVersion"] ?? "?")) "
             + "iOS \(UIDevice.current.systemVersion) memory-limit-headroom=\(os_proc_available_memory() >> 20)MB "
-            + "cs-debugged=\(SigningStatus.current.debugged ? 1 : 0) debugger=\(isDebuggerAttached() ? 1 : 0)")
+            + "cs-debugged=\(SigningStatus.current.debugged ? 1 : 0) debugger=\(isDebuggerAttached() ? 1 : 0) "
+            + "iml-in-profile=\(Entitlements.provisioned("com.apple.developer.kernel.increased-memory-limit").map { $0 ? "1" : "0" } ?? "none")")
         UIApplication.shared.isIdleTimerDisabled = true
         Gamepad.shared.start()
         Diagnostics.shared.start()
