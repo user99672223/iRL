@@ -217,13 +217,17 @@ jobs:
           ARGS="-AUTH_LOGIN=unused -AUTH_PASSWORD=00000000000000000000000000000000 -AUTH_TYPE=exchangecode -epicapp=Sugar -epicenv=Prod -EpicPortal -epiclocale=en -epicsandboxid=9773aa1aa54f4f7b80e44bef04986cea"
           echo "args: $ARGS" > ~/out/rl-args.txt
           mkdir -p ~/out/shots
+          # Same graphics settings the laptop traced the menu-v2 asset subset with (its texture caches
+          # are sparse: other detail levels read mips the laptop never touched, which come back as zeros).
+          UC="$WINEPREFIX/drive_c/users/$USER/Documents/My Games/Rocket League/TAGame/Config"
+          mkdir -p "$UC" && cp tools/bench/rl-user-config/TASystemSettings.ini "$UC/"
           # No crash dialog: winedbg prints the backtrace into the log instead.
           wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f > /dev/null 2>&1; wineserver -w
           (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
           start=$(date +%s); menu_at=""; peak=0
           while :; do
-            sleep 60
-            t=$(( ($(date +%s) - start) / 60 ))
+            sleep 5
+            ts=$(( $(date +%s) - start )); t=$(( ts / 60 ))
             LL=$(find "$WINEPREFIX/drive_c/users" -path '*TAGame/Logs/Launch.log' 2>/dev/null | head -1)
             [ -n "$LL" ] && cp "$LL" ~/out/Launch.log
             # The game process is the one with the largest RSS whose command line names RocketLeague.exe
@@ -233,19 +237,18 @@ jobs:
               r=$(awk '/VmRSS/{print $2}' /proc/$p/status 2>/dev/null); r=${r:-0}
               [ "$r" -gt "$rss" ] && { rss=$r; pid=$p; }
             done
-            pgrep -x winedbg > /dev/null && echo "winedbg running (crash)" | tee -a ~/out/rl-progress.txt
             [ "$rss" -gt "$peak" ] && peak=$rss
-            [ $((t % 2)) -eq 0 ] && xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/shot-$(printf %03d $t).png 2>/dev/null
+            [ $((ts % 120)) -lt 5 ] && xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/shot-$(printf %04d $ts).png 2>/dev/null
             last=$( [ -f ~/out/Launch.log ] && tail -1 ~/out/Launch.log | cut -c1-150 )
-            echo "[$(date +%T)] t=${t}min pid=${pid:-none} rss=$((rss/1024))MB peak=$((peak/1024))MB launchlog=$( [ -f ~/out/Launch.log ] && wc -l < ~/out/Launch.log || echo 0) last: $last" | tee -a ~/out/rl-progress.txt
+            [ $((ts % 30)) -lt 5 ] && echo "[$(date +%T)] t=${ts}s pid=${pid:-none} rss=$((rss/1024))MB peak=$((peak/1024))MB launchlog=$( [ -f ~/out/Launch.log ] && wc -l < ~/out/Launch.log || echo 0) last: $last" | tee -a ~/out/rl-progress.txt
             if [ -z "$menu_at" ] && grep -qE "Bringing World menu_main_p up for play|GameInfo_GFxMenu_TA" ~/out/Launch.log 2>/dev/null; then
               menu_at=$t
-              echo "MAIN MENU reached at ~${t} min, RSS at menu: $((rss/1024)) MB (peak so far $((peak/1024)) MB)" | tee -a ~/out/rl-progress.txt
+              echo "MAIN MENU reached at ~${ts}s, RSS at menu: $((rss/1024)) MB (peak so far $((peak/1024)) MB)" | tee -a ~/out/rl-progress.txt
               [ -n "$pid" ] && cp /proc/$pid/status ~/out/rl-proc-status-at-menu.txt
             fi
             [ -n "$menu_at" ] && [ $t -ge $((menu_at + 5)) ] && break
             [ -z "$pid" ] && { echo "RocketLeague.exe exited at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
-            pgrep -x winedbg > /dev/null && [ $t -ge 3 ] && { sleep 30; echo "crashed; stopping at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
+            pgrep -x winedbg > /dev/null && { sleep 20; echo "crashed; stopping at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
             [ $t -ge 60 ] && { echo "60 min budget used" | tee -a ~/out/rl-progress.txt; break; }
           done
           xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/shot-final.png 2>/dev/null
