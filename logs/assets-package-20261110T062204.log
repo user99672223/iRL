@@ -1,0 +1,11 @@
+# 2026-11-10T06:22:04+01:00 python3 -I tools/assets/package.py --game /home/familybadgujarwilly/Games/Heroic/rocketleague --files tools/assets/menu-files.txt --reads /home/familybadgujarwilly/Pictures/iRL/build/assets/trace-dummy-20261110T061643/strace --out build/assets/pkg --stage build/assets/stage
+staged 183 files, 658 MiB of real data
+  TAGame/CookedPCConsole/Textures.tfc: 6 MiB of 3.66 GiB in 4 ranges
+  TAGame/CookedPCConsole/Textures2.tfc: 12 MiB of 2.99 GiB in 8 ranges
+  TAGame/CookedPCConsole/Textures3.tfc: 3 MiB of 2.85 GiB in 3 ranges
+  TAGame/CookedPCConsole/Textures4.tfc: 2 MiB of 3.27 GiB in 2 ranges
+  TAGame/CookedPCConsole/Textures5.tfc: 21 MiB of 2.94 GiB in 12 ranges
+  TAGame/CookedPCConsole/Textures6.tfc: 12 MiB of 2.96 GiB in 7 ranges
+  TAGame/CookedPCConsole/Textures7.tfc: 5 MiB of 2.66 GiB in 3 ranges
+6 chunks, 522 MiB compressed
+exit=0

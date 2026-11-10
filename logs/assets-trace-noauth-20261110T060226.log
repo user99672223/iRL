@@ -1,0 +1,12 @@
+[2026-11-10T06:02:26+01:00] mode=noauth run=360s out=/home/familybadgujarwilly/Pictures/iRL/build/assets/trace-noauth-20261110T060226
+[2026-11-10T06:02:26+01:00] cmd: strace -f -e trace=openat -o /home/familybadgujarwilly/Pictures/iRL/build/assets/trace-noauth-20261110T060226/strace /home/familybadgujarwilly/.config/heroic/tools/proton/GE-Proton-latest/proton waitforexitandrun /home/familybadgujarwilly/Games/Heroic/rocketleague/Binaries/Win64/RocketLeague.exe 
+ProtonFixes[89861] INFO: Running protonfixes on "GE-Proton11-9", build at 2026-10-14 00:11:35+00:00.
+ProtonFixes[89861] INFO: Running checks
+ProtonFixes[89861] INFO: All checks successful
+ProtonFixes[89861] INFO: Using early stage global defaults for UNKNOWN (0)
+ProtonFixes[89861] INFO: No early stage global protonfix found for UNKNOWN (0)
+ProtonFixes[89861] INFO: Running protonfixes on "GE-Proton11-9", build at 2026-10-14 00:11:35+00:00.
+ProtonFixes[89861] INFO: Running checks
+ProtonFixes[89861] INFO: All checks successful
+ProtonFixes[89861] INFO: Using main stage global defaults for UNKNOWN (0)
+ProtonFixes[89861] INFO: No main stage global protonfix found for UNKNOWN (0)

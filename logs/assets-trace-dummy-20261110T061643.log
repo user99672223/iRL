@@ -1,0 +1,4 @@
+[2026-11-10T06:16:43+01:00] mode=dummy run=300s out=/home/familybadgujarwilly/Pictures/iRL/build/assets/trace-dummy-20261110T061643
+[2026-11-10T06:16:43+01:00] cmd: strace -f (tfc read ranges) -o /home/familybadgujarwilly/Pictures/iRL/build/assets/trace-dummy-20261110T061643/strace /home/familybadgujarwilly/.config/heroic/tools/proton/GE-Proton-latest/proton waitforexitandrun /home/familybadgujarwilly/Games/Heroic/rocketleague/Binaries/Win64/RocketLeague.exe -AUTH_LOGIN=unused -AUTH_PASSWORD=<redacted> -AUTH_TYPE=exchangecode -epicapp=Sugar -epicenv=Prod -EpicPortal -epiclocale=en -epicsandboxid=9773aa1aa54f4f7b80e44bef04986cea
+[2026-11-10T06:21:46+01:00] stopping game
+[2026-11-10T06:21:51+01:00] end; strace files: 1
