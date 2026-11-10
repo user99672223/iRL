@@ -169,6 +169,13 @@ final class Runtime: ObservableObject {
         case .game:
             env.append(("MADEIRA_EXE", Paths.gameExeWindows))
             env.append(("MADEIRA_ARGS", RocketLeagueLaunch.commandLine(args)))
+            // Pure-x64 images (RocketLeague.exe 39 MB, EOSSDK 20 MB, the VC++ DLLs) are never executed by
+            // the host: FEX runs them at their PE address (AOT caches are keyed there too). Without this
+            // Madeira copies each into the JIT pool, which is charged in full against the memory limit and
+            // also has to hold the AOT code (run6: the pool was nearly full before EOSSDK's cache).
+            // Madeira's own per-game lists use it (Dark Souls III, GTA V, RDR2 ...).
+            // madeira.cfg `x64-image-nocopy = 0` restores the copies.
+            env.append(("MADEIRA_X64_IMAGE_NOCOPY", MadeiraConfig.get("x64-image-nocopy") == "0" ? "0" : "1"))
             // Rocket League's thread names -> QoS classes (tools/runtime/rocketleague/thread-qos.txt,
             // parsed by thread_ios.c tq_init_once): render/game threads on the P-cores.
             if let url = Bundle.main.url(forResource: "thread-qos", withExtension: "txt"),
@@ -182,6 +189,7 @@ final class Runtime: ObservableObject {
             }
         case .aotPrepare:
             unsetenv("MADEIRA_THREAD_QOS")
+            unsetenv("MADEIRA_X64_IMAGE_NOCOPY")
             // Its output (cache generation per module) goes to Wine's stderr, which the next app
             // start moves into this launch's folder as wine-stderr.log (LaunchLogs).
             // FEX's own offline compiler (same FEXCore build as xtajit64.dll), an ARM64EC program
@@ -301,7 +309,9 @@ final class Runtime: ObservableObject {
 
     /// Bump when caches from an older FEXOfflineCompiler must not be loaded. 2: caches before it imported
     /// ntdll's TEB TSD offset read the TEB from slot 0 and crashed the game at its first CPUID.
-    nonisolated static let aotFormat = "2"
+    /// 3: FEX rebuilt (read-only cache mapping, RW-alias finalize); a cache records FEX's git hash and the
+    /// new build skips older ones anyway, so drop them and have the owner run AOT Prepare again.
+    nonisolated static let aotFormat = "3"
 
     /// Deletes AOT caches made by an older compiler (called at app start). Code maps stay.
     nonisolated static func dropStaleAOTCaches() {

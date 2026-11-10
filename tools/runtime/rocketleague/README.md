@@ -9,9 +9,12 @@
   internal size (`ScreenPercentage=100`) and DXMT's MetalFX swapchain does the upscaling.
 - **Effects off** (shadows, DoF, AO, bloom, motion blur, lens flares, high-quality materials): they
   are GPU- and bandwidth-heavy on a 5-core TBDR GPU, and competitive players turn them off anyway.
-- **Texture memory:** Rocket League's user config has no streaming-pool key. The per-group
-  `TEXTUREGROUP_* MaxLODSize` caps are the supported control, so they keep the game's values (the
-  laptop profile already caps World at 1024).
+- **Texture memory:** Rocket League's user config has no streaming-pool key, so the per-group
+  `TEXTUREGROUP_* MaxLODSize` caps are the control. A fresh iOS prefix gets the game's defaults
+  (`DefaultSystemSettings.ini`: 2048 for every group); iRL writes the laptop profile's caps instead
+  (the game's own "High" bucket: world/car/UI 1024, specular/effects/skybox 512, render targets and
+  pitch 2048), the profile the PC measurement used (3.9 GB at the menu). Metal textures count
+  against iOS's 4 GB limit, and at the 900p render size a 2048 texture is rarely sampled above mip 1.
 - **Vsync off in the game:** DXMT paces to 60 against the external display (`dxmt.conf`).
 - **Not done yet:** dynamic resolution driven by GPU frame time needs device frame-time data
   (see REPORT.md, known issues).

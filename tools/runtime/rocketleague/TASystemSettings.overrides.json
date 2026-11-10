@@ -17,12 +17,58 @@
     "bAllowHighQualityMaterials": "False",
     "DetailMode": "1",
     "MaxMultiSamples": "1",
-    "MaxAnisotropy": "4"
+    "MaxAnisotropy": "4",
+    "TEXTUREGROUP_World": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_WorldNormalMap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_WorldSpecular": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Character": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_CharacterNormalMap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_CharacterSpecular": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Weapon": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_WeaponNormalMap": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_WeaponSpecular": "(MinLODSize=1,MaxLODSize=256,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Vehicle": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_VehicleNormalMap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_VehicleSpecular": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Cinematic": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Effects": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_EffectsNotFiltered": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Skybox": "(MinLODSize=1,MaxLODSize=512,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_UI": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Lightmap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Shadowmap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,NumStreamedMips=3,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_RenderTarget": "(MinLODSize=1,MaxLODSize=2048,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_MobileFlattened": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_ProcBuilding_Face": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_ProcBuilding_LightMap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Terrain_Heightmap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Terrain_Weightmap": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_ImageBasedReflection": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Bokeh": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_Pitch": "(MinLODSize=1,MaxLODSize=2048,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)",
+    "TEXTUREGROUP_ColorLookupTable": "(MinLODSize=1,MaxLODSize=1024,LODBias=0,MinMagFilter=Aniso,MipFilter=Point,MipGenSettings=TMGS_SimpleAverage)"
   },
   "presets": {
-    "1440p native": {"ResX": "2560", "ResY": "1440", "metalfx": null},
-    "1080p + MetalFX": {"ResX": "1920", "ResY": "1080", "metalfx": 1.3333},
-    "900p + MetalFX (default)": {"ResX": "1600", "ResY": "900", "metalfx": 1.6},
-    "720p + MetalFX": {"ResX": "1280", "ResY": "720", "metalfx": 2.0}
-  }
+    "1440p native": {
+      "ResX": "2560",
+      "ResY": "1440",
+      "metalfx": null
+    },
+    "1080p + MetalFX": {
+      "ResX": "1920",
+      "ResY": "1080",
+      "metalfx": 1.3333
+    },
+    "900p + MetalFX (default)": {
+      "ResX": "1600",
+      "ResY": "900",
+      "metalfx": 1.6
+    },
+    "720p + MetalFX": {
+      "ResX": "1280",
+      "ResY": "720",
+      "metalfx": 2.0
+    }
+  },
+  "_doc_textures": "TEXTUREGROUP_* = the laptop profile's values (the game's own 'High' texture bucket: world/car 1024, specular/effects 512, render targets and pitch 2048), copied from the PC prefix where RL measured 3.9 GB at the menu. A fresh iOS prefix gets the game defaults (MaxLODSize 2048 for every group, up to 4x the texture memory), and Metal textures count against iOS's 4 GB limit. At 1600x900 render a 2048 texture is rarely sampled above mip 1."
 }
