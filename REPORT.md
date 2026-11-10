@@ -17,7 +17,27 @@ _Last updated: 2026-11-10 (run in progress)._
 
 ## 2. Setup steps for the owner
 
-_Filled in once the IPA build is green._
+1. **Get the IPA:** `dist/iRL-final.ipa` in the repo folder on the laptop. It's the CI-built app
+   with the AOT code maps (and precompiled shaders, once converted) injected by `tools/aot/inject-ipa.sh`.
+2. **Install with Impactor:** iPhone on USB → Impactor → sign in with your Apple ID → pick
+   `iRL-final.ipa` → install. Impactor adds Increased Memory Limit automatically. Extended Virtual
+   Addressing was removed from the entitlements on purpose (free account).
+3. **Trust the profile:** Settings → General → VPN & Device Management → your Apple ID → Trust.
+4. **Import the game:** connect the iPhone to the laptop and, in Finder/Files (or with
+   `ifuse`/the Files app over USB), copy the whole `/home/familybadgujarwilly/Games/Heroic/rocketleague`
+   folder into **iRL › Games › rocketleague**. The app maps it to `C:\games\rocketleague` in the
+   Wine prefix. The AOT code maps use that exact path.
+5. **Enable JIT:** open StikDebug → pick iRL → enable JIT. iRL shows "JIT: on" on its home screen.
+6. **Prepare AOT (once per game patch):** in iRL tap **Prepare AOT**. FEX's offline compiler
+   translates the game's x86-64 code to ARM64 and writes the caches. Keep the phone on power;
+   it takes several minutes. Then close iRL from the app switcher and reopen it, with JIT enabled again.
+7. **Sign in to Epic:** in iRL tap **Sign in to Epic** and log in on Epic's page. iRL keeps only the
+   refresh token (in the Keychain).
+8. **Connect the monitor:** USB-C hub → DisplayPort monitor, plus the DualSense and AirPods Max on the hub.
+9. **Start:** JIT enabled → tap **Start**. The game appears on the monitor and the phone shows the
+   diagnostics screen.
+10. **Send logs:** iRL › **Share logs** zips the last launch's folder. It's also visible in the
+    Files app under iRL › Logs.
 
 ## 3. Decisions
 
