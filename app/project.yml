@@ -15,6 +15,16 @@ settings:
     ENABLE_BITCODE: NO
     ENABLE_USER_SCRIPT_SANDBOXING: NO
     DEAD_CODE_STRIPPING: YES
+    # No iRL.debug.dylib / __preview.dylib split in any configuration: the binary is the app.
+    ENABLE_DEBUG_DYLIB: NO
+    ENABLE_PREVIEWS: NO
+  configs:
+    Release:
+      SWIFT_OPTIMIZATION_LEVEL: "-O"
+      SWIFT_COMPILATION_MODE: wholemodule
+      GCC_OPTIMIZATION_LEVEL: s
+      DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+      VALIDATE_PRODUCT: YES
 targets:
   iRL:
     type: application
@@ -36,21 +46,38 @@ targets:
         buildPhase: resources
       - path: ../tools/runtime/rocketleague/thread-qos.txt
         buildPhase: resources
-      # Runtime glue reused from Madeira, in place.
-      - ../madeira/app/Madeira/WineServerBridge.m
-      - ../madeira/app/Madeira/WineProcessBridge.m
-      - ../madeira/app/Madeira/FEXBridge.mm
-      - ../madeira/app/Madeira/JITAllocator.c
-      - ../madeira/app/Madeira/wine_stubs.c
-      - ../madeira/app/Madeira/IOSDisplayShim.m
-      - ../madeira/app/Madeira/PrefixExtractor.c
-      - ../madeira/app/Madeira/PadOutput.m
-      - ../madeira/app/Madeira/Winios/Winios.m
-      - ../madeira/app/Madeira/Winios/WiniosCursor.c
-      - ../madeira/app/Madeira/Winios/WiniosGamepad.c
-      - ../madeira/app/Madeira/Winios/WiniosGL.m
-      - ../madeira/app/Madeira/Winios/BackgroundCPUCap.c
-      - ../madeira/app/Madeira/Winios/MetalBackgroundGate.m
+      # Runtime glue reused from Madeira, in place. Compiled as Madeira's own Debug build compiles it
+      # (-O0, DEBUG=1) in every configuration: Madeira runs games only from Debug builds (its Release
+      # builds "have crashed the guest", cause unrecorded). Wine/FEX/DXMT themselves are separate,
+      # optimized libraries; the iRL app shell is optimized in Release.
+      - path: ../madeira/app/Madeira/WineServerBridge.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/WineProcessBridge.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/FEXBridge.mm
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/JITAllocator.c
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/wine_stubs.c
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/IOSDisplayShim.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/PrefixExtractor.c
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/PadOutput.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/Winios/Winios.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/Winios/WiniosCursor.c
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/Winios/WiniosGamepad.c
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/Winios/WiniosGL.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/Winios/BackgroundCPUCap.c
+        compilerFlags: ["-O0", "-DDEBUG=1"]
+      - path: ../madeira/app/Madeira/Winios/MetalBackgroundGate.m
+        compilerFlags: ["-O0", "-DDEBUG=1"]
       - ../madeira/app/Madeira/StikJITHelper.swift
     settings:
       base:
@@ -134,7 +161,6 @@ targets:
         "OTHER_LDFLAGS[sdk=iphonesimulator*]":
           - "-lc++"
           - "-lz"
-        # Madeira: Debug is the configuration that runs games (Release builds crashed the guest).
         GCC_PREPROCESSOR_DEFINITIONS: ["$(inherited)", "IRL=1"]
     dependencies:
       - sdk: Metal.framework

@@ -13,7 +13,7 @@ set -euo pipefail
 IRL="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 M="$IRL/madeira/app/Madeira"
 DERIVED="$IRL/app/DerivedData"
-CONFIGURATION="${CONFIGURATION:-Debug}"   # Madeira: Debug runs games, Release crashed the guest
+CONFIGURATION="${CONFIGURATION:-Release}"   # Madeira glue keeps its Debug codegen (project.yml)
 APP="$DERIVED/Build/Products/$CONFIGURATION-iphoneos/iRL.app"
 DIST="$IRL/dist"
 
@@ -36,6 +36,16 @@ xcodebuild -project "$IRL/app/iRL.xcodeproj" -scheme iRL -configuration "$CONFIG
   -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath "$DERIVED" \
   CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' build
 [[ -d "$APP" ]] || { echo "ERROR: xcodebuild succeeded but iRL.app is missing" >&2; exit 1; }
+# A shipped app has no debug-dylib split and no preview stub.
+if ls "$APP"/*.debug.dylib "$APP"/__preview.dylib >/dev/null 2>&1; then
+  ls -l "$APP"/*.dylib >&2; echo "ERROR: debug/preview dylibs in the bundle (ENABLE_DEBUG_DYLIB)" >&2; exit 1
+fi
+# dSYM for symbolicating device crash logs (uploaded as its own artifact).
+DSYM="$DERIVED/Build/Products/$CONFIGURATION-iphoneos/iRL.app.dSYM"
+if [[ -d "$DSYM" ]]; then
+  mkdir -p "$DIST"; (cd "$(dirname "$DSYM")" && rm -f "$DIST/iRL.app.dSYM.zip" && zip -qry "$DIST/iRL.app.dSYM.zip" iRL.app.dSYM)
+  dwarfdump --uuid "$DSYM" | tee "$IRL/logs/ipa-dsym-uuid.txt"
+fi
 
 rsync -a --delete "$M/arm64ec-windows/" "$APP/arm64ec-windows/"
 cp "$IRL/build/fex-pe/xtajit64.dll" "$IRL/build/fex-pe/FEXOfflineCompiler.exe" "$APP/arm64ec-windows/"

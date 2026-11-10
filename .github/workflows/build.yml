@@ -202,8 +202,19 @@ jobs:
           key: vcruntime-${{ hashFiles('madeira/tools/build/prepare-vcruntime.sh') }}
           path: madeira/app/Madeira/x86_64-vcruntime
       - run: tools/build/irl-build.sh deps vcruntime app
+      - name: Check the IPA (Release, no debug dylib)
+        run: |
+          rm -rf /tmp/ipa && mkdir /tmp/ipa && unzip -q dist/iRL.ipa -d /tmp/ipa
+          if ls /tmp/ipa/Payload/*.app/*.debug.dylib /tmp/ipa/Payload/*.app/__preview.dylib 2>/dev/null; then
+            echo "::error::debug dylib in the IPA"; exit 1
+          fi
+          ls -l /tmp/ipa/Payload/iRL.app/iRL
+          echo "### iRL.ipa" >> "$GITHUB_STEP_SUMMARY"
+          echo "$(du -h dist/iRL.ipa | cut -f1), executable $(du -h /tmp/ipa/Payload/iRL.app/iRL | cut -f1)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with: { name: iRL-ipa, path: dist/iRL.ipa, if-no-files-found: error, compression-level: 0 }
+      - uses: actions/upload-artifact@v4
+        with: { name: iRL-dSYM, path: dist/iRL.app.dSYM.zip, if-no-files-found: warn, compression-level: 0 }
       - if: always()
         uses: actions/upload-artifact@v4
         with: { name: logs-app, path: logs/, if-no-files-found: ignore, retention-days: 14 }
