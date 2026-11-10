@@ -1,0 +1,13 @@
+name: Probe macOS runner
+on: workflow_dispatch
+jobs:
+  probe:
+    strategy:
+      matrix:
+        os: [macos-26, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - run: |
+          sw_vers; uname -m; sysctl -n hw.ncpu hw.memsize; df -h /
+          ls -d /Applications/Xcode*.app
+          xcode-select -p; xcodebuild -version; xcodebuild -showsdks
