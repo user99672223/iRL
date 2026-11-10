@@ -10,6 +10,6 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer);
 uint64_t irl_energy_nj(void)
 {
     struct rusage_info_v6 ri;
-    if (proc_pid_rusage(getpid(), RUSAGE_INFO_V6, (rusage_info_t *)&ri) != 0) return 0;
+    if (proc_pid_rusage(getpid(), 6 /* RUSAGE_INFO_V6, as Madeira passes it */, (rusage_info_t *)&ri) != 0) return 0;
     return ri.ri_energy_nj;
 }
