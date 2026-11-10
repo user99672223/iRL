@@ -117,9 +117,20 @@ Rocket League needs, and build iRL's own small app shell around them.
 - **Resolution:** the default is 900p → MetalFX ×1.6 → 1440p, chosen without device numbers. Pick
   the highest preset that holds 60 on the diagnostics screen. Dynamic resolution driven by GPU
   frame time isn't implemented yet; it needs device frame-time logs first.
-- **Not done (Step 5 items 1–4, cross-block register allocation, shadow return stack, relaxed TSO,
-  static indirect-branch resolution):** these are FEX code-generation changes that can't be validated
-  without the device. The first JIT-miss and profile logs from your test decide which one pays off most.
+- **Step 5 status:**
+  - Already in the shipped FEX, so not rebuilt:
+    - shadow return stack: Madeira's FEX call/return stack (`ResetCallRetStack`, `JIT/BranchOps.cpp`)
+    - stack accesses exempt from TSO: `IsNonTSOReg`, RSP-based accesses
+    - exact floating point: `X87ReducedPrecision=0`
+    - CPUID steering to SSE: AVX hidden
+    - preferred-base loading: Wine maps at `ImageBase` when free; RL's exe is at `0x140000000`
+  - Done in the AOT inputs: static resolution of indirect targets. Vtables and function-pointer
+    tables are found through `.reloc` and seeded, along with direct-call leaf functions. 179,443
+    entry points in total.
+  - Not done: cross-function register allocation (item 1) and per-function relaxed TSO (item 3b).
+    They are FEX code-generation changes that need state-recovery tables and device crash and
+    profile logs to validate. The JIT-miss code maps and diagnostics from your first test decide
+    whether they're worth it.
 - **CI:** the first lean build runs on GitHub's macos-26 (Xcode 26.6). Madeira's two Xcode-27-only
   features are guarded.
 
