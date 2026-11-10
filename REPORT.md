@@ -10,7 +10,7 @@ _Last updated: 2026-11-10 (run in progress)._
 | Clones and pins | Done | `workspace/` (git-ignored); exact SHAs in `PINS.md` |
 | FEX pin | Done, compiling | `user99672223/FEX` branch `irl-fex-aot` = Madeira `ios-port-2607` + 6 upstream AOT-loader commits (D1). |
 | AOT code maps | Done, verified | `tools/aot/gen_codemaps.py`: 22 modules, ~158k seeded blocks (RocketLeague.exe: 81,786) |
-| AOT cache generation | In progress | FEXOfflineCompiler.exe built with the runtime FEX; runs on the iPhone (D2). |
+| AOT cache generation | **Verified on a real ARM64 CPU** | ARM64 Linux CI bench (Wine 11.4 ARM64EC + FEX irl-fex-aot): all 19 RL modules compiled from the static code maps in 15 s, 385 MB of caches; RL booted on them and only 320 blocks of rocketleague.exe fell back to the JIT; JIT-miss feedback re-imported automatically. Run 42763346264. On the phone it runs in the Prepare AOT step. |
 | iRL app / IPA | Built (interim) | Lean iRL app CI is green (run 42760542459). `dist/iRL-final.ipa` (204 MB) = that IPA + 19 AOT code maps + shader DB. It's being rebuilt as a Release build (the first one was Debug) together with the simulator fixes. |
 | Shaders | Done (pixel), device-fed (vertex) | 21,248 shaders captured by playing RL through Heroic (menus, garage, Free Play, a 4v4 bot match). All 15,428 pixel shaders are precompiled into DXMT's own cache DB (`shaders_320.db`, exact keys), so the phone gets cache hits with no DXMT change. The 5,820 vertex shaders depend on runtime input layouts and get added from the first device log. |
 | Step 5 AOT optimizations | Not started | Needs the merged FEX to build first |
@@ -118,6 +118,12 @@ Rocket League needs, and build iRL's own small app shell around them.
 - **Shader coverage:** the capture covered menus, the garage, Free Play and one 4v4 bot match. Other
   arenas, modes and goal explosions convert on the phone the first time they appear.
 
+- **AOT memory:** the real caches total 385 MB (rocketleague.exe 205 MB, EOS SDK 135 MB), loaded into
+  the JIT pool, which counts as dirty memory. If iOS kills the game for memory, drop the mostly cold
+  EOS SDK from AOT first, then use the donor pool.
+- **CI boot test (ARM64 Linux, software rendering):** RL ran PreInit, EOS init, D3D11 adapter setup and
+  global shaders on AOT code, then stopped at a missing `Core.upk` in the CI asset subset (a packaging
+  gap, being fixed). Not a translation problem.
 - **Prepare AOT runs `FEXOfflineCompiler.exe` under Wine on the phone.** It's a verified ARM64EC
   binary (`llvm-readobj`: COFF-ARM64EC, CHPE metadata) that imports only ntdll, kernel32 and the CRT.
   It has never run, because there's no ARM64 Windows/Wine on the laptop. If it fails, the game still
