@@ -217,15 +217,23 @@ jobs:
           ARGS="-AUTH_LOGIN=unused -AUTH_PASSWORD=00000000000000000000000000000000 -AUTH_TYPE=exchangecode -epicapp=Sugar -epicenv=Prod -EpicPortal -epiclocale=en -epicsandboxid=9773aa1aa54f4f7b80e44bef04986cea"
           echo "args: $ARGS" > ~/out/rl-args.txt
           mkdir -p ~/out/shots
-          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all timeout 3600 wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
+          # No crash dialog: winedbg prints the backtrace into the log instead.
+          wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f > /dev/null 2>&1; wineserver -w
+          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
           start=$(date +%s); menu_at=""; peak=0
           while :; do
             sleep 60
             t=$(( ($(date +%s) - start) / 60 ))
             LL=$(find "$WINEPREFIX/drive_c/users" -path '*TAGame/Logs/Launch.log' 2>/dev/null | head -1)
             [ -n "$LL" ] && cp "$LL" ~/out/Launch.log
-            pid=$(pgrep -f 'RocketLeague.exe' | head -1)
-            rss=0; [ -n "$pid" ] && rss=$(awk '/VmRSS/{print $2}' /proc/$pid/status 2>/dev/null); rss=${rss:-0}
+            # The game process is the one with the largest RSS whose command line names RocketLeague.exe
+            # (pgrep alone also matches the timeout/wine launcher wrappers).
+            pid=""; rss=0
+            for p in $(pgrep -f 'RocketLeague.exe'); do
+              r=$(awk '/VmRSS/{print $2}' /proc/$p/status 2>/dev/null); r=${r:-0}
+              [ "$r" -gt "$rss" ] && { rss=$r; pid=$p; }
+            done
+            pgrep -x winedbg > /dev/null && echo "winedbg running (crash)" | tee -a ~/out/rl-progress.txt
             [ "$rss" -gt "$peak" ] && peak=$rss
             [ $((t % 2)) -eq 0 ] && xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/shot-$(printf %03d $t).png 2>/dev/null
             last=$( [ -f ~/out/Launch.log ] && tail -1 ~/out/Launch.log | cut -c1-150 )
@@ -237,6 +245,7 @@ jobs:
             fi
             [ -n "$menu_at" ] && [ $t -ge $((menu_at + 5)) ] && break
             [ -z "$pid" ] && { echo "RocketLeague.exe exited at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
+            pgrep -x winedbg > /dev/null && [ $t -ge 3 ] && { sleep 30; echo "crashed; stopping at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
             [ $t -ge 60 ] && { echo "60 min budget used" | tee -a ~/out/rl-progress.txt; break; }
           done
           xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/shot-final.png 2>/dev/null
@@ -247,6 +256,8 @@ jobs:
             echo "failed-to-find:"; grep -oE "Failed to find file[^.]*|Couldn't (find|load)[^.]*|Can't find file[^.]*" ~/out/Launch.log | sort | uniq -c;
             echo "milestones:"; grep -nE "Bringing World|menu_main_p|GameInfo_GFxMenu_TA|Breadcrumbs" ~/out/Launch.log | tail -20; } | tee ~/out/rl-summary.txt
           python3 tools/bench/codemap_summary.py ~/fexcache/codemap/new | tee ~/out/rl-jit-misses.txt | head -30
+          { echo "crash:"; grep -nE "Unhandled exception|seh:|threadname|Backtrace|=>|^ *[0-9]+ 0x" ~/out/rl-wine.log | grep -vE "80000002|unaligned" | tail -60; } > ~/out/rl-crash.txt
+          head -80 ~/out/rl-crash.txt
       - name: AOT feedback loop (merge this boot's JIT misses, regenerate)
         if: steps.assets.outputs.have == 'true'
         run: |
