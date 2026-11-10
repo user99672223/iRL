@@ -123,13 +123,38 @@ final class LaunchLogs {
     }
 }
 
-/// Paths in the app container. The game folder is imported once into the Wine prefix's C: drive
-/// (Files app › iRL › wine › drive_c › games › rocketleague) and survives re-signing.
+/// Paths in the app container. The game is copied once from the laptop over USB into
+/// Documents/Games/rocketleague (tools/release/push-game.sh, ifuse --documents io.github.irl) and
+/// survives re-signing. The Wine prefix sees it as C:\games\rocketleague through a symlink
+/// (41 GB: never copied).
 enum Paths {
     static let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    static let gameStore = documents.appendingPathComponent("Games/rocketleague", isDirectory: true)
+    static var gameFound: Bool {
+        FileManager.default.fileExists(atPath: gameStore.appendingPathComponent("Binaries/Win64/RocketLeague.exe").path)
+    }
     static let prefix = documents.appendingPathComponent("wine", isDirectory: true)
     static let driveC = prefix.appendingPathComponent("drive_c", isDirectory: true)
     static let game = driveC.appendingPathComponent("games/rocketleague", isDirectory: true)
+
+    /// drive_c/games/rocketleague -> Documents/Games/rocketleague (re-created when it points elsewhere).
+    static func linkGame() {
+        let fm = FileManager.default
+        try? fm.createDirectory(at: game.deletingLastPathComponent(), withIntermediateDirectories: true)
+        if let dest = try? fm.destinationOfSymbolicLink(atPath: game.path) {
+            if dest == gameStore.path { return }
+            try? fm.removeItem(at: game)
+        } else if fm.fileExists(atPath: game.path) {
+            LogStore.shared.log("[game] \(game.path) is a real folder, not the link to Documents/Games/rocketleague: left as it is", level: .error)
+            return
+        }
+        do {
+            try fm.createSymbolicLink(at: game, withDestinationURL: gameStore)
+            LogStore.shared.log("[game] C:\\games\\rocketleague -> Documents/Games/rocketleague")
+        } catch {
+            LogStore.shared.log("[game] could not link the game folder: \(error.localizedDescription)", level: .error)
+        }
+    }
     static let gameWin64 = game.appendingPathComponent("Binaries/Win64", isDirectory: true)
     static let gameExeWindows = #"C:\games\rocketleague\Binaries\Win64\RocketLeague.exe"#
     /// FEX's cache root (FEX_APP_CACHE_LOCATION, a Windows path ending in a separator).

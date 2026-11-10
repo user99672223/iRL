@@ -17,6 +17,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         jit_install_trap_handler()                  // Madeira's JIT trap backstop (JITAllocator.c)
         logs.collectPreviousRun()
         RuntimeFiles.installFEXConfig()
+        try? FileManager.default.createDirectory(at: Paths.gameStore, withIntermediateDirectories: true)
+        Paths.linkGame()
+        LogStore.shared.log("[game] \(Paths.gameFound ? "found" : "missing") at Documents/Games/rocketleague")
         let info = Bundle.main.infoDictionary ?? [:]
         LogStore.shared.log("[app] iRL \(info["CFBundleShortVersionString"] ?? "?") (\(info["CFBundleVersion"] ?? "?")) "
             + "iOS \(UIDevice.current.systemVersion) memory-limit-headroom=\(os_proc_available_memory() >> 20)MB "

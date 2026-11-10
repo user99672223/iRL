@@ -25,10 +25,11 @@ final class Runtime: ObservableObject {
             LogStore.shared.log("[launch] JIT not enabled", level: .error)
             return
         }
-        if mode == .game, !FileManager.default.fileExists(atPath: Paths.gameWin64.appendingPathComponent("RocketLeague.exe").path) {
-            state = .failed("Rocket League isn't imported. Copy the rocketleague folder to Files › iRL › wine › drive_c › games.")
+        if mode == .game, !Paths.gameFound {
+            state = .failed("Rocket League is missing: copy it to Documents/Games/rocketleague with tools/release/push-game.sh.")
             return
         }
+        Paths.linkGame()
         state = .preparing("Starting \(mode.rawValue)…")
         LogStore.shared.log("[launch] mode=\(mode.rawValue) available-memory=\(os_proc_available_memory() >> 20)MB")
 

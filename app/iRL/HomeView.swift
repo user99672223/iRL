@@ -21,6 +21,7 @@ struct HomeView: View {
                     }
                     .disabled(runtime.state != .idle)
                     Text(statusText).font(.callout).foregroundStyle(.secondary)
+                    LabeledContent("Game", value: Paths.gameFound ? "found" : "missing")
                 }
                 Section("Epic Games") {
                     if let account {
