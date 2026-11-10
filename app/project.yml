@@ -1,0 +1,115 @@
+# iRL's Xcode project (XcodeGen). Generate with: xcodegen generate (tools/build/package-ipa.sh does).
+# iRL's own Swift sits in iRL/. The Madeira runtime glue it reuses is referenced in place from the
+# pinned madeira/ submodule (no copies to drift): see tools/build/components.md for each file.
+name: iRL
+options:
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    CLANG_CXX_LANGUAGE_STANDARD: gnu++20
+    CLANG_ENABLE_MODULES: YES
+    CLANG_ENABLE_OBJC_ARC: YES
+    SWIFT_VERSION: "5.0"
+    ENABLE_BITCODE: NO
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    DEAD_CODE_STRIPPING: YES
+targets:
+  iRL:
+    type: application
+    platform: iOS
+    sources:
+      - path: iRL
+      - path: ../madeira/app/Madeira/madeira-jit.js     # StikDebug's JIT script protocol (StikJITHelper)
+        buildPhase: resources
+      - path: ../madeira/app/Madeira/cacert.pem         # Wine's TLS roots (WineProcessBridge.m)
+        buildPhase: resources
+      - path: ../madeira/app/Madeira/prefix-template.tar.gz
+        buildPhase: resources
+      # Runtime glue reused from Madeira, in place.
+      - ../madeira/app/Madeira/WineServerBridge.m
+      - ../madeira/app/Madeira/WineProcessBridge.m
+      - ../madeira/app/Madeira/FEXBridge.mm
+      - ../madeira/app/Madeira/JITAllocator.c
+      - ../madeira/app/Madeira/wine_stubs.c
+      - ../madeira/app/Madeira/IOSDisplayShim.m
+      - ../madeira/app/Madeira/PrefixExtractor.c
+      - ../madeira/app/Madeira/PadOutput.m
+      - ../madeira/app/Madeira/Winios/Winios.m
+      - ../madeira/app/Madeira/Winios/WiniosCursor.c
+      - ../madeira/app/Madeira/Winios/WiniosGamepad.c
+      - ../madeira/app/Madeira/Winios/WiniosGL.m
+      - ../madeira/app/Madeira/Winios/BackgroundCPUCap.c
+      - ../madeira/app/Madeira/Winios/MetalBackgroundGate.m
+      - ../madeira/app/Madeira/StikJITHelper.swift
+    settings:
+      base:
+        PRODUCT_NAME: iRL
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.irl
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        INFOPLIST_FILE: iRL/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: iRL/iRL.entitlements
+        CODE_SIGNING_ALLOWED: NO
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        SWIFT_OBJC_BRIDGING_HEADER: iRL/iRL-Bridging-Header.h
+        HEADER_SEARCH_PATHS:
+          - "$(inherited)"
+          - "$(SRCROOT)/../madeira/app/Madeira"
+          - "$(SRCROOT)/../fex/FEXCore/include"
+          - "$(SRCROOT)/../fex/FEXHeaderUtils"
+          - "$(SRCROOT)/../fex/CodeEmitter"
+          - "$(SRCROOT)/../fex/External/fmt/include"
+          - "$(SRCROOT)/../fex/External/range-v3/include"
+          - "$(SRCROOT)/../fex/External/unordered_dense/include"
+          - "$(SRCROOT)/../fex/build-ios"
+          - "$(SRCROOT)/../fex/build-ios/include"
+          - "$(SRCROOT)/../fex/build-ios/FEXCore/Source"
+          - "$(SRCROOT)/../fex"
+        LIBRARY_SEARCH_PATHS:
+          - "$(inherited)"
+          - "$(SRCROOT)/../fex/build-ios/FEXCore/Source"
+          - "$(SRCROOT)/../fex/build-ios/External/fmt"
+          - "$(SRCROOT)/../fex/build-ios/External/cephes"
+          - "$(SRCROOT)/../fex/build-ios/External/xxhash/cmake_unofficial"
+          - "$(SRCROOT)/../fex/build-ios/External/SoftFloat-3e"
+          - "$(SRCROOT)/../madeira/app/Madeira"
+        OTHER_LDFLAGS:
+          - "$(inherited)"
+          - -lwineserver
+          - -lntdll_unix
+          - -lwin32u_unix
+          - -ldxmt_combined
+          - -lFEXCore
+          - -lFEXCore_Base
+          - -lJemallocLibs
+          - -lfmt
+          - -lcephes_128bit
+          - -lsoftfloat_3e
+          - -lxxhash
+          - -lgnutls
+          - -lhogweed
+          - -lnettle
+          - -lgmp
+          - -lc++
+          - -lz
+          - -lsqlite3
+        # Madeira: Debug is the configuration that runs games (Release builds crashed the guest).
+        GCC_PREPROCESSOR_DEFINITIONS: ["$(inherited)", "IRL=1"]
+    dependencies:
+      - sdk: Metal.framework
+      - sdk: MetalFX.framework
+      - sdk: QuartzCore.framework
+      - sdk: IOSurface.framework
+      - sdk: IOKit.framework
+      - sdk: AudioToolbox.framework
+      - sdk: CoreFoundation.framework
+      - sdk: CoreVideo.framework
+      - sdk: OpenGLES.framework
+      - sdk: GameController.framework
+      - sdk: WebKit.framework
+      - sdk: Security.framework
+      - sdk: CoreHaptics.framework

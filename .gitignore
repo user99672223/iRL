@@ -1,4 +1,7 @@
 logs/*.big
-workspace/
-build/
+/workspace/
+/build/
+/dist/
+/app/DerivedData/
+/app/iRL.xcodeproj/
 *.ipa

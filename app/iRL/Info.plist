@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key><string>en</string>
+	<key>CFBundleDisplayName</key><string>iRL</string>
+	<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+	<key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key><string>APPL</string>
+	<key>CFBundleShortVersionString</key><string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key><string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key><true/>
+	<key>UIRequiredDeviceCapabilities</key><array><string>arm64</string><string>metal</string></array>
+	<key>UISupportedInterfaceOrientations</key><array><string>UIInterfaceOrientationPortrait</string></array>
+	<key>UILaunchScreen</key><dict/>
+	<!-- Logs and the game folder are reachable from the Files app -->
+	<key>UIFileSharingEnabled</key><true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key><true/>
+	<!-- Game Mode -->
+	<key>GCSupportsGameMode</key><true/>
+	<key>LSApplicationCategoryType</key><string>public.app-category.games</string>
+	<key>GCSupportsControllerUserInteraction</key><true/>
+	<key>GCSupportedGameControllers</key>
+	<array><dict><key>ProfileName</key><string>ExtendedGamepad</string></dict></array>
+	<!-- LAN matches -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>iRL lets Rocket League find and join LAN matches on this network.</string>
+	<key>NSBonjourServices</key><array/>
+	<!-- StikDebug enables JIT -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array><string>stikdebug</string></array>
+	<!-- Phone screen: diagnostics. External display: the game, opaque, full screen, no overlays. -->
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key><true/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleExternalDisplayNonInteractive</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key><string>External</string>
+					<key>UISceneDelegateClassName</key><string>$(PRODUCT_MODULE_NAME).ExternalSceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>UIApplicationSupportsIndirectInputEvents</key><true/>
+	<key>UIStatusBarHidden</key><false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key><true/>
+</dict>
+</plist>
