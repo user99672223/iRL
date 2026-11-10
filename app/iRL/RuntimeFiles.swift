@@ -92,6 +92,61 @@ enum RuntimeFiles {
         return shaderCacheDir
     }
 
+    /// Modules whose preferred base is below 4 GB: Madeira's iOS FEX relocates them at run time
+    /// ("subfloor" windows), so an offline cache for them would be wrong. Known ones by name (also
+    /// covers maps whose file is not found); any other module is checked by its PE header.
+    static let subfloorModules: Set<String> = ["dbghelp.dll", "xinput1_3.dll", "x3daudio1_7.dll"]
+
+    /// The module name of a code map or cache file: "<module>-<16 hex fileid>[...]".
+    static func moduleName(ofCacheFile name: String) -> String? {
+        guard let r = name.range(of: "-[0-9a-fA-F]{16}", options: .regularExpression) else { return nil }
+        return String(name[..<r.lowerBound]).lowercased()
+    }
+
+    /// ImageBase from the PE optional header (PE32+), or nil.
+    static func preferredBase(of url: URL) -> UInt64? {
+        guard let h = try? FileHandle(forReadingFrom: url) else { return nil }
+        defer { try? h.close() }
+        guard let head = try? h.read(upToCount: 4096), head.count > 0x40 else { return nil }
+        func u16(_ o: Int) -> UInt16 { head.withUnsafeBytes { $0.loadUnaligned(fromByteOffset: o, as: UInt16.self) } }
+        func u32(_ o: Int) -> UInt32 { head.withUnsafeBytes { $0.loadUnaligned(fromByteOffset: o, as: UInt32.self) } }
+        func u64(_ o: Int) -> UInt64 { head.withUnsafeBytes { $0.loadUnaligned(fromByteOffset: o, as: UInt64.self) } }
+        guard u16(0) == 0x5A4D else { return nil }
+        let pe = Int(u32(0x3C))
+        guard pe + 24 + 32 <= head.count, u32(pe) == 0x0000_4550, u16(pe + 24) == 0x20B else { return nil }
+        return u64(pe + 24 + 24)
+    }
+
+    /// Whether a module may have an AOT cache: not below 4 GB.
+    static func aotAllowed(module: String) -> (ok: Bool, why: String) {
+        if subfloorModules.contains(module) { return (false, "subfloor module (listed)") }
+        let files = (try? FileManager.default.contentsOfDirectory(at: Paths.gameWin64, includingPropertiesForKeys: nil)) ?? []
+        if let f = files.first(where: { $0.lastPathComponent.lowercased() == module }), let base = preferredBase(of: f) {
+            return base < 0x1_0000_0000 ? (false, String(format: "preferred base 0x%llx < 4 GB", base)) : (true, "")
+        }
+        return (true, "")
+    }
+
+    /// Removes code maps (codemap/new, codemap/ready) and caches of sub-4 GB modules before
+    /// FEXOfflineCompiler process-all runs. Returns what was removed.
+    @discardableResult
+    static func pruneSubfloorAOT() -> [String] {
+        let fm = FileManager.default
+        var removed: [String] = []
+        for sub in ["codemap/new", "codemap/ready", "cache"] {
+            let dir = Paths.fexCache.appendingPathComponent(sub, isDirectory: true)
+            for f in (try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)) ?? [] {
+                guard let module = moduleName(ofCacheFile: f.lastPathComponent) else { continue }
+                let verdict = aotAllowed(module: module)
+                if !verdict.ok, (try? fm.removeItem(at: f)) != nil {
+                    removed.append("\(sub)/\(f.lastPathComponent) (\(verdict.why))")
+                }
+            }
+        }
+        LogStore.shared.log("[aot] sub-4 GB modules kept on the JIT: removed \(removed.count) file(s)" + (removed.isEmpty ? "" : ": " + removed.joined(separator: ", ")))
+        return removed
+    }
+
     /// Deletes the generated AOT caches so Prepare AOT runs again (code maps are kept).
     static func invalidateAOTCache(reason: String) {
         let dir = Paths.fexCache.appendingPathComponent("cache", isDirectory: true)

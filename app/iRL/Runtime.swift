@@ -57,7 +57,10 @@ final class Runtime: ObservableObject {
 
     private func launch(_ mode: Mode, args: [String]) {
         configureEnvironment(mode, args: args)
-        if mode == .aotPrepare { stageCodemaps() }
+        if mode == .aotPrepare {
+            stageCodemaps()
+            RuntimeFiles.pruneSubfloorAOT()   // before process-all: no caches for relocated sub-4 GB images
+        }
 
         let poolMB = self.poolMB
         let fail: @Sendable (String) -> Void = { msg in Task { @MainActor in Runtime.shared.state = .failed(msg) } }

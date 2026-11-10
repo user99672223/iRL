@@ -165,6 +165,21 @@ final class SelfTest: ObservableObject {
         let staged = (try? fm.contentsOfDirectory(atPath: ready.path)) ?? []
         check("static code maps staged into codemap/ready", !bundled.isEmpty && Set(bundled).isSubset(of: Set(staged)),
               "\(staged.count) staged of \(bundled.count) in AOT/codemaps")
+        // Sub-4 GB modules: their maps and caches go, everything else stays.
+        let newDir = Paths.fexCache.appendingPathComponent("codemap/new", isDirectory: true)
+        let cacheDir = Paths.fexCache.appendingPathComponent("cache", isDirectory: true)
+        try? fm.createDirectory(at: newDir, withIntermediateDirectories: true)
+        try? fm.createDirectory(at: cacheDir, withIntermediateDirectories: true)
+        let planted = [newDir.appendingPathComponent("dbghelp.dll-0427e8779ebf384f.1234.bin"),
+                       ready.appendingPathComponent("XInput1_3.dll-1e6371744c752f50"),
+                       cacheDir.appendingPathComponent("x3daudio1_7.dll-04f207b246e461e6-0000000000000000"),
+                       newDir.appendingPathComponent("rocketleague.exe-92e02b0b487870ca.1234.bin")]
+        for f in planted { try? Data([0]).write(to: f) }
+        let removed = RuntimeFiles.pruneSubfloorAOT()
+        check("sub-4 GB modules pruned from code maps and caches", removed.count == 3
+              && !planted[0...2].contains { fm.fileExists(atPath: $0.path) } && fm.fileExists(atPath: planted[3].path),
+              "\(removed.count) removed")
+        try? fm.removeItem(at: planted[3])
         check("codemap/new exists for JIT-miss maps", fm.fileExists(atPath: Paths.fexCache.appendingPathComponent("codemap/new").path))
     }
 
