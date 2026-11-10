@@ -15,16 +15,16 @@ final class Runtime: ObservableObject {
 
     @Published private(set) var state: State = .idle
 
-    /// JIT pool size. The pool's pages count against iOS's memory limit (Madeira ml358: the
-    /// no-footprint exemption is refused for debugger-made pages), and on the iPhone 15 the 4 GB
-    /// limit is the bottleneck. With the AOT caches in place the JIT only compiles misses, so the
-    /// game gets a 256 MB pool; AOT Prepare needs one 128 MB code buffer at a time (the compiler frees
-    /// each module's), plus the image copies. Without caches, Madeira's default (896 MB, shrunk to
-    /// what fits by StikJITHelper).
+    /// JIT pool size. The pool holds Madeira's copies of every loaded ARM64EC image, FEX's code
+    /// buffers AND the loaded AOT caches, so it can't shrink with AOT (a 256 MB pool filled up with
+    /// image copies before the game's first module and corrupted ws2_32's copy: illegal instruction).
+    /// Madeira's default 896 MB; StikJITHelper shrinks it to the largest hole (about 600 MB on the
+    /// iPhone 15). Documents/madeira.cfg `pool-mb = N` overrides it without a rebuild.
     private func poolMB(for mode: Mode) -> Int {
         let caches = Runtime.aotCacheCount()
-        let mb = mode == .aotPrepare ? 384 : (caches >= 15 ? 256 : 896)
-        LogStore.shared.log("[jit] pool size \(mb) MB for \(mode.rawValue) (\(caches) AOT caches)")
+        var mb = 896
+        if let v = MadeiraConfig.get("pool-mb"), let n = Int(v), n >= 128 { mb = n }
+        LogStore.shared.log("[jit] pool size \(mb) MB requested for \(mode.rawValue) (\(caches) AOT caches)")
         return mb
     }
 
@@ -84,6 +84,7 @@ final class Runtime: ObservableObject {
     private func launch(_ mode: Mode, args: [String]) {
         configureEnvironment(mode, args: args)
         if mode == .aotPrepare {
+            Runtime.quarantineBadCodemaps()
             stageCodemaps()
             RuntimeFiles.pruneSubfloorAOT()   // before process-all: no caches for relocated sub-4 GB images
         }
@@ -249,6 +250,53 @@ final class Runtime: ObservableObject {
             if (try? fm.copyItem(at: m, to: dst)) != nil { n += 1 }
         }
         LogStore.shared.log("[aot] staged \(n) static code map(s) into codemap/ready (\(maps.count) in the IPA)")
+    }
+
+    /// JIT-miss code maps written while iOS killed the game can be cut off mid-entry. FEX's
+    /// process-all dies on the first malformed map ("malformed code map", illegal instruction), so
+    /// every later AOT Prepare failed. Parse each map like FEXCore CodeMap::ParseCodeMap and move
+    /// broken ones to codemap/bad.
+    nonisolated static func quarantineBadCodemaps() {
+        let fm = FileManager.default
+        let dir = Paths.fexCache.appendingPathComponent("codemap/new", isDirectory: true)
+        let bad = Paths.fexCache.appendingPathComponent("codemap/bad", isDirectory: true)
+        for f in (try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)) ?? [] {
+            guard let d = try? Data(contentsOf: f) else { continue }
+            if let why = codemapProblem(d) {
+                try? fm.createDirectory(at: bad, withIntermediateDirectories: true)
+                let to = bad.appendingPathComponent(f.lastPathComponent)
+                try? fm.removeItem(at: to)
+                try? fm.moveItem(at: f, to: to)
+                LogStore.shared.log("[aot] moved broken JIT-miss map \(f.lastPathComponent) to codemap/bad: \(why)", level: .error)
+            }
+        }
+    }
+
+    nonisolated static func codemapProblem(_ d: Data) -> String? {
+        let b = [UInt8](d)
+        func u64(_ i: Int) -> UInt64 { (0..<8).reduce(UInt64(0)) { $0 | UInt64(b[i + $1]) << (8 * UInt64($1)) } }
+        func u32(_ i: Int) -> UInt32 { (0..<4).reduce(UInt32(0)) { $0 | UInt32(b[i + $1]) << (8 * UInt32($1)) } }
+        var i = 0
+        var known = Set<UInt64>()
+        while i < b.count {
+            guard i + 12 <= b.count else { return "cut off at byte \(i)" }
+            let fid = u64(i), off = u32(i + 8); let start = i; i += 12
+            if fid == UInt64.max && off == 0xFFFF_FFFF {
+                guard i + 8 <= b.count else { return "cut off in a module record" }
+                known.insert(u64(i)); i += 8
+                guard let nul = b[i...].firstIndex(of: 0) else { return "unterminated module path" }
+                i = nul + 1
+                i = start + ((i - start + 3) & ~3)
+            } else if fid == UInt64.max && (off == 0xFFFF_FFEE || off == 0xFFFF_FFEF) {
+                guard i + 8 <= b.count else { return "cut off in the executable record" }
+                i += 8
+            } else if fid == UInt64.max {
+                return String(format: "malformed marker 0x%x", off)
+            } else if !known.contains(fid) {
+                return String(format: "unknown module id %016llx at byte %d", fid, start)
+            }
+        }
+        return nil
     }
 
     /// AOT state for the phone screen: how many module caches exist.
