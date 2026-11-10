@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UIKit
 
 /// `-irl-selftest`: exercises every app-side path without Wine (CI, iOS Simulator), then shows
 /// Home, Settings and Diagnostics in turn for screenshots.
@@ -32,8 +33,17 @@ final class SelfTest: ObservableObject {
         screen = nil
         try? await Task.sleep(nanoseconds: 1_500_000_000)
         screen = s
+        try? await Task.sleep(nanoseconds: 1_500_000_000)   // the sheet finishes presenting
+        // Handshake with CI: hold the screen until the screenshot is taken (ack file), at most 30 s.
+        let ack = Paths.documents.appendingPathComponent("selftest-ack-\(s.rawValue)")
+        try? fm.removeItem(at: ack)
         try? s.rawValue.write(to: Paths.documents.appendingPathComponent("selftest-screen.txt"), atomically: true, encoding: .utf8)
-        try? await Task.sleep(nanoseconds: 4_000_000_000)
+        for _ in 0..<60 where !fm.fileExists(atPath: ack.path) {
+            try? await Task.sleep(nanoseconds: 500_000_000)
+        }
+        let colours = renderedColours()
+        check("screen \(s.rawValue) drawn", colours > 1,
+              "\(colours) distinct colours sampled; " + (fm.fileExists(atPath: ack.path) ? "screenshot acknowledged" : "no screenshot ack within 30 s"))
     }
 
     func run() async {
@@ -55,6 +65,29 @@ final class SelfTest: ObservableObject {
         screen = nil
         shareZip()   // last: the zip carries every line above
         finish()
+    }
+
+    /// Distinct colours at 25 points of the frontmost window's content area (below the status bar):
+    /// 1 means nothing was drawn (the blank-window failure this check exists for).
+    private func renderedColours() -> Int {
+        let windows = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            .filter { $0.session.role == .windowApplication }.flatMap(\.windows)
+        guard let window = windows.last(where: { !$0.isHidden }) ?? windows.first else { return 0 }
+        let bounds = window.bounds
+        let image = UIGraphicsImageRenderer(bounds: bounds).image { _ in
+            window.drawHierarchy(in: bounds, afterScreenUpdates: true)
+        }
+        guard let cg = image.cgImage, let data = cg.dataProvider?.data, let p = CFDataGetBytePtr(data) else { return 0 }
+        var seen = Set<UInt32>()
+        let bpr = cg.bytesPerRow, bpp = cg.bitsPerPixel / 8
+        for i in 1...5 {
+            for j in 1...5 {
+                let x = cg.width * i / 6, y = cg.height / 8 + (cg.height * 3 / 4) * j / 6
+                let o = y * bpr + x * bpp
+                seen.insert(UInt32(p[o]) << 16 | UInt32(p[o + 1]) << 8 | UInt32(p[o + 2]))
+            }
+        }
+        return seen.count
     }
 
     // MARK: checks

@@ -79,8 +79,8 @@ jobs:
             if [ -n "$DATA" ]; then
               cur=$(cat "$DATA/Documents/selftest-screen.txt" 2>/dev/null || true)
               if [ -n "$cur" ] && [ "$cur" != "$last" ]; then
-                sleep 2   # let the sheet finish presenting
                 xcrun simctl io "$UDID" screenshot "shots/$cur.png"
+                touch "$DATA/Documents/selftest-ack-$cur"   # the app holds the screen until this
                 echo "screenshot: $cur"
                 last="$cur"
               fi

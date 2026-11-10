@@ -30,14 +30,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 
-    // The monitor gets its own scene: the game layer only (ExternalDisplay).
-    func application(_ application: UIApplication, configurationForConnecting session: UISceneSession,
-                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        if session.role == .windowExternalDisplayNonInteractive {
-            let config = UISceneConfiguration(name: "External", sessionRole: session.role)
-            config.delegateClass = ExternalSceneDelegate.self
-            return config
-        }
-        return UISceneConfiguration(name: "Default", sessionRole: session.role)
-    }
+    // The monitor's scene (ExternalSceneDelegate) is declared in Info.plist for the
+    // external-display role. No configurationForConnecting here: returning a configuration for
+    // the app role replaces SwiftUI's own scene delegate and leaves the phone window blank.
 }
