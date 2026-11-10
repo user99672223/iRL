@@ -30,5 +30,7 @@ ranges), then `wine_file_paths.py --old <previous menu-files.txt>`, then `packag
 
 **menu-v3:** texture streaming order isn't deterministic (on ARM64 CI the game read 2 small spots in Textures5.tfc that both laptop runs had skipped, then failed with "I/O failure"). So every stored .tfc range is now padded ±8 MB (`package.py --pad 8388608`), and blocks CI reports are added explicitly (`--extra-ranges extra-ranges.json`). 281 files, 945 MiB compressed in 10 chunks, restores to 22 GB apparent, 1.1 GB on disk.
 
+**menu-v4 (current):** sparse ranges kept missing on the ARM64 bench (31 more Textures5.tfc reads outside v3's padded ranges), so `Textures5.tfc` (3.16 GB) is now stored **whole** (`package.py --full Textures5.tfc`). The other six caches stay sparse as in v3; both traced runs covered them fully. 281 files, 3,570 MiB compressed in 38 chunks of 95 MB, pushed in 3 batches (GitHub rejects pushes over 2 GB), restores to 22 GB apparent, 3.9 GB on disk.
+
 **Caveat:** the read ranges come from laptop runs. If CI's run reads a texture range the laptop
 didn't, it gets zeros there (a broken texture, or a decompression error in the log). Re-trace and repack.

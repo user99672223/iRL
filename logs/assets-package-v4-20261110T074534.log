@@ -1,0 +1,14 @@
+# 2026-11-10T07:45:34+01:00 python3 -I tools/assets/package.py --game <game> --files tools/assets/menu-files.txt --reads build/assets/trace-dummy-20261110T061643/strace build/assets/trace-dummy-20261110T063948/strace --pad 8388608 --extra-ranges tools/assets/extra-ranges.json --full Textures5.tfc --out build/assets/pkg --stage build/assets/stage
+staged 281 files, 3961 MiB of real data
+  TAGame/CookedPCConsole/Textures.tfc: 48 MiB of 3.66 GiB in 3 ranges
+  TAGame/CookedPCConsole/Textures2.tfc: 100 MiB of 2.99 GiB in 5 ranges
+  TAGame/CookedPCConsole/Textures3.tfc: 36 MiB of 2.85 GiB in 2 ranges
+  TAGame/CookedPCConsole/Textures4.tfc: 34 MiB of 3.27 GiB in 2 ranges
+  TAGame/CookedPCConsole/Textures6.tfc: 55 MiB of 2.96 GiB in 2 ranges
+  TAGame/CookedPCConsole/Textures7.tfc: 53 MiB of 2.66 GiB in 3 ranges
+38 chunks, 3570 MiB compressed
+
+real	2m17.412s
+user	1m30.684s
+sys	0m14.319s
+exit=0

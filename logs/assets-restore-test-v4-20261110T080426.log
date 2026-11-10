@@ -1,0 +1,18 @@
+# 2026-11-10T08:04:26+01:00 GIT_SSH_COMMAND='ssh -i <temp read-only deploy key> -o IdentitiesOnly=yes' git clone --depth 1 --branch menu-v4 git@github.com:user99672223/irl-assets.git clone; bash clone/restore.sh clone <target>
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+fatal: write error: No space left on device
+fatal: fetch-pack: invalid index-pack output
+clone: 368 s
+bash: /tmp/claude-1000/-home-familybadgujarwilly-claude-second--claude-spares-spare-ZHBsD9/68c137c3-ebc4-4959-86c5-932b19ff2083/scratchpad/assettest4/clone/restore.sh: No such file or directory
+
+real	0m0.001s
+user	0m0.001s
+sys	0m0.000s
+restore_exit=127
+du: cannot access '/tmp/claude-1000/-home-familybadgujarwilly-claude-second--claude-spares-spare-ZHBsD9/68c137c3-ebc4-4959-86c5-932b19ff2083/scratchpad/assettest4/target': No such file or directory
+du: cannot access '/tmp/claude-1000/-home-familybadgujarwilly-claude-second--claude-spares-spare-ZHBsD9/68c137c3-ebc4-4959-86c5-932b19ff2083/scratchpad/assettest4/target': No such file or directory
+apparent , on disk 
+cmp: /tmp/claude-1000/-home-familybadgujarwilly-claude-second--claude-spares-spare-ZHBsD9/68c137c3-ebc4-4959-86c5-932b19ff2083/scratchpad/assettest4/target/TAGame/CookedPCConsole/Textures5.tfc: No such file or directory
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-1000/-home-familybadgujarwilly-claude-second--claude-spares-spare-ZHBsD9/68c137c3-ebc4-4959-86c5-932b19ff2083/scratchpad/assettest4/clone/manifest.json'

@@ -12,6 +12,7 @@ ap.add_argument('--game', required=True); ap.add_argument('--files', required=Tr
 ap.add_argument('--reads', required=True, nargs='+', help='one or more read-range straces; ranges are unioned'); ap.add_argument('--out', required=True)
 ap.add_argument('--pad', type=int, default=0, help='grow every stored .tfc range by this many bytes on each side')
 ap.add_argument('--extra-ranges', help='JSON {tfc basename: [[start, end], ...]} added explicitly (e.g. misses seen in CI)')
+ap.add_argument('--full', nargs='*', default=[], help='.tfc basenames stored whole (non-sparse), e.g. Textures5.tfc')
 ap.add_argument('--stage', required=True, help='scratch dir on the same disk (sparse files take little space)')
 a = ap.parse_args()
 game = os.path.realpath(a.game)
@@ -90,7 +91,7 @@ for rel in files:
     src, dst = os.path.join(game, rel), os.path.join(st, rel)
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     size = os.path.getsize(src)
-    if rel.endswith('.tfc'):
+    if rel.endswith('.tfc') and os.path.basename(rel) not in a.full:
         rs = merged(ranges.get(src, []), size, os.path.basename(rel))
         with open(src, 'rb') as i, open(dst, 'wb') as o:
             o.truncate(size)

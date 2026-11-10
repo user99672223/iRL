@@ -1,0 +1,12 @@
+# 2026-11-10T08:10:53+01:00 GIT_SSH_COMMAND='ssh -i <temp read-only deploy key> -o IdentitiesOnly=yes' git clone --depth 1 --branch menu-v4 git@github.com:user99672223/irl-assets.git clone; bash clone/restore.sh clone <target>  (in build/, on the main disk)
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+clone: 590 s
+restored 281 files, 0 problems
+
+real	1m18.137s
+user	0m15.523s
+sys	0m8.697s
+restore_exit=0
+apparent 22G, on disk 3.9G
+Textures5.tfc identical (full)
+files 281 ; sparse .tfc 6 ; ranges verified, 0 mismatches

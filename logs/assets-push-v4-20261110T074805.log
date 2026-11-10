@@ -1,0 +1,10 @@
+# 2026-11-10T07:48:05+01:00 push menu-v4 to irl-assets in 3 batches (<2 GB per push)
+batch 1 (000-012): 342 s
+batch 2 (013-025): 271 s
+batch 3 (026-037): 242 s
+total push time: 959 s
+af0044fac74bbc349858b7201c53840f797e2d7f	HEAD
+af0044fac74bbc349858b7201c53840f797e2d7f	refs/heads/main
+24e00033bf2734f9ec62d8d25efa2e0f9f3803a5	refs/tags/menu-v2
+03cd21aa192f9caeac765a4348c18102882180b6	refs/tags/menu-v3
+af0044fac74bbc349858b7201c53840f797e2d7f	refs/tags/menu-v4
