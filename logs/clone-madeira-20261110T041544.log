@@ -1,0 +1,108 @@
+# 2026-11-10T04:15:44+01:00 git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/willfaust/madeira
+Cloning into 'workspace/madeira'...
+Updating files:  37% (620/1648)Updating files:  38% (627/1648)Updating files:  39% (643/1648)Updating files:  40% (660/1648)Updating files:  41% (676/1648)Updating files:  42% (693/1648)Updating files:  43% (709/1648)Updating files:  44% (726/1648)Updating files:  45% (742/1648)Updating files:  46% (759/1648)Updating files:  47% (775/1648)Updating files:  48% (792/1648)Updating files:  49% (808/1648)Updating files:  50% (824/1648)Updating files:  51% (841/1648)Updating files:  52% (857/1648)Updating files:  53% (874/1648)Updating files:  54% (890/1648)Updating files:  55% (907/1648)Updating files:  56% (923/1648)Updating files:  57% (940/1648)Updating files:  58% (956/1648)Updating files:  59% (973/1648)Updating files:  60% (989/1648)Updating files:  61% (1006/1648)Updating files:  62% (1022/1648)Updating files:  63% (1039/1648)Updating files:  64% (1055/1648)Updating files:  65% (1072/1648)Updating files:  66% (1088/1648)Updating files:  67% (1105/1648)Updating files:  68% (1121/1648)Updating files:  69% (1138/1648)Updating files:  70% (1154/1648)Updating files:  71% (1171/1648)Updating files:  72% (1187/1648)Updating files:  73% (1204/1648)Updating files:  74% (1220/1648)Updating files:  75% (1236/1648)Updating files:  76% (1253/1648)Updating files:  77% (1269/1648)Updating files:  78% (1286/1648)Updating files:  79% (1302/1648)Updating files:  80% (1319/1648)Updating files:  81% (1335/1648)Updating files:  82% (1352/1648)Updating files:  83% (1368/1648)Updating files:  84% (1385/1648)Updating files:  85% (1401/1648)Updating files:  86% (1418/1648)Updating files:  87% (1434/1648)Updating files:  88% (1451/1648)Updating files:  89% (1467/1648)Updating files:  90% (1484/1648)Updating files:  91% (1500/1648)Updating files:  92% (1517/1648)Updating files:  93% (1533/1648)Updating files:  94% (1550/1648)Updating files:  95% (1566/1648)Updating files:  96% (1583/1648)Updating files:  97% (1599/1648)Updating files:  98% (1616/1648)Updating files:  99% (1632/1648)Updating files: 100% (1648/1648)Updating files: 100% (1648/1648), done.
+Submodule 'FEX' (https://github.com/willfaust/FEX.git) registered for path 'FEX'
+Submodule 'dxmt' (https://github.com/willfaust/dxmt.git) registered for path 'dxmt'
+Submodule 'madeira-dock' (https://github.com/willfaust/madeira-dock.git) registered for path 'madeira-dock'
+Submodule 'wine' (https://github.com/willfaust/wine.git) registered for path 'wine'
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/dxmt'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/madeira-dock'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/wine'...
+Submodule path 'FEX': checked out '1dc6ed4932bd231df1c53dd7b8043ffdee0ac34a'
+Submodule 'External/Catch2' (https://github.com/catchorg/Catch2.git) registered for path 'FEX/External/Catch2'
+Submodule 'External/Vulkan-Headers' (https://github.com/KhronosGroup/Vulkan-Headers.git) registered for path 'FEX/External/Vulkan-Headers'
+Submodule 'External/drm-headers' (https://github.com/FEX-Emu/drm-headers.git) registered for path 'FEX/External/drm-headers'
+Submodule 'External/fex-gcc-target-tests-bins' (https://github.com/FEX-Emu/fex-gcc-target-tests-bins.git) registered for path 'FEX/External/fex-gcc-target-tests-bins'
+Submodule 'External/fex-gvisor-tests-bins' (https://github.com/FEX-Emu/fex-gvisor-tests-bins.git) registered for path 'FEX/External/fex-gvisor-tests-bins'
+Submodule 'External/fex-posixtest-bins' (https://github.com/FEX-Emu/fex-posixtest-bins.git) registered for path 'FEX/External/fex-posixtest-bins'
+Submodule 'External/fmt' (https://github.com/fmtlib/fmt.git) registered for path 'FEX/External/fmt'
+Submodule 'External/jemalloc_glibc' (https://github.com/FEX-Emu/jemalloc.git) registered for path 'FEX/External/jemalloc_glibc'
+Submodule 'External/range-v3' (https://github.com/ericniebler/range-v3.git) registered for path 'FEX/External/range-v3'
+Submodule 'External/rpmalloc' (https://github.com/willfaust/rpmalloc.git) registered for path 'FEX/External/rpmalloc'
+Submodule 'External/tracy' (https://github.com/wolfpld/tracy) registered for path 'FEX/External/tracy'
+Submodule 'External/unordered_dense' (https://github.com/martinus/unordered_dense.git) registered for path 'FEX/External/unordered_dense'
+Submodule 'External/vixl' (https://github.com/FEX-Emu/vixl.git) registered for path 'FEX/External/vixl'
+Submodule 'External/xxhash' (https://github.com/Cyan4973/xxHash.git) registered for path 'FEX/External/xxhash'
+Submodule 'External/zydis' (https://github.com/zyantific/zydis.git) registered for path 'FEX/External/zydis'
+Submodule 'External/cpp-optparse' (https://github.com/Sonicadvance1/cpp-optparse) registered for path 'FEX/Source/Common/cpp-optparse'
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/Catch2'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/Vulkan-Headers'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/drm-headers'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/fex-gcc-target-tests-bins'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/fex-gvisor-tests-bins'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/fex-posixtest-bins'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/fmt'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/jemalloc_glibc'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/range-v3'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/rpmalloc'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/tracy'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/unordered_dense'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/vixl'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/xxhash'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/zydis'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/Source/Common/cpp-optparse'...
+From https://github.com/catchorg/Catch2
+ * branch            b3fb4b9feafcd8d91c5cb510a4775143fdbef02f -> FETCH_HEAD
+Submodule path 'FEX/External/Catch2': checked out 'b3fb4b9feafcd8d91c5cb510a4775143fdbef02f'
+From https://github.com/KhronosGroup/Vulkan-Headers
+ * branch            450bd2232225d6c7728a4108055ac2e37cef6475 -> FETCH_HEAD
+Submodule path 'FEX/External/Vulkan-Headers': checked out '450bd2232225d6c7728a4108055ac2e37cef6475'
+From https://github.com/FEX-Emu/drm-headers
+ * branch            3e49836995c1dcb3df709440ad2f270b569c6a5f -> FETCH_HEAD
+Submodule path 'FEX/External/drm-headers': checked out '3e49836995c1dcb3df709440ad2f270b569c6a5f'
+Submodule path 'FEX/External/fex-gcc-target-tests-bins': checked out '442678a134e2d25e759c430cca32e06e9e142f1f'
+Submodule path 'FEX/External/fex-gvisor-tests-bins': checked out '71349ae6d14ac2e3e792730e240aecd8076cee6c'
+Submodule path 'FEX/External/fex-posixtest-bins': checked out '9ae29638f8000c1603f16385ed1cf6c4c23ee414'
+From https://github.com/fmtlib/fmt
+ * branch            407c905e45ad75fc29bf0f9bb7c5c2fd3475976f -> FETCH_HEAD
+Submodule path 'FEX/External/fmt': checked out '407c905e45ad75fc29bf0f9bb7c5c2fd3475976f'
+From https://github.com/FEX-Emu/jemalloc
+ * branch            8436195ad5e1bc347d9b39743af3d29abee59f06 -> FETCH_HEAD
+Submodule path 'FEX/External/jemalloc_glibc': checked out '8436195ad5e1bc347d9b39743af3d29abee59f06'
+From https://github.com/ericniebler/range-v3
+ * branch            ca1388fb9da8e69314dda222dc7b139ca84e092f -> FETCH_HEAD
+Submodule path 'FEX/External/range-v3': checked out 'ca1388fb9da8e69314dda222dc7b139ca84e092f'
+Submodule 'doc/gh-pages' (https://github.com/ericniebler/range-v3.git) registered for path 'FEX/External/range-v3/doc/gh-pages'
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/range-v3/doc/gh-pages'...
+From https://github.com/ericniebler/range-v3
+ * branch            2dae74bb693e42d850fb0adcc9045c5b71fbdeae -> FETCH_HEAD
+Submodule path 'FEX/External/range-v3/doc/gh-pages': checked out '2dae74bb693e42d850fb0adcc9045c5b71fbdeae'
+From https://github.com/willfaust/rpmalloc
+ * branch            f7f3e0bd735c565f3a3e3ad0e47b42ea99c61798 -> FETCH_HEAD
+Submodule path 'FEX/External/rpmalloc': checked out 'f7f3e0bd735c565f3a3e3ad0e47b42ea99c61798'
+From https://github.com/wolfpld/tracy
+ * branch            650c98ece70da9e155e7ba1c2b3ee16004aae118 -> FETCH_HEAD
+Submodule path 'FEX/External/tracy': checked out '650c98ece70da9e155e7ba1c2b3ee16004aae118'
+From https://github.com/martinus/unordered_dense
+ * branch            3234af2c03549bc85656bfd3a86993bf1cd8aef1 -> FETCH_HEAD
+Submodule path 'FEX/External/unordered_dense': checked out '3234af2c03549bc85656bfd3a86993bf1cd8aef1'
+From https://github.com/FEX-Emu/vixl
+ * branch            5f418449c48f6ca3ad37c47ec632f17a561c0580 -> FETCH_HEAD
+Submodule path 'FEX/External/vixl': checked out '5f418449c48f6ca3ad37c47ec632f17a561c0580'
+From https://github.com/Cyan4973/xxHash
+ * branch            e626a72bc2321cd320e953a0ccf1584cad60f363 -> FETCH_HEAD
+Submodule path 'FEX/External/xxhash': checked out 'e626a72bc2321cd320e953a0ccf1584cad60f363'
+From https://github.com/zyantific/zydis
+ * branch            9bfadd6a55fc92dbd37fa3ba089bf8b36622df4f -> FETCH_HEAD
+Submodule path 'FEX/External/zydis': checked out '9bfadd6a55fc92dbd37fa3ba089bf8b36622df4f'
+Submodule 'dependencies/zycore' (https://github.com/zyantific/zycore-c) registered for path 'FEX/External/zydis/dependencies/zycore'
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/FEX/External/zydis/dependencies/zycore'...
+From https://github.com/zyantific/zycore-c
+ * branch            75a36c45ae1ad382b0f4e0ede0af84c11ee69928 -> FETCH_HEAD
+Submodule path 'FEX/External/zydis/dependencies/zycore': checked out '75a36c45ae1ad382b0f4e0ede0af84c11ee69928'
+Submodule path 'FEX/Source/Common/cpp-optparse': checked out '9f94388a339fcbb0bc95c17768eb786c85988f6e'
+Submodule path 'dxmt': checked out '3d62913b75fb8b21ad6494f9d9f9853b19d9a014'
+Submodule 'external/nvapi' (https://github.com/NVIDIA/nvapi.git) registered for path 'dxmt/external/nvapi'
+Submodule 'include/native/directx' (https://github.com/misyltoad/mingw-directx-headers) registered for path 'dxmt/include/native/directx'
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/dxmt/external/nvapi'...
+Cloning into '/home/familybadgujarwilly/Pictures/iRL/workspace/madeira/dxmt/include/native/directx'...
+From https://github.com/NVIDIA/nvapi
+ * branch            d08488fcc82eef313b0464db37d2955709691e94 -> FETCH_HEAD
+Submodule path 'dxmt/external/nvapi': checked out 'd08488fcc82eef313b0464db37d2955709691e94'
+Submodule path 'dxmt/include/native/directx': checked out '9df86f2341616ef1888ae59919feaa6d4fad693d'
+Submodule path 'madeira-dock': checked out '67780ba92e60dbfac4fe80eaf2ce34b9ea1a1c60'
+From https://github.com/willfaust/wine
+ * branch              ddf92babc5ba71f4586cc4713f5a8eb39f63d39b -> FETCH_HEAD
+Submodule path 'wine': checked out 'ddf92babc5ba71f4586cc4713f5a8eb39f63d39b'
+exit=0

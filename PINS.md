@@ -1,0 +1,9 @@
+# Pinned sources (2026-11-10T04:20:35+01:00)
+workspace/madeira 8b52c1810a0b77614238001ed86199978865afd1 8b52c18
+workspace/madeira/FEX 1dc6ed4932bd231df1c53dd7b8043ffdee0ac34a 1dc6ed4
+workspace/madeira/dxmt 3d62913b75fb8b21ad6494f9d9f9853b19d9a014 3d62913
+workspace/madeira/wine ddf92babc5ba71f4586cc4713f5a8eb39f63d39b ddf92bab
+workspace/legendary 170964e75affc0c04be467ec2b12879376738ef5 170964e
+workspace/StikDebug 0393dcafa1c8fc6e9ad903b2a4bfee680db52662 3.2.2
+workspace/FEX-upstream 90c9595cf4cb6edf57e987fc69fbe0d5315865c7 90c9595
+workspace/dxmt-upstream 6e69d0f9429056c65de15445af7148d7f75c9876 6e69d0f

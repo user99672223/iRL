@@ -1,0 +1,28 @@
+# 2026-11-10T04:20:13+01:00 python3 -I tools/aot/gen_codemaps.py --game /home/familybadgujarwilly/Games/Heroic/rocketleague --out build/aot/codemap-ready
+eossdk-win64-shipping.dll-d8b9db2c6b4ebd48: 42269 blocks {'entry': 1, 'exports': 751, 'tls': 1, 'pdata': 42183, 'pdata_chained_skipped': 28018, 'extra': 0}
+rocketleague.exe-92e02b0b487870ca: 81786 blocks {'entry': 1, 'exports': 388, 'tls': 0, 'pdata': 81667, 'pdata_chained_skipped': 32725, 'extra': 0}
+x3daudio1_7.dll-04f207b246e461e6: 26 blocks {'entry': 1, 'exports': 2, 'tls': 0, 'pdata': 25, 'pdata_chained_skipped': 17, 'extra': 0}
+xapofx1_5.dll-2ae82042678be421: 110 blocks {'entry': 1, 'exports': 1, 'tls': 0, 'pdata': 110, 'pdata_chained_skipped': 39, 'extra': 0}
+xaudio2_7.dll-02fe3eaf35b3739c: 659 blocks {'entry': 1, 'exports': 4, 'tls': 0, 'pdata': 658, 'pdata_chained_skipped': 405, 'extra': 0}
+concrt140.dll-7f763053b5292164: 1241 blocks {'entry': 1, 'exports': 277, 'tls': 0, 'pdata': 1155, 'pdata_chained_skipped': 0, 'extra': 0}
+d3dcompiler_47.dll-e08b18ea15dcc731: 6456 blocks {'entry': 1, 'exports': 29, 'tls': 2, 'pdata': 6449, 'pdata_chained_skipped': 4431, 'extra': 0}
+dbghelp.dll-0427e8779ebf384f: 3473 blocks {'entry': 1, 'exports': 203, 'tls': 0, 'pdata': 3470, 'pdata_chained_skipped': 0, 'extra': 0}
+discord_game_sdk.dll-f3f723afdaedbdb7: 10884 blocks {'entry': 1, 'exports': 3, 'tls': 1, 'pdata': 10883, 'pdata_chained_skipped': 12, 'extra': 0}
+msvcp140.dll-fd95b6e92c79d576: 1534 blocks {'entry': 1, 'exports': 1360, 'tls': 0, 'pdata': 1232, 'pdata_chained_skipped': 0, 'extra': 0}
+msvcp140_1.dll-08b58cb9ee3bdd56: 52 blocks {'entry': 1, 'exports': 7, 'tls': 0, 'pdata': 45, 'pdata_chained_skipped': 0, 'extra': 0}
+msvcp140_2.dll-09bc772df6925206: 442 blocks {'entry': 1, 'exports': 44, 'tls': 0, 'pdata': 442, 'pdata_chained_skipped': 3, 'extra': 0}
+msvcp140_atomic_wait.dll-204ef959a5e657cb: 101 blocks {'entry': 1, 'exports': 32, 'tls': 0, 'pdata': 91, 'pdata_chained_skipped': 0, 'extra': 0}
+msvcp140_codecvt_ids.dll-9320a2bd52f1d137: 32 blocks {'entry': 1, 'exports': 0, 'tls': 0, 'pdata': 32, 'pdata_chained_skipped': 0, 'extra': 0}
+ucrtbase.dll-c2e5a88e75662197: 4725 blocks {'entry': 1, 'exports': 2481, 'tls': 0, 'pdata': 3354, 'pdata_chained_skipped': 1252, 'extra': 0}
+vccorlib140.dll-40b8c9abd848391e: 786 blocks {'entry': 1, 'exports': 256, 'tls': 0, 'pdata': 717, 'pdata_chained_skipped': 0, 'extra': 0}
+vcomp140.dll-665178d566361065: 474 blocks {'entry': 1, 'exports': 113, 'tls': 0, 'pdata': 464, 'pdata_chained_skipped': 4, 'extra': 0}
+vcruntime140.dll-3d836f467187179c: 278 blocks {'entry': 1, 'exports': 71, 'tls': 0, 'pdata': 258, 'pdata_chained_skipped': 0, 'extra': 0}
+vcruntime140_1.dll-5a9959dd7903d92e: 88 blocks {'entry': 1, 'exports': 3, 'tls': 0, 'pdata': 88, 'pdata_chained_skipped': 0, 'extra': 0}
+vcruntime140_threads.dll-2c764dcf1ad88022: 72 blocks {'entry': 1, 'exports': 28, 'tls': 0, 'pdata': 67, 'pdata_chained_skipped': 0, 'extra': 0}
+xaudio2_9redist.dll-29964347e92a825f: 1136 blocks {'entry': 1, 'exports': 6, 'tls': 0, 'pdata': 1136, 'pdata_chained_skipped': 723, 'extra': 0}
+xinput1_3.dll-1e6371744c752f50: 265 blocks {'entry': 1, 'exports': 12, 'tls': 0, 'pdata': 265, 'pdata_chained_skipped': 102, 'extra': 0}
+
+real	0m0.515s
+user	0m0.395s
+sys	0m0.043s
+exit=0
