@@ -1,0 +1,4 @@
+logs/*.big
+workspace/
+build/
+*.ipa
