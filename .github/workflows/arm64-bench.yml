@@ -126,7 +126,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq xvfb x11-apps imagemagick mesa-utils libgl1-mesa-dri libegl1 libglx-mesa0 \
             libfreetype6 libfontconfig1 libgnutls30t64 libxrandr2 libxi6 libxcursor1 libxcomposite1 libxinerama1 libxxf86vm1 \
-            python3-pefile python3-xxhash llvm
+            python3-pefile python3-xxhash llvm strace
           curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/20260421/${LLVM_MINGW}.tar.xz" | tar -xJ -C ~
           echo "$HOME/wine/bin" >> "$GITHUB_PATH"
           mkdir -p ~/out ~/fexcfg ~/fexcache
@@ -223,7 +223,9 @@ jobs:
           mkdir -p "$UC" && cp tools/bench/rl-user-config/TASystemSettings.ini "$UC/"
           # No crash dialog: winedbg prints the backtrace into the log instead.
           wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f > /dev/null 2>&1; wineserver -w
-          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
+          # Every read of the texture caches (sparse in the asset subset), so the missing ranges are exact.
+          TFC=$(for f in "$G"/TAGame/CookedPCConsole/*.tfc; do printf -- '-P %q ' "$f"; done)
+          (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 strace -f -qq --seccomp-bpf -e trace=openat,pread64,preadv,preadv2,read,lseek -o ~/out/tfc-reads.strace $(eval echo $TFC) wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
           start=$(date +%s); menu_at=""; peak=0
           while :; do
             sleep 5
