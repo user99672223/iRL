@@ -1,0 +1,277 @@
+# 2026-11-10T06:25:26+01:00 FEXOfflineCompiler non-iOS with -g for symbolization
+CMake Deprecation Warning at External/range-v3/CMakeLists.txt:8 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Warning at External/range-v3/cmake/ranges_env.cmake:92 (message):
+  [range-v3 warning]: unknown build type, defaults to release!
+Call Stack (most recent call first):
+  External/range-v3/CMakeLists.txt:24 (include)
+
+
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_POLICY_VERSION_MINIMUM
+    ENABLE_OFFLINE_RUNTIME
+
+
+[0/2] Re-checking globbed directories...
+[1/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_add.c.obj
+[2/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_sub.c.obj
+[3/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_i32.c.obj
+[4/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_le.c.obj
+[5/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_sqrt.c.obj
+[6/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_mul.c.obj
+[7/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_rem.c.obj
+[8/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_div.c.obj
+[9/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_ui64.c.obj
+[10/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/i32_to_extF80.c.obj
+[11/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/ui64_to_extF80.c.obj
+[12/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_i64.c.obj
+[13/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_f32.c.obj
+[14/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_f128.c.obj
+[15/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_f64.c.obj
+[16/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_eq.c.obj
+[17/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_isSignalingNaN.c.obj
+[18/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_extF80.c.obj
+[19/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_le.c.obj
+[20/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_add.c.obj
+[21/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_eq_signaling.c.obj
+[22/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_div.c.obj
+[23/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_le_quiet.c.obj
+[24/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_lt.c.obj
+[25/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_mulAdd.c.obj
+[26/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_lt_quiet.c.obj
+[27/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_sub.c.obj
+[28/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_f32.c.obj
+[29/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_rem.c.obj
+[30/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_f16.c.obj
+[31/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_f64.c.obj
+[32/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_mul.c.obj
+[33/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_sqrt.c.obj
+[34/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_i32.c.obj
+[35/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_ui32.c.obj
+[36/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_i64.c.obj
+[37/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_ui64.c.obj
+[38/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_subMagsF128.c.obj
+[39/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToF128.c.obj
+[40/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normRoundPackToF128.c.obj
+[41/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/i32_to_f128.c.obj
+[42/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_addMagsF128.c.obj
+[43/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundToUI64.c.obj
+[44/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_propagateNaNF128UI.c.obj
+[45/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f32_to_f128.c.obj
+[46/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToF128UI.c.obj
+[47/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_f128UIToCommonNaN.c.obj
+[48/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalF128Sig.c.obj
+[49/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundToI32.c.obj
+[50/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_extF80UIToCommonNaN.c.obj
+[51/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundToI64.c.obj
+[52/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToF32UI.c.obj
+[53/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToF32.c.obj
+[54/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToF64UI.c.obj
+[55/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_addMagsExtF80.c.obj
+[56/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalExtF80Sig.c.obj
+[57/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_propagateNaNExtF80UI.c.obj
+[58/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToF64.c.obj
+[59/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_shiftRightJam128Extra.c.obj
+[60/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_subMagsExtF80.c.obj
+[61/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_shiftRightJam128.c.obj
+[62/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_approxRecip_1Ks.c.obj
+[63/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normRoundPackToExtF80.c.obj
+[64/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToExtF80.c.obj
+[65/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_approxRecipSqrt32_1.c.obj
+[66/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_approxRecipSqrt_1Ks.c.obj
+[67/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/softfloat_raiseFlags.c.obj
+[68/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToExtF80UI.c.obj
+[69/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalF64Sig.c.obj
+[70/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_f64UIToCommonNaN.c.obj
+[71/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f64_to_extF80.c.obj
+[72/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_eq.c.obj
+[73/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_roundToInt.c.obj
+[74/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_lt.c.obj
+[75/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_f32UIToCommonNaN.c.obj
+[76/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f32_to_extF80.c.obj
+[77/194] Generating ../../include/FEXCore/Config/ConfigValues.inl, ../../include/FEXCore/Config/ConfigOptions.inl, ../../generated/FEX.1
+[78/194] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalF32Sig.c.obj
+[79/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/constll.c.obj
+[80/194] Linking C static library External/SoftFloat-3e/libsoftfloat_3e.a
+[81/194] Building CXX object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/Impl.cpp.obj
+[82/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/atanll.c.obj
+[83/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/exp2ll.c.obj
+[84/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/mtherr.c.obj
+[85/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/polevll.c.obj
+[86/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/log2ll.c.obj
+[87/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/floorll.c.obj
+[88/194] Generating ../../generated/FEX.1.gz
+[89/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/sinll.c.obj
+[90/194] Generating ../../IR.md
+[91/194] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/tanll.c.obj
+[92/194] Generating ../../include/FEXCore/IR/IRDefines.inc, ../../include/FEXCore/IR/IRDefines_Dispatch.inc
+[93/194] Linking CXX static library External/cephes/libcephes_128bit.a
+[94/194] Building CXX object FEXCore/Source/CMakeFiles/JemallocLibs.dir/Utils/AllocatorHooks.cpp.obj
+[95/194] Building C object External/tiny-json/CMakeFiles/tiny-json.dir/tiny-json.c.obj
+[96/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/ForcedAssert.cpp.obj
+[97/194] Building C object External/rpmalloc/CMakeFiles/rpmalloc.dir/rpmalloc/rpmalloc.c.obj
+[98/194] Building CXX object External/fmt/CMakeFiles/fmt.dir/src/os.cc.obj
+[99/194] Building C object External/xxhash/cmake_unofficial/CMakeFiles/xxhash.dir/__/xxhash.c.obj
+[100/194] Linking C static library External/xxhash/cmake_unofficial/libxxhash.a
+[101/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/WildcardMatcher.cpp.obj
+[102/194] Linking C static library External/rpmalloc/librpmalloc.a
+[103/194] Linking C static library External/tiny-json/libtiny-json.a
+[104/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/Allocator.cpp.obj
+[105/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/LogManager.cpp.obj
+[106/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/FileLoading.cpp.obj
+[107/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/SpinWaitLock.cpp.obj
+[108/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Common/JitSymbols.cpp.obj
+[109/194] Building CXX object External/fmt/CMakeFiles/fmt.dir/src/format.cc.obj
+[110/194] Linking CXX static library External/fmt/libfmt.a
+[111/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Interface/Config/Config.cpp.obj
+[112/194] Linking CXX static library FEXCore/Source/libFEXCore_Base.a
+[113/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/LookupCache.cpp.obj
+[114/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Context/Context.cpp.obj
+[115/194] Building CXX object Source/Common/cpp-optparse/CMakeFiles/cpp-optparse.dir/OptionParser.cpp.obj
+[116/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/CPUBackend.cpp.obj
+[117/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Addressing.cpp.obj
+[118/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/CPUID.cpp.obj
+[119/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Frontend.cpp.obj
+[120/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/Crypto.cpp.obj
+[121/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/CodeCache.cpp.obj
+[122/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Core.cpp.obj
+[123/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/Flags.cpp.obj
+[124/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/X87.cpp.obj
+[125/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/AVX_128.cpp.obj
+[126/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/X87F64.cpp.obj
+[127/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Interpreter/Fallbacks/InterpreterFallbacks.cpp.obj
+[128/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/ArchHelpers/Arm64Emitter.cpp.obj
+[129/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Interpreter/Fallbacks/StringCompareFallbacks.cpp.obj
+[130/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Dispatcher/Dispatcher.cpp.obj
+[131/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/AtomicOps.cpp.obj
+[132/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/ALUOps.cpp.obj
+[133/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/Vector.cpp.obj
+[134/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/ConversionOps.cpp.obj
+[135/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/JIT.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Interface/Core/JIT/JIT.cpp:1123:11: warning: variable 'OpIdx' set but not used [-Wunused-but-set-variable]
+ 1123 |       int OpIdx = 0;
+      |           ^
+1 warning generated.
+[136/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher.cpp.obj
+[137/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/BranchOps.cpp.obj
+[138/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/EncryptionOps.cpp.obj
+[139/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/MoveOps.cpp.obj
+[140/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/MiscOps.cpp.obj
+[141/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/Arm64Relocations.cpp.obj
+[142/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/MemoryOps.cpp.obj
+[143/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/DDDTables.cpp.obj
+[144/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/BaseTables.cpp.obj
+[145/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/H0F38Tables.cpp.obj
+[146/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/H0F3ATables.cpp.obj
+[147/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/VectorOps.cpp.obj
+[148/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/PrimaryGroupTables.cpp.obj
+[149/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/SecondaryGroupTables.cpp.obj
+[150/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/GDBJIT/GDBJIT.cpp.obj
+[151/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/SecondaryModRMTables.cpp.obj
+[152/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/SecondaryTables.cpp.obj
+[153/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/IREmitter.cpp.obj
+[154/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/VEXTables.cpp.obj
+[155/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/X87Tables.cpp.obj
+[156/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/IRDumper.cpp.obj
+[157/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/AllocWatch.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/AllocWatch.cpp:72:15: warning: unused function 'EventName' [-Wunused-function]
+   72 |   const char* EventName(uint32_t Event) {
+      |               ^~~~~~~~~
+1 warning generated.
+[158/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/LongJump.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/LongJump.cpp:15:1: warning: register X23 is disallowed on ARM64EC. [-Winline-asm]
+   15 |       stp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       stp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/LongJump.cpp:15:1: warning: register X24 is disallowed on ARM64EC. [-Winline-asm]
+   15 |       stp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       stp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/LongJump.cpp:17:1: warning: register X28 is disallowed on ARM64EC. [-Winline-asm]
+   17 |       stp x27, x28, [x0, #( 8 * 8)];
+      | ^
+<inline asm>:7:7: note: instantiated into assembly here
+    7 |       stp x27, x28, [x0, #( 8 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/LongJump.cpp:43:1: warning: register X23 is disallowed on ARM64EC. [-Winline-asm]
+   43 |       ldp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       ldp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/LongJump.cpp:43:1: warning: register X24 is disallowed on ARM64EC. [-Winline-asm]
+   43 |       ldp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       ldp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/FEXCore/Source/Utils/LongJump.cpp:45:1: warning: register X28 is disallowed on ARM64EC. [-Winline-asm]
+   45 |       ldp x27, x28, [x0, #( 8 * 8)];
+      | ^
+<inline asm>:7:7: note: instantiated into assembly here
+    7 |       ldp x27, x28, [x0, #( 8 * 8)];
+      |       ^
+6 warnings generated.
+[159/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/Threads.cpp.obj
+[160/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/IRDumperPass.cpp.obj
+[161/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/PassManager.cpp.obj
+[162/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/IRValidation.cpp.obj
+[163/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/Telemetry.cpp.obj
+[164/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/RegisterAllocationPass.cpp.obj
+[165/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/Profiler.cpp.obj
+[166/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/RedundantFlagCalculationElimination.cpp.obj
+[167/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/x87StackOptimizationPass.cpp.obj
+[168/194] Building CXX object Source/Common/CMakeFiles/Common.dir/CPUInfo.cpp.obj
+[169/194] Linking CXX static library Source/Common/cpp-optparse/libcpp-optparse.a
+[170/194] Building CXX object Source/Common/CMakeFiles/Common.dir/ArgumentLoader.cpp.obj
+[171/194] Building libntdll_ex.a
+[172/194] Building CXX object Source/Common/CMakeFiles/Common.dir/JSONPool.cpp.obj
+[173/194] Building CXX object Source/Common/CMakeFiles/Common.dir/SHMStats.cpp.obj
+[174/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/EnvironmentVariablesHandling.cpp.obj
+[175/194] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/ArchHelpers/Arm64.cpp.obj
+[176/194] Building CXX object Source/Tools/CommonTools/CMakeFiles/CommonTools.dir/DummyHandlers.cpp.obj
+[177/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/Allocator.cpp.obj
+[178/194] Building CXX object Source/Common/CMakeFiles/Common.dir/HostFeatures.cpp.obj
+[179/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/FEXUnixLib.cpp.obj
+[180/194] Linking CXX static library FEXCore/Source/libFEXCore.a
+[181/194] Linking CXX static library FEXCore/Source/libJemallocLibs.a
+[182/194] Linking CXX static library Source/Tools/CommonTools/libCommonTools.a
+[183/194] Building CXX object Source/Common/CMakeFiles/Common.dir/VolatileMetadata.cpp.obj
+[184/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/SHMStats.cpp.obj
+[185/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/CPUFeatures.cpp.obj
+[186/194] Building CXX object Source/Common/CMakeFiles/Common.dir/Config.cpp.obj
+[187/194] Linking CXX static library Source/Common/libCommon.a
+[188/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/Logging.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/Source/Windows/Common/Logging.cpp:30:13: warning: unused function 'IosLogWrite' [-Wunused-function]
+   30 | static void IosLogWrite(const char* Str, size_t Len) {
+      |             ^~~~~~~~~~~
+1 warning generated.
+[189/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/InvalidationTracker.cpp.obj
+[190/194] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/ImageTracker.cpp.obj
+[191/194] Linking CXX static library Source/Windows/Common/libCommonWindows.a
+[192/194] Building CXX object Source/Windows/FEXOfflineCompiler/CMakeFiles/FEXOfflineCompiler.dir/Main.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/Source/Tools/FEXOfflineCompiler/Main.cpp:131:13: warning: unused function 'MsgHandler' [-Wunused-function]
+  131 | static void MsgHandler(LogMan::DebugLevels Level, const char* Message) {
+      |             ^~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL-arm64-work/FEX/Source/Tools/FEXOfflineCompiler/Main.cpp:135:13: warning: unused function 'AssertHandler' [-Wunused-function]
+  135 | static void AssertHandler(const char* Message) {
+      |             ^~~~~~~~~~~~~
+2 warnings generated.
+[193/194] Linking CXX executable Bin/FEXOfflineCompiler.exe
+1+0 records in
+1+0 records out
+32 bytes copied, 0.000280507 s, 114 kB/s
+exit=0

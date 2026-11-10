@@ -1,0 +1,26 @@
+# 2026-11-10T06:27:46+01:00 rebuild after Config GetIfExists null-Meta guard
+[0/2] Re-checking globbed directories...
+[1/5] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Interface/Config/Config.cpp.obj
+[2/5] Linking CXX static library FEXCore/Source/libFEXCore_Base.a
+[3/5] Linking CXX shared library Bin/libarm64ecfex.dll
+clang: warning: argument unused during compilation: '-static-libgcc' [-Wunused-command-line-argument]
+clang: warning: argument unused during compilation: '-static-libstdc++' [-Wunused-command-line-argument]
+ld.lld: warning: Source/Windows/ARM64EC/CMakeFiles/arm64ecfex.dir/Module.cpp.obj: locally defined symbol imported: #__p__environ (EC symbol) (defined in libCommonWindowsRuntime.a(Misc.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale.cpp.obj): locally defined symbol imported: #setlocale (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #setlocale (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #_configthreadlocale (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #btowc (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #wctob (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #wcrtomb (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #mbrtowc (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #mbrlen (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(locale_win32.cpp.obj): locally defined symbol imported: #mbsrtowcs (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+ld.lld: warning: libc++.a(support.cpp.obj): locally defined symbol imported: #mbrtowc (EC symbol) (defined in libCommonWindowsRuntime.a(String.cpp.obj)) [LNK4217]
+1+0 records in
+1+0 records out
+32 bytes copied, 3.1109e-05 s, 1.0 MB/s
+[4/5] Linking CXX executable Bin/FEXOfflineCompiler.exe
+1+0 records in
+1+0 records out
+32 bytes copied, 2.2184e-05 s, 1.4 MB/s
+exit=0
