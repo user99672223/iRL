@@ -1,0 +1,686 @@
+# 2026-11-10T04:59:16+01:00 tools/fex/build-fex-arm64ec-linux.sh (branch irl-fex-aot 36e93937f)
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  7 78.3M    7 6004k    0     0  4801k      0  0:00:16  0:00:01  0:00:15 4801k 26 78.3M   26 20.9M    0     0  9521k      0  0:00:08  0:00:02  0:00:06 15.0M 39 78.3M   39 30.7M    0     0  9690k      0  0:00:08  0:00:03  0:00:05 12.4M 62 78.3M   62 48.9M    0     0  11.5M      0  0:00:06  0:00:04  0:00:02 14.3M 85 78.3M   85 66.7M    0     0  12.6M      0  0:00:06  0:00:05  0:00:01 15.1M100 78.3M  100 78.3M    0     0  13.3M      0  0:00:05  0:00:05 --:--:-- 15.7M
+fex-patches: applied 0001-windows-ios-smc-traps-per-16k-host-page.patch
+-- The C compiler identification is Clang 22.1.4
+-- The CXX compiler identification is Clang 22.1.4
+-- The ASM compiler identification is Clang with GNU-like command-line
+-- Found assembler: /home/familybadgujarwilly/Pictures/iRL/toolchains/llvm-mingw-20260421-ucrt-ubuntu-22.04-x86_64/bin/arm64ec-w64-mingw32-clang
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /home/familybadgujarwilly/Pictures/iRL/toolchains/llvm-mingw-20260421-ucrt-ubuntu-22.04-x86_64/bin/arm64ec-w64-mingw32-clang - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/familybadgujarwilly/Pictures/iRL/toolchains/llvm-mingw-20260421-ucrt-ubuntu-22.04-x86_64/bin/arm64ec-w64-mingw32-clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Looking for include file gdb/jit-reader.h
+-- Looking for include file gdb/jit-reader.h - not found
+-- Building for MinGW
+-- Performing Test HAS_CLANG_PRESERVE_ALL
+-- Performing Test HAS_CLANG_PRESERVE_ALL - Success
+-- Ignoring broken clang::preserve_all support
+-- Performing Test HAS_PROGRAM_INVOCATION_NAME
+-- Performing Test HAS_PROGRAM_INVOCATION_NAME - Failed
+-- Found Python: /usr/bin/python3 (found suitable version "3.13.5", minimum required is "3.9") found components: Interpreter
+-- xxHash build type: RELEASE
+-- Architecture: x86_64
+-- {fmt} version: 12.1.0
+-- Build type: RELEASE
+-- Performing Test HAS_NULLPTR_WARNING
+-- Performing Test HAS_NULLPTR_WARNING - Success
+CMake Deprecation Warning at External/range-v3/CMakeLists.txt:8 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Warning at External/range-v3/cmake/ranges_env.cmake:92 (message):
+  [range-v3 warning]: unknown build type, defaults to release!
+Call Stack (most recent call first):
+  External/range-v3/CMakeLists.txt:24 (include)
+
+
+-- Found Git: /usr/bin/git (found version "2.47.3")
+-- [range-v3]: C++ std=2a
+-- Performing Test RANGES_HAS_CXXSTD
+-- Performing Test RANGES_HAS_CXXSTD - Success
+-- Performing Test RANGES_HAS_WALL
+-- Performing Test RANGES_HAS_WALL - Success
+-- Performing Test RANGES_HAS_WEXTRA
+-- Performing Test RANGES_HAS_WEXTRA - Success
+-- Performing Test RANGES_HAS_WERROR
+-- Performing Test RANGES_HAS_WERROR - Success
+-- Performing Test RANGES_HAS_FDIAGNOSTIC_SHOW_TEMPLATE_TREE
+-- Performing Test RANGES_HAS_FDIAGNOSTIC_SHOW_TEMPLATE_TREE - Success
+-- Performing Test RANGES_HAS_FTEMPLATE_BACKTRACE_LIMIT
+-- Performing Test RANGES_HAS_FTEMPLATE_BACKTRACE_LIMIT - Success
+-- Performing Test RANGES_HAS_FMACRO_BACKTRACE_LIMIT
+-- Performing Test RANGES_HAS_FMACRO_BACKTRACE_LIMIT - Success
+-- Performing Test RANGES_HAS_OMIT_FRAME_POINTER
+-- Performing Test RANGES_HAS_OMIT_FRAME_POINTER - Success
+-- Performing Test RANGES_HAS_OFAST
+-- Performing Test RANGES_HAS_OFAST - Success
+-- Performing Test RANGES_HAS_STRICT_ALIASING
+-- Performing Test RANGES_HAS_STRICT_ALIASING - Success
+-- Performing Test RANGES_HAS_STRICT_VTABLE_POINTERS
+-- Performing Test RANGES_HAS_STRICT_VTABLE_POINTERS - Success
+-- Performing Test RANGES_HAS_FAST_MATH
+-- Performing Test RANGES_HAS_FAST_MATH - Success
+-- Performing Test RANGES_HAS_VECTORIZE
+-- Performing Test RANGES_HAS_VECTORIZE - Success
+-- Performing Test RANGES_HAS_SIZED_DEALLOCATION
+-- Performing Test RANGES_HAS_SIZED_DEALLOCATION - Success
+-- Performing Test RANGES_HAS_MARCH_NATIVE
+-- Performing Test RANGES_HAS_MARCH_NATIVE - Failed
+-- Performing Test RANGES_HAS_MTUNE_NATIVE
+-- Performing Test RANGES_HAS_MTUNE_NATIVE - Failed
+-- Performing Test RANGE_V3_ALIGNED_NEW_PROBE
+-- Performing Test RANGE_V3_ALIGNED_NEW_PROBE - Success
+-- Performing Test RANGES_HAS_FCOROUTINES_TS
+-- Performing Test RANGES_HAS_FCOROUTINES_TS - Failed
+-- Performing Test RANGE_V3_HAS_FCONCEPTS
+-- Performing Test RANGE_V3_HAS_FCONCEPTS - Failed
+-- Performing Test GCC_COLOR
+-- Performing Test GCC_COLOR - Success
+-- Performing Test CLANG_COLOR
+-- Performing Test CLANG_COLOR - Success
+-- Performing Test ENUM_ENUM_WARNING
+-- Performing Test ENUM_ENUM_WARNING - Success
+-- Performing Test COMPILER_SUPPORTS_CPU_TYPE
+-- Performing Test COMPILER_SUPPORTS_CPU_TYPE - Success
+-- FEX version: FEX-2607-147-g36e9393
+-- FEX commit: 36e93937ff990cb94e650b59fe5c24c7f063d8e7
+-- Performing Test HAS_SYSCALL_GETCPU
+-- Performing Test HAS_SYSCALL_GETCPU - Failed
+-- Performing Test HAS_SYSCALL_GETTID
+-- Performing Test HAS_SYSCALL_GETTID - Failed
+-- Performing Test HAS_SYSCALL_TGKILL
+-- Performing Test HAS_SYSCALL_TGKILL - Failed
+-- Performing Test HAS_SYSCALL_STATX
+-- Performing Test HAS_SYSCALL_STATX - Failed
+-- Performing Test HAS_SYSCALL_RENAMEAT2
+-- Performing Test HAS_SYSCALL_RENAMEAT2 - Failed
+-- Configuring done (7.4s)
+-- Generating done (0.1s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_POLICY_VERSION_MINIMUM
+    ENABLE_OFFLINE_RUNTIME
+
+
+-- Build files have been written to: /home/familybadgujarwilly/Pictures/iRL/build/fex-arm64ec
+[0/2] Re-checking globbed directories...
+[1/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_sub.c.obj
+[2/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_i32.c.obj
+[3/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_add.c.obj
+[4/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_le.c.obj
+[5/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_sqrt.c.obj
+[6/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_rem.c.obj
+[7/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_mul.c.obj
+[8/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_div.c.obj
+[9/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_ui64.c.obj
+[10/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_i64.c.obj
+[11/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/i32_to_extF80.c.obj
+[12/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/ui64_to_extF80.c.obj
+[13/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_f64.c.obj
+[14/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_add.c.obj
+[15/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_f32.c.obj
+[16/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_to_f128.c.obj
+[17/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_extF80.c.obj
+[18/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_eq.c.obj
+[19/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_div.c.obj
+[20/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_le.c.obj
+[21/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_eq_signaling.c.obj
+[22/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_le_quiet.c.obj
+[23/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_isSignalingNaN.c.obj
+[24/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_lt.c.obj
+[25/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_mulAdd.c.obj
+[26/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_lt_quiet.c.obj
+[27/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_sub.c.obj
+[28/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_mul.c.obj
+[29/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_sqrt.c.obj
+[30/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_f16.c.obj
+[31/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_f32.c.obj
+[32/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_f64.c.obj
+[33/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_rem.c.obj
+[34/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_i32.c.obj
+[35/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_i64.c.obj
+[36/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_ui32.c.obj
+[37/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_addMagsF128.c.obj
+[38/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f128_to_ui64.c.obj
+[39/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_propagateNaNF128UI.c.obj
+[40/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normRoundPackToF128.c.obj
+[41/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_subMagsF128.c.obj
+[42/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f32_to_f128.c.obj
+[43/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/i32_to_f128.c.obj
+[44/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToF128.c.obj
+[45/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_f128UIToCommonNaN.c.obj
+[46/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalF128Sig.c.obj
+[47/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundToUI64.c.obj
+[48/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundToI32.c.obj
+[49/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToF128UI.c.obj
+[50/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToF32.c.obj
+[51/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_extF80UIToCommonNaN.c.obj
+[52/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundToI64.c.obj
+[53/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_addMagsExtF80.c.obj
+[54/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalExtF80Sig.c.obj
+[55/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToF64.c.obj
+[56/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToF32UI.c.obj
+[57/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToF64UI.c.obj
+[58/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_propagateNaNExtF80UI.c.obj
+[59/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_roundPackToExtF80.c.obj
+[60/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_subMagsExtF80.c.obj
+[61/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_shiftRightJam128.c.obj
+[62/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_shiftRightJam128Extra.c.obj
+[63/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_approxRecipSqrt_1Ks.c.obj
+[64/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_approxRecip_1Ks.c.obj
+[65/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/softfloat_raiseFlags.c.obj
+[66/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normRoundPackToExtF80.c.obj
+[67/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_approxRecipSqrt32_1.c.obj
+[68/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f64_to_extF80.c.obj
+[69/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_f64UIToCommonNaN.c.obj
+[70/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalF64Sig.c.obj
+[71/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_commonNaNToExtF80UI.c.obj
+[72/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_eq.c.obj
+[73/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_roundToInt.c.obj
+[74/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/f32_to_extF80.c.obj
+[75/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_f32UIToCommonNaN.c.obj
+[76/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/extF80_lt.c.obj
+[77/202] Building C object External/SoftFloat-3e/CMakeFiles/softfloat_3e.dir/src/s_normSubnormalF32Sig.c.obj
+[78/202] Generating ../../include/FEXCore/Config/ConfigValues.inl, ../../include/FEXCore/Config/ConfigOptions.inl, ../../generated/FEX.1
+[79/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/constll.c.obj
+[80/202] Linking C static library External/SoftFloat-3e/libsoftfloat_3e.a
+[81/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/atanll.c.obj
+[82/202] Building CXX object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/Impl.cpp.obj
+[83/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/exp2ll.c.obj
+[84/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/mtherr.c.obj
+[85/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/floorll.c.obj
+[86/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/log2ll.c.obj
+[87/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/polevll.c.obj
+[88/202] Generating ../../generated/FEX.1.gz
+[89/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/sinll.c.obj
+[90/202] Generating ../../IR.md
+[91/202] Building C object External/cephes/CMakeFiles/cephes_128bit.dir/src/128bit/tanll.c.obj
+[92/202] Generating ../../include/FEXCore/IR/IRDefines.inc, ../../include/FEXCore/IR/IRDefines_Dispatch.inc
+[93/202] Linking CXX static library External/cephes/libcephes_128bit.a
+[94/202] Building CXX object FEXCore/Source/CMakeFiles/JemallocLibs.dir/Utils/AllocatorHooks.cpp.obj
+[95/202] Building C object External/tiny-json/CMakeFiles/tiny-json.dir/tiny-json.c.obj
+[96/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/ForcedAssert.cpp.obj
+[97/202] Building C object External/xxhash/cmake_unofficial/CMakeFiles/xxhash.dir/__/xxhash.c.obj
+[98/202] Linking C static library External/xxhash/cmake_unofficial/libxxhash.a
+[99/202] Building C object External/rpmalloc/CMakeFiles/rpmalloc.dir/rpmalloc/rpmalloc.c.obj
+[100/202] Building CXX object External/fmt/CMakeFiles/fmt.dir/src/os.cc.obj
+[101/202] Linking C static library External/rpmalloc/librpmalloc.a
+[102/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/Allocator.cpp.obj
+[103/202] Linking C static library External/tiny-json/libtiny-json.a
+[104/202] Linking CXX static library FEXCore/Source/libJemallocLibs.a
+[105/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/WildcardMatcher.cpp.obj
+[106/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/FileLoading.cpp.obj
+[107/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/LogManager.cpp.obj
+[108/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Utils/SpinWaitLock.cpp.obj
+[109/202] Building CXX object External/fmt/CMakeFiles/fmt.dir/src/format.cc.obj
+[110/202] Linking CXX static library External/fmt/libfmt.a
+[111/202] Building CXX object Source/Common/CMakeFiles/Common.dir/JSONPool.cpp.obj
+[112/202] Building CXX object Source/Common/CMakeFiles/Common.dir/ArgumentLoader.cpp.obj
+[113/202] Building CXX object Source/Common/CMakeFiles/Common.dir/SHMStats.cpp.obj
+[114/202] Building libntdll_ex.a
+[115/202] Building ASM object Source/Windows/Common/CMakeFiles/CommonWindowsRuntime.dir/LoadConfig.S.obj
+[116/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindowsRuntime.dir/CRT/CRT_iOS.cpp.obj
+[117/202] Building CXX object Source/Common/CMakeFiles/Common.dir/CPUInfo.cpp.obj
+[118/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindowsRuntime.dir/WinAPI/Alloc.cpp.obj
+[119/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_Base.dir/Interface/Config/Config.cpp.obj
+[120/202] Linking CXX static library FEXCore/Source/libFEXCore_Base.a
+[121/202] Building CXX object Source/Common/cpp-optparse/CMakeFiles/cpp-optparse.dir/OptionParser.cpp.obj
+[122/202] Linking CXX static library Source/Common/cpp-optparse/libcpp-optparse.a
+[123/202] Building CXX object Source/Common/CMakeFiles/Common.dir/HostFeatures.cpp.obj
+[124/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindowsRuntime.dir/WinAPI/Sync.cpp.obj
+[125/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindowsRuntime.dir/WinAPI/IO.cpp.obj
+[126/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/EnvironmentVariablesHandling.cpp.obj
+[127/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindowsRuntime.dir/WinAPI/Misc.cpp.obj
+[128/202] Building CXX object Source/Tools/CommonTools/CMakeFiles/CommonTools.dir/DummyHandlers.cpp.obj
+[129/202] Building CXX object Source/Common/CMakeFiles/Common.dir/Config.cpp.obj
+[130/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/FEXUnixLib.cpp.obj
+[131/202] Building CXX object Source/Common/CMakeFiles/Common.dir/VolatileMetadata.cpp.obj
+[132/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/Allocator.cpp.obj
+[133/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/SHMStats.cpp.obj
+[134/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/Logging.cpp.obj
+[135/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/CPUFeatures.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/Common/CPUFeatures.cpp:20:6: warning: unused function 'OpenProcessorKey' [-Wunused-function]
+   20 | HKEY OpenProcessorKey(uint32_t Idx) {
+      |      ^~~~~~~~~~~~~~~~
+1 warning generated.
+[136/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Common/JitSymbols.cpp.obj
+[137/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/InvalidationTracker.cpp.obj
+[138/202] Building CXX object Source/Windows/Common/CMakeFiles/CommonWindows.dir/ImageTracker.cpp.obj
+[139/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Context/Context.cpp.obj
+[140/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/LookupCache.cpp.obj
+[141/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Addressing.cpp.obj
+[142/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/CPUID.cpp.obj
+[143/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/CPUBackend.cpp.obj
+[144/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Frontend.cpp.obj
+[145/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/Crypto.cpp.obj
+[146/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/CodeCache.cpp.obj
+[147/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/Flags.cpp.obj
+[148/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Core.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Interface/Core/Core.cpp:2043:32: warning: increment of object of volatile-qualified type 'volatile uint64_t' (aka 'volatile unsigned long long') is deprecated [-Wdeprecated-volatile]
+ 2043 |       g_madeira_thr_count[slot]++;
+      |                                ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Interface/Core/Core.cpp:2081:20: warning: increment of object of volatile-qualified type 'volatile uint64_t' (aka 'volatile unsigned long long') is deprecated [-Wdeprecated-volatile]
+ 2081 |       uint64_t n = ++g_madeira_hot_count[idx];
+      |                    ^
+2 warnings generated.
+[149/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/AVX_128.cpp.obj
+[150/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/X87.cpp.obj
+[151/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/X87F64.cpp.obj
+[152/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Interpreter/Fallbacks/StringCompareFallbacks.cpp.obj
+[153/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Interpreter/Fallbacks/InterpreterFallbacks.cpp.obj
+[154/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/ArchHelpers/Arm64Emitter.cpp.obj
+[155/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher/Vector.cpp.obj
+[156/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/Dispatcher/Dispatcher.cpp.obj
+[157/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/ALUOps.cpp.obj
+[158/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/AtomicOps.cpp.obj
+[159/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/JIT.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Interface/Core/JIT/JIT.cpp:1123:11: warning: variable 'OpIdx' set but not used [-Wunused-but-set-variable]
+ 1123 |       int OpIdx = 0;
+      |           ^
+1 warning generated.
+[160/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/ConversionOps.cpp.obj
+[161/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/BranchOps.cpp.obj
+[162/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/OpcodeDispatcher.cpp.obj
+[163/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/EncryptionOps.cpp.obj
+[164/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/MoveOps.cpp.obj
+[165/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/MemoryOps.cpp.obj
+[166/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/MiscOps.cpp.obj
+[167/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/BaseTables.cpp.obj
+[168/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/Arm64Relocations.cpp.obj
+[169/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/DDDTables.cpp.obj
+[170/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/H0F38Tables.cpp.obj
+[171/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/JIT/VectorOps.cpp.obj
+[172/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/H0F3ATables.cpp.obj
+[173/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/PrimaryGroupTables.cpp.obj
+[174/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/SecondaryGroupTables.cpp.obj
+[175/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/GDBJIT/GDBJIT.cpp.obj
+[176/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/SecondaryModRMTables.cpp.obj
+[177/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/X87Tables.cpp.obj
+[178/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/SecondaryTables.cpp.obj
+[179/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/IREmitter.cpp.obj
+[180/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/Core/X86Tables/VEXTables.cpp.obj
+[181/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/AllocWatch.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/AllocWatch.cpp:72:15: warning: unused function 'EventName' [-Wunused-function]
+   72 |   const char* EventName(uint32_t Event) {
+      |               ^~~~~~~~~
+1 warning generated.
+[182/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/IRDumper.cpp.obj
+[183/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/LongJump.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/LongJump.cpp:15:1: warning: register X23 is disallowed on ARM64EC. [-Winline-asm]
+   15 |       stp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       stp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/LongJump.cpp:15:1: warning: register X24 is disallowed on ARM64EC. [-Winline-asm]
+   15 |       stp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       stp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/LongJump.cpp:17:1: warning: register X28 is disallowed on ARM64EC. [-Winline-asm]
+   17 |       stp x27, x28, [x0, #( 8 * 8)];
+      | ^
+<inline asm>:7:7: note: instantiated into assembly here
+    7 |       stp x27, x28, [x0, #( 8 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/LongJump.cpp:43:1: warning: register X23 is disallowed on ARM64EC. [-Winline-asm]
+   43 |       ldp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       ldp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/LongJump.cpp:43:1: warning: register X24 is disallowed on ARM64EC. [-Winline-asm]
+   43 |       ldp x23, x24, [x0, #( 4 * 8)];
+      | ^
+<inline asm>:5:7: note: instantiated into assembly here
+    5 |       ldp x23, x24, [x0, #( 4 * 8)];
+      |       ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/FEXCore/Source/Utils/LongJump.cpp:45:1: warning: register X28 is disallowed on ARM64EC. [-Winline-asm]
+   45 |       ldp x27, x28, [x0, #( 8 * 8)];
+      | ^
+<inline asm>:7:7: note: instantiated into assembly here
+    7 |       ldp x27, x28, [x0, #( 8 * 8)];
+      |       ^
+6 warnings generated.
+[184/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/PassManager.cpp.obj
+[185/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/Threads.cpp.obj
+[186/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/IRValidation.cpp.obj
+[187/202] Linking CXX static library Source/Common/libCommon.a
+[188/202] Linking CXX static library Source/Tools/CommonTools/libCommonTools.a
+[189/202] Linking CXX static library Source/Windows/Common/libCommonWindowsRuntime.a
+[190/202] Linking CXX static library Source/Windows/Common/libCommonWindows.a
+[191/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/IRDumperPass.cpp.obj
+[192/202] Building ASM object Source/Windows/ARM64EC/CMakeFiles/arm64ecfex.dir/Module.S.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:150:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16, #16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:151:3: warning: register X23 is disallowed on ARM64EC.
+  cmp x4, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:165:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16, #16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:166:3: warning: register X23 is disallowed on ARM64EC.
+  cmp x4, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:170:3: warning: register X23 is disallowed on ARM64EC.
+  adrp x23, IosAliasLast
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:171:3: warning: register X23 is disallowed on ARM64EC.
+  str x16, [x23, #:lo12:IosAliasLast]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:173:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:174:3: warning: register X23 is disallowed on ARM64EC.
+  add x17, x23, x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:180:3: warning: register X23 is disallowed on ARM64EC.
+  lsr x23, x17, #18
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:181:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x16, [x16, x23, lsl #3]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:182:3: warning: register X23 is disallowed on ARM64EC.
+  lsr x23, x17, #12
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:183:3: warning: register X23 is disallowed on ARM64EC.
+  lsr x16, x16, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:188:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:189:3: warning: register X23 is disallowed on ARM64EC.
+  add x23, x23, #1
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:189:3: warning: register X23 is disallowed on ARM64EC.
+  add x23, x23, #1
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:190:3: warning: register X23 is disallowed on ARM64EC.
+  str x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:201:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16, #16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:202:3: warning: register X23 is disallowed on ARM64EC.
+  add x23, x23, #1
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:202:3: warning: register X23 is disallowed on ARM64EC.
+  add x23, x23, #1
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:203:3: warning: register X23 is disallowed on ARM64EC.
+  str x23, [x16, #16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:296:3: warning: register X28 is disallowed on ARM64EC.
+  ldr x16, [x28, #4088]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:298:3: warning: register X28 is disallowed on ARM64EC.
+  str x16, [x28, #4088]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:303:3: warning: register X23 is disallowed on ARM64EC.
+  mov x23, sp
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:304:3: warning: register X23 is disallowed on ARM64EC.
+  ubfx x23, x23, #16, #4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:304:3: warning: register X23 is disallowed on ARM64EC.
+  ubfx x23, x23, #16, #4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:305:3: warning: register X23 is disallowed on ARM64EC.
+  add x17, x16, x23, lsl #6
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:311:3: warning: register X23 is disallowed on ARM64EC.
+  ldadd x4, x23, [x17]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:312:3: warning: register X23 is disallowed on ARM64EC.
+  and x23, x23, #4095
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:312:3: warning: register X23 is disallowed on ARM64EC.
+  and x23, x23, #4095
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:314:3: warning: register X23 is disallowed on ARM64EC.
+  str x9, [x17, x23, lsl #3]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:316:3: warning: register X28 is disallowed on ARM64EC.
+  ldr x17, [x28, #4080]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:318:3: warning: register X28 is disallowed on ARM64EC.
+  ldr w17, [x28, #1512]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:320:3: warning: register X28 is disallowed on ARM64EC.
+  ldr x16, [x28, #4096]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:322:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:323:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:323:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:325:3: warning: register X23 is disallowed on ARM64EC.
+  cmp x23, x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:337:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:338:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:338:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:340:3: warning: register X23 is disallowed on ARM64EC.
+  cmp x23, x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:342:3: warning: register X28 is disallowed on ARM64EC.
+  str x16, [x28, #4096]
+  ^
+<instantiation>:3:3: warning: register X23 is disallowed on ARM64EC.
+  mov x23, sp
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:362:3: note: while in macro instantiation
+  IOS_XP_COUNT 1088, x16, x23
+  ^
+<instantiation>:4:3: warning: register X23 is disallowed on ARM64EC.
+  ubfx x23, x23, #16, #4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:362:3: note: while in macro instantiation
+  IOS_XP_COUNT 1088, x16, x23
+  ^
+<instantiation>:4:3: warning: register X23 is disallowed on ARM64EC.
+  ubfx x23, x23, #16, #4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:362:3: note: while in macro instantiation
+  IOS_XP_COUNT 1088, x16, x23
+  ^
+<instantiation>:5:3: warning: register X23 is disallowed on ARM64EC.
+  add x16, x16, x23, lsl #6
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:362:3: note: while in macro instantiation
+  IOS_XP_COUNT 1088, x16, x23
+  ^
+<instantiation>:7:3: warning: register X23 is disallowed on ARM64EC.
+  mov x23, #1
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:362:3: note: while in macro instantiation
+  IOS_XP_COUNT 1088, x16, x23
+  ^
+<instantiation>:8:3: warning: register X23 is disallowed on ARM64EC.
+  stadd x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:362:3: note: while in macro instantiation
+  IOS_XP_COUNT 1088, x16, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:371:3: warning: register X23 is disallowed on ARM64EC.
+  mov x23, sp
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:372:3: warning: register X23 is disallowed on ARM64EC.
+  ubfx x23, x23, #16, #4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:372:3: warning: register X23 is disallowed on ARM64EC.
+  ubfx x23, x23, #16, #4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:373:3: warning: register X23 is disallowed on ARM64EC.
+  add x17, x16, x23, lsl #6
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:376:3: warning: register X23 is disallowed on ARM64EC.
+  ldadd x4, x23, [x17]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:377:3: warning: register X23 is disallowed on ARM64EC.
+  tst x23, #63
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:380:3: warning: register X23 is disallowed on ARM64EC.
+  ldadd x4, x23, [x17]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:381:3: warning: register X23 is disallowed on ARM64EC.
+  and x23, x23, #4095
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:381:3: warning: register X23 is disallowed on ARM64EC.
+  and x23, x23, #4095
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:383:3: warning: register X23 is disallowed on ARM64EC.
+  str x9, [x17, x23, lsl #3]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:412:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:413:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:413:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:415:3: warning: register X23 is disallowed on ARM64EC.
+  cmp x23, x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:427:3: warning: register X23 is disallowed on ARM64EC.
+  ldr x23, [x16]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:428:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:428:3: warning: register X23 is disallowed on ARM64EC.
+  sub x23, x9, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:430:3: warning: register X23 is disallowed on ARM64EC.
+  cmp x23, x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:438:3: warning: register X23 is disallowed on ARM64EC.
+  add x9, x4, x23
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:447:3: warning: register X23 is disallowed on ARM64EC.
+  ldursw x23, [x17, #-0x4]
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:448:3: warning: register W23 is disallowed on ARM64EC.
+  cmp w23, w16
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:451:3: warning: register X23 is disallowed on ARM64EC.
+  and x23, x23, #-0x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:451:3: warning: register X23 is disallowed on ARM64EC.
+  and x23, x23, #-0x4
+  ^
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/ARM64EC/Module.S:452:3: warning: register X23 is disallowed on ARM64EC.
+  add x17, x17, x23
+  ^
+[193/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/RedundantFlagCalculationElimination.cpp.obj
+[194/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/RegisterAllocationPass.cpp.obj
+[195/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/Telemetry.cpp.obj
+[196/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/Profiler.cpp.obj
+[197/202] Building CXX object Source/Windows/ARM64EC/CMakeFiles/arm64ecfex.dir/IosJitAlias.cpp.obj
+[198/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Interface/IR/Passes/x87StackOptimizationPass.cpp.obj
+[199/202] Building CXX object FEXCore/Source/CMakeFiles/FEXCore_object.dir/Utils/ArchHelpers/Arm64.cpp.obj
+[200/202] Building CXX object Source/Windows/ARM64EC/CMakeFiles/arm64ecfex.dir/Module.cpp.obj
+[201/202] Linking CXX shared library Bin/libarm64ecfex.dll
+1+0 records in
+1+0 records out
+32 bytes copied, 0.00014964 s, 214 kB/s
+[0/2] Re-checking globbed directories...
+[1/4] Linking CXX static library FEXCore/Source/libFEXCore.a
+[2/4] Building CXX object Source/Windows/FEXOfflineCompiler/CMakeFiles/FEXOfflineCompiler.dir/Main.cpp.obj
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Tools/FEXOfflineCompiler/Main.cpp:131:13: warning: unused function 'MsgHandler' [-Wunused-function]
+  131 | static void MsgHandler(LogMan::DebugLevels Level, const char* Message) {
+      |             ^~~~~~~~~~
+/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Tools/FEXOfflineCompiler/Main.cpp:135:13: warning: unused function 'AssertHandler' [-Wunused-function]
+  135 | static void AssertHandler(const char* Message) {
+      |             ^~~~~~~~~~~~~
+2 warnings generated.
+[3/4] Linking CXX executable Bin/FEXOfflineCompiler.exe
+FAILED: Bin/FEXOfflineCompiler.exe 
+: && /home/familybadgujarwilly/Pictures/iRL/toolchains/llvm-mingw-20260421-ucrt-ubuntu-22.04-x86_64/bin/arm64ec-w64-mingw32-clang++ -DFEX_IOS_HOST=1 -O3 -DNDEBUG -fomit-frame-pointer -static -static-libgcc -static-libstdc++ -Wl,--file-alignment=4096,/mllvm:-align-loops=1    -Xlinker --gc-sections -Xlinker --strip-all -Xlinker --as-needed Source/Windows/FEXOfflineCompiler/CMakeFiles/FEXOfflineCompiler.dir/Main.cpp.obj -o Bin/FEXOfflineCompiler.exe -Wl,--out-implib,Source/Windows/FEXOfflineCompiler/libFEXOfflineCompiler.dll.a -Wl,--major-image-version,0,--minor-image-version,0  Source/Common/libCommon.a  Source/Tools/CommonTools/libCommonTools.a  Source/Common/cpp-optparse/libcpp-optparse.a  FEXCore/Source/libFEXCore.a  FEXCore/Source/libJemallocLibs.a  External/fmt/libfmt.a  Source/Windows/Common/libCommonWindows.a  Source/Windows/libntdll_ex.a  External/tiny-json/libtiny-json.a  External/rpmalloc/librpmalloc.a  FEXCore/Source/libFEXCore_Base.a  External/fmt/libfmt.a  External/xxhash/cmake_unofficial/libxxhash.a  External/cephes/libcephes_128bit.a  External/SoftFloat-3e/libsoftfloat_3e.a  -lsynchronization  -lmincore && cd /home/familybadgujarwilly/Pictures/iRL/build/fex-arm64ec/Source/Windows/FEXOfflineCompiler && dd bs=32 count=1 seek=2 conv=notrunc if=/home/familybadgujarwilly/Pictures/iRL/madeira/FEX/Source/Windows/wine_builtin.bin of=/home/familybadgujarwilly/Pictures/iRL/build/fex-arm64ec/Bin/FEXOfflineCompiler.exe
+ld.lld: error: undefined symbol: IosSubfloorEnum (EC symbol)
+>>> referenced by libCommonWindows.a(InvalidationTracker.cpp.obj):(#IosSubfloorEnum$exit_thunk)
+>>> referenced by libCommonWindows.a(InvalidationTracker.cpp.obj):(#IosSubfloorEnum$exit_thunk)
+
+ld.lld: error: undefined symbol: ios_fex_mono_arm (EC symbol)
+>>> referenced by libCommonWindows.a(InvalidationTracker.cpp.obj):(#ios_fex_mono_arm$exit_thunk)
+>>> referenced by libCommonWindows.a(InvalidationTracker.cpp.obj):(#ios_fex_mono_arm$exit_thunk)
+
+ld.lld: error: undefined symbol: ios_fex_mono_bridge_armed (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_bridge_armed$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_bridge_armed$exit_thunk)
+
+ld.lld: error: undefined symbol: ios_fex_mono_take_pending (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_take_pending$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_take_pending$exit_thunk)
+
+ld.lld: error: undefined symbol: ios_fex_mono_captured_count (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_captured_count$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_captured_count$exit_thunk)
+
+ld.lld: error: undefined symbol: ios_fex_mono_count_activated (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_count_activated$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_count_activated$exit_thunk)
+
+ld.lld: error: undefined symbol: IosJitReverseTranslate (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#IosJitReverseTranslate$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#IosJitReverseTranslate$exit_thunk)
+
+ld.lld: error: undefined symbol: IosMonoResolveRW (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#IosMonoResolveRW$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#IosMonoResolveRW$exit_thunk)
+
+ld.lld: error: undefined symbol: ios_fex_mono_count_helper (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_count_helper$exit_thunk)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(#ios_fex_mono_count_helper$exit_thunk)
+
+ld.lld: error: undefined symbol: IosFfsBypassLog (EC symbol)
+>>> referenced by libFEXCore.a(Core.cpp.obj):(.refptr.IosFfsBypassLog)
+
+ld.lld: error: undefined symbol: FEXCore::DualMap::WriteOffset (EC symbol)
+>>> referenced by libFEXCore.a(Dispatcher.cpp.obj):(.refptr._ZN7FEXCore7DualMap11WriteOffsetE)
+>>> referenced by libFEXCore.a(JIT.cpp.obj)
+
+ld.lld: error: undefined symbol: IosSubfloorWindowForCode (EC symbol)
+>>> referenced by libFEXCore.a(OpcodeDispatcher.cpp.obj):(#IosSubfloorWindowForCode$exit_thunk)
+>>> referenced by libFEXCore.a(OpcodeDispatcher.cpp.obj):(#IosSubfloorWindowForCode$exit_thunk)
+
+ld.lld: error: undefined symbol: IosSubfloorToReal (EC symbol)
+>>> referenced by libFEXCore.a(Frontend.cpp.obj):(#IosSubfloorToReal$exit_thunk)
+>>> referenced by libFEXCore.a(Frontend.cpp.obj):(#IosSubfloorToReal$exit_thunk)
+
+ld.lld: error: undefined symbol: FEXCore::Core::IosGuestBranchTraceEnabled (EC symbol)
+>>> referenced by libFEXCore.a(BranchOps.cpp.obj):(.refptr._ZN7FEXCore4Core26IosGuestBranchTraceEnabledE)
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.
+FEXOfflineCompiler: build failed (see above)
+total 5344
+-rwxrwxr-x 1 familybadgujarwilly familybadgujarwilly 5472256 Nov 10 05:00 libarm64ecfex.dll

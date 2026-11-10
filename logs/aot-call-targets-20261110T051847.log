@@ -1,0 +1,25 @@
+# 2026-11-10T05:18:47+01:00 python3 -I tools/aot/call_targets.py --objdump toolchains/llvm-mingw-20260421-ucrt-ubuntu-22.04-x86_64/bin/llvm-objdump --game /home/familybadgujarwilly/Games/Heroic/rocketleague --manifest build/aot/codemap-ready/manifest.json --out build/aot/call-targets.json
+EOSSDK-Win64-Shipping.dll: 30851 direct call targets, 30431 at instruction starts
+RocketLeague.exe: 35460 direct call targets, 35070 at instruction starts
+XAPOFX1_5.dll: 80 direct call targets, 71 at instruction starts
+XAudio2_7.dll: 528 direct call targets, 416 at instruction starts
+concrt140.dll: 802 direct call targets, 802 at instruction starts
+d3dcompiler_47.dll: 5007 direct call targets, 4989 at instruction starts
+discord_game_sdk.dll: 3709 direct call targets, 3668 at instruction starts
+msvcp140.dll: 487 direct call targets, 487 at instruction starts
+msvcp140_1.dll: 51 direct call targets, 51 at instruction starts
+msvcp140_2.dll: 396 direct call targets, 396 at instruction starts
+msvcp140_atomic_wait.dll: 81 direct call targets, 81 at instruction starts
+msvcp140_codecvt_ids.dll: 39 direct call targets, 39 at instruction starts
+ucrtbase.dll: 2262 direct call targets, 2261 at instruction starts
+vccorlib140.dll: 402 direct call targets, 402 at instruction starts
+vcomp140.dll: 374 direct call targets, 374 at instruction starts
+vcruntime140.dll: 213 direct call targets, 213 at instruction starts
+vcruntime140_1.dll: 86 direct call targets, 86 at instruction starts
+vcruntime140_threads.dll: 50 direct call targets, 50 at instruction starts
+xaudio2_9redist.dll: 833 direct call targets, 829 at instruction starts
+
+real	1m7.207s
+user	0m56.490s
+sys	0m6.727s
+exit=0

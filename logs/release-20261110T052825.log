@@ -1,0 +1,5 @@
+# 2026-11-10T05:28:25+01:00 tools/release/make-final-ipa.sh /tmp/claude-1000/-home-familybadgujarwilly-claude-second--claude-spares-spare-ZHBsD9/68c137c3-ebc4-4959-86c5-932b19ff2083/scratchpad/ipatest/t.ipa
+injected 19 code maps into /home/familybadgujarwilly/Pictures/iRL/dist/iRL-final.ipa (Payload/iRL.app)
+No errors detected in compressed data of dist/iRL-final.ipa.
+-rw-rw-r-- 1 familybadgujarwilly familybadgujarwilly 2171735 Nov 10 05:28 dist/iRL-final.ipa
+a4d1d7b494f7c39043c0e706335571050d545e10840c6340ef7657035196cefd  dist/iRL-final.ipa

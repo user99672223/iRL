@@ -1,0 +1,73 @@
+# 2026-11-10T04:58:14+01:00 cherry-pick upstream AOT/DiskCache commits onto Madeira ios-port-2607 (1dc6ed493)
+[irl-fex-aot 26d8f08dd] Windows/ImageTracker: Wire up LoadCache and EnableLoadedSection
+ Author: Billy Laws <blaws05@gmail.com>
+ Date: Sun May 17 22:28:14 2026 +0100
+ 2 files changed, 13 insertions(+), 6 deletions(-)
+OK   5ef3134a4 Windows/ImageTracker: Wire up LoadCache and EnableLoadedSection
+[irl-fex-aot 87c0f5fd7] Windows/ImageTracker: Adapt code cache loading logic to FEXOfflineCompiler
+ Author: Tony Wasserka <neobrain@users.noreply.github.com>
+ Date: Thu Jul 2 17:01:48 2026 +0200
+ 1 file changed, 17 insertions(+), 50 deletions(-)
+OK   f2734ac60 Windows/ImageTracker: Adapt code cache loading logic to FEXOfflineCompiler
+[irl-fex-aot 8d0dc6716] Windows/ImageTracker: Unindent refactored code
+ Author: Tony Wasserka <neobrain@users.noreply.github.com>
+ Date: Thu Jul 2 17:14:36 2026 +0200
+ 1 file changed, 24 insertions(+), 30 deletions(-)
+OK   dc1be2efe Windows/ImageTracker: Unindent refactored code
+[irl-fex-aot 66e1fdc02] FEXOfflineCompiler: Fix improper syscall ABI on WoA
+ Author: Tony Wasserka <neobrain@users.noreply.github.com>
+ Date: Tue Jun 23 17:47:33 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+OK   d3d735370 FEXOfflineCompiler: Fix improper syscall ABI on WoA
+Auto-merging FEXCore/Source/Interface/Core/CodeCache.cpp
+[irl-fex-aot 66fbc41e4] CodeCache: Mark executable memory as EC code on ARM64EC
+ Author: Tony Wasserka <neobrain@users.noreply.github.com>
+ Date: Mon Jun 1 20:20:58 2026 +0200
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+OK   0ac6b3e8f CodeCache: Mark executable memory as EC code on ARM64EC
+Auto-merging FEXCore/Source/Interface/Core/CodeCache.cpp
+Auto-merging Source/Windows/Common/ImageTracker.cpp
+[irl-fex-aot 36e93937f] CodeCache: Record main executable bitness in code map
+ Author: Tony Wasserka <neobrain@users.noreply.github.com>
+ Date: Thu Jul 9 17:12:45 2026 +0200
+ 5 files changed, 47 insertions(+), 27 deletions(-)
+OK   54236df6e CodeCache: Record main executable bitness in code map
+Auto-merging FEXCore/Source/Interface/Core/CodeCache.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/CodeCache.cpp
+Auto-merging FEXCore/Source/Interface/Core/Core.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/Core.cpp
+error: could not apply 6efbc2ba0... FEXCore: Moves crc32 helper to a shared location
+hint: After resolving the conflicts, mark them with
+hint: "git add/rm <pathspec>", then run
+hint: "git cherry-pick --continue".
+hint: You can instead skip this commit with "git cherry-pick --skip".
+hint: To abort and get back to the state before "git cherry-pick",
+hint: run "git cherry-pick --abort".
+hint: Disable this message with "git config advice.mergeConflict false"
+CONF 6efbc2ba0 FEXCore: Moves crc32 helper to a shared location: FEXCore/Source/Interface/Core/CodeCache.cpp FEXCore/Source/Interface/Core/Core.cpp 
+# ordered: ad3939a44f11802fc72d6acfe200210c48f6134f
+8b9237fd52519af22bd5bda9bcac107388d9cd20
+c92805475d2bdaaf33bd9f3e763b2a604bfaf093
+8bf22b63829b4a93961fa0004ade5a23fd7172d2
+b5ac608fc5694c2a626bde32be41b302370a634c
+f9623af073780f39eb6417c43a3ae1ed9cc6d424
+5efc3212d2ba69b941215e86bfed7dc80959eabe
+3f8f886f65fe90bcbce09dbe839bd014b759d235
+6efbc2ba0bc2b5a2404d0760cdddf7f3183ac0c3
+Auto-merging FEXCore/Source/Interface/Context/Context.h
+Auto-merging FEXCore/Source/Interface/Core/CodeCache.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/CodeCache.cpp
+Auto-merging FEXCore/Source/Interface/Core/Core.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/Core.cpp
+CONFLICT (modify/delete): FEXCore/Source/Interface/Core/DiskCache.cpp deleted in HEAD and modified in ad3939a44 (Avoid double offset relocations).  Version ad3939a44 (Avoid double offset relocations) of FEXCore/Source/Interface/Core/DiskCache.cpp left in tree.
+Auto-merging FEXCore/Source/Interface/Core/JIT/JIT.cpp
+CONFLICT (content): Merge conflict in FEXCore/Source/Interface/Core/JIT/JIT.cpp
+error: could not apply ad3939a44... Avoid double offset relocations
+hint: After resolving the conflicts, mark them with
+hint: "git add/rm <pathspec>", then run
+hint: "git cherry-pick --continue".
+hint: You can instead skip this commit with "git cherry-pick --skip".
+hint: To abort and get back to the state before "git cherry-pick",
+hint: run "git cherry-pick --abort".
+hint: Disable this message with "git config advice.mergeConflict false"
+CONF ad3939a44 Avoid double offset relocations: FEXCore/Source/Interface/Core/CodeCache.cpp FEXCore/Source/Interface/Core/Core.cpp FEXCore/Source/Interface/Core/DiskCache.cpp FEXCore/Source/Interface/Core/JIT/JIT.cpp 

@@ -1,0 +1,84 @@
+# 2026-11-10T05:20:34+01:00 tools/aot/build-codemaps.sh /home/familybadgujarwilly/Games/Heroic/rocketleague
+skip Binaries/Win64/X3DAudio1_7.dll: preferred base 0x400000 is below 4 GB (subfloor window, JIT only)
+skip Binaries/Win64/dbghelp.dll: preferred base 0x3000000 is below 4 GB (subfloor window, JIT only)
+skip Binaries/Win64/xinput1_3.dll: preferred base 0x400000 is below 4 GB (subfloor window, JIT only)
+eossdk-win64-shipping.dll-d8b9db2c6b4ebd48: 42269 blocks {'entry': 1, 'exports': 751, 'tls': 1, 'pdata': 42183, 'pdata_chained_skipped': 28018, 'extra': 0}
+rocketleague.exe-92e02b0b487870ca: 81786 blocks {'entry': 1, 'exports': 388, 'tls': 0, 'pdata': 81667, 'pdata_chained_skipped': 32725, 'extra': 0}
+xapofx1_5.dll-2ae82042678be421: 110 blocks {'entry': 1, 'exports': 1, 'tls': 0, 'pdata': 110, 'pdata_chained_skipped': 39, 'extra': 0}
+xaudio2_7.dll-02fe3eaf35b3739c: 659 blocks {'entry': 1, 'exports': 4, 'tls': 0, 'pdata': 658, 'pdata_chained_skipped': 405, 'extra': 0}
+concrt140.dll-7f763053b5292164: 1241 blocks {'entry': 1, 'exports': 277, 'tls': 0, 'pdata': 1155, 'pdata_chained_skipped': 0, 'extra': 0}
+d3dcompiler_47.dll-e08b18ea15dcc731: 6456 blocks {'entry': 1, 'exports': 29, 'tls': 2, 'pdata': 6449, 'pdata_chained_skipped': 4431, 'extra': 0}
+discord_game_sdk.dll-f3f723afdaedbdb7: 10884 blocks {'entry': 1, 'exports': 3, 'tls': 1, 'pdata': 10883, 'pdata_chained_skipped': 12, 'extra': 0}
+msvcp140.dll-fd95b6e92c79d576: 1534 blocks {'entry': 1, 'exports': 1360, 'tls': 0, 'pdata': 1232, 'pdata_chained_skipped': 0, 'extra': 0}
+msvcp140_1.dll-08b58cb9ee3bdd56: 52 blocks {'entry': 1, 'exports': 7, 'tls': 0, 'pdata': 45, 'pdata_chained_skipped': 0, 'extra': 0}
+msvcp140_2.dll-09bc772df6925206: 442 blocks {'entry': 1, 'exports': 44, 'tls': 0, 'pdata': 442, 'pdata_chained_skipped': 3, 'extra': 0}
+msvcp140_atomic_wait.dll-204ef959a5e657cb: 101 blocks {'entry': 1, 'exports': 32, 'tls': 0, 'pdata': 91, 'pdata_chained_skipped': 0, 'extra': 0}
+msvcp140_codecvt_ids.dll-9320a2bd52f1d137: 32 blocks {'entry': 1, 'exports': 0, 'tls': 0, 'pdata': 32, 'pdata_chained_skipped': 0, 'extra': 0}
+ucrtbase.dll-c2e5a88e75662197: 4725 blocks {'entry': 1, 'exports': 2481, 'tls': 0, 'pdata': 3354, 'pdata_chained_skipped': 1252, 'extra': 0}
+vccorlib140.dll-40b8c9abd848391e: 786 blocks {'entry': 1, 'exports': 256, 'tls': 0, 'pdata': 717, 'pdata_chained_skipped': 0, 'extra': 0}
+vcomp140.dll-665178d566361065: 474 blocks {'entry': 1, 'exports': 113, 'tls': 0, 'pdata': 464, 'pdata_chained_skipped': 4, 'extra': 0}
+vcruntime140.dll-3d836f467187179c: 278 blocks {'entry': 1, 'exports': 71, 'tls': 0, 'pdata': 258, 'pdata_chained_skipped': 0, 'extra': 0}
+vcruntime140_1.dll-5a9959dd7903d92e: 88 blocks {'entry': 1, 'exports': 3, 'tls': 0, 'pdata': 88, 'pdata_chained_skipped': 0, 'extra': 0}
+vcruntime140_threads.dll-2c764dcf1ad88022: 72 blocks {'entry': 1, 'exports': 28, 'tls': 0, 'pdata': 67, 'pdata_chained_skipped': 0, 'extra': 0}
+xaudio2_9redist.dll-29964347e92a825f: 1136 blocks {'entry': 1, 'exports': 6, 'tls': 0, 'pdata': 1136, 'pdata_chained_skipped': 723, 'extra': 0}
+EOSSDK-Win64-Shipping.dll: 30431 direct-call targets, 15110 relocated data pointers to code, 45195 total
+RocketLeague.exe: 35070 direct-call targets, 44674 relocated data pointers to code, 78770 total
+XAPOFX1_5.dll: 71 direct-call targets, 0 relocated data pointers to code, 71 total
+XAudio2_7.dll: 416 direct-call targets, 29 relocated data pointers to code, 445 total
+concrt140.dll: 802 direct-call targets, 377 relocated data pointers to code, 1158 total
+d3dcompiler_47.dll: 4989 direct-call targets, 3060 relocated data pointers to code, 7971 total
+discord_game_sdk.dll: 3668 direct-call targets, 624 relocated data pointers to code, 4239 total
+msvcp140.dll: 487 direct-call targets, 323 relocated data pointers to code, 796 total
+msvcp140_1.dll: 51 direct-call targets, 15 relocated data pointers to code, 66 total
+msvcp140_2.dll: 396 direct-call targets, 50 relocated data pointers to code, 444 total
+msvcp140_atomic_wait.dll: 81 direct-call targets, 9 relocated data pointers to code, 90 total
+msvcp140_codecvt_ids.dll: 39 direct-call targets, 4 relocated data pointers to code, 43 total
+ucrtbase.dll: 2261 direct-call targets, 89 relocated data pointers to code, 2339 total
+vccorlib140.dll: 402 direct-call targets, 1087 relocated data pointers to code, 1466 total
+vcomp140.dll: 374 direct-call targets, 55 relocated data pointers to code, 426 total
+vcruntime140.dll: 213 direct-call targets, 26 relocated data pointers to code, 238 total
+vcruntime140_1.dll: 86 direct-call targets, 8 relocated data pointers to code, 93 total
+vcruntime140_threads.dll: 50 direct-call targets, 4 relocated data pointers to code, 54 total
+xaudio2_9redist.dll: 829 direct-call targets, 453 relocated data pointers to code, 1264 total
+skip Binaries/Win64/X3DAudio1_7.dll: preferred base 0x400000 is below 4 GB (subfloor window, JIT only)
+skip Binaries/Win64/dbghelp.dll: preferred base 0x3000000 is below 4 GB (subfloor window, JIT only)
+skip Binaries/Win64/xinput1_3.dll: preferred base 0x400000 is below 4 GB (subfloor window, JIT only)
+eossdk-win64-shipping.dll-d8b9db2c6b4ebd48: 50312 blocks {'entry': 1, 'exports': 751, 'tls': 1, 'pdata': 42183, 'pdata_chained_skipped': 28018, 'extra': 45195}
+rocketleague.exe-92e02b0b487870ca: 94810 blocks {'entry': 1, 'exports': 388, 'tls': 0, 'pdata': 81667, 'pdata_chained_skipped': 32725, 'extra': 78770}
+xapofx1_5.dll-2ae82042678be421: 133 blocks {'entry': 1, 'exports': 1, 'tls': 0, 'pdata': 110, 'pdata_chained_skipped': 39, 'extra': 71}
+xaudio2_7.dll-02fe3eaf35b3739c: 738 blocks {'entry': 1, 'exports': 4, 'tls': 0, 'pdata': 658, 'pdata_chained_skipped': 405, 'extra': 445}
+concrt140.dll-7f763053b5292164: 1508 blocks {'entry': 1, 'exports': 277, 'tls': 0, 'pdata': 1155, 'pdata_chained_skipped': 0, 'extra': 1158}
+d3dcompiler_47.dll-e08b18ea15dcc731: 8358 blocks {'entry': 1, 'exports': 29, 'tls': 2, 'pdata': 6449, 'pdata_chained_skipped': 4431, 'extra': 7971}
+discord_game_sdk.dll-f3f723afdaedbdb7: 11881 blocks {'entry': 1, 'exports': 3, 'tls': 1, 'pdata': 10883, 'pdata_chained_skipped': 12, 'extra': 4239}
+msvcp140.dll-fd95b6e92c79d576: 1647 blocks {'entry': 1, 'exports': 1360, 'tls': 0, 'pdata': 1232, 'pdata_chained_skipped': 0, 'extra': 796}
+msvcp140_1.dll-08b58cb9ee3bdd56: 86 blocks {'entry': 1, 'exports': 7, 'tls': 0, 'pdata': 45, 'pdata_chained_skipped': 0, 'extra': 66}
+msvcp140_2.dll-09bc772df6925206: 538 blocks {'entry': 1, 'exports': 44, 'tls': 0, 'pdata': 442, 'pdata_chained_skipped': 3, 'extra': 444}
+msvcp140_atomic_wait.dll-204ef959a5e657cb: 136 blocks {'entry': 1, 'exports': 32, 'tls': 0, 'pdata': 91, 'pdata_chained_skipped': 0, 'extra': 90}
+msvcp140_codecvt_ids.dll-9320a2bd52f1d137: 51 blocks {'entry': 1, 'exports': 0, 'tls': 0, 'pdata': 32, 'pdata_chained_skipped': 0, 'extra': 43}
+ucrtbase.dll-c2e5a88e75662197: 5000 blocks {'entry': 1, 'exports': 2481, 'tls': 0, 'pdata': 3354, 'pdata_chained_skipped': 1252, 'extra': 2339}
+vccorlib140.dll-40b8c9abd848391e: 1714 blocks {'entry': 1, 'exports': 256, 'tls': 0, 'pdata': 717, 'pdata_chained_skipped': 0, 'extra': 1466}
+vcomp140.dll-665178d566361065: 571 blocks {'entry': 1, 'exports': 113, 'tls': 0, 'pdata': 464, 'pdata_chained_skipped': 4, 'extra': 426}
+vcruntime140.dll-3d836f467187179c: 323 blocks {'entry': 1, 'exports': 71, 'tls': 0, 'pdata': 258, 'pdata_chained_skipped': 0, 'extra': 238}
+vcruntime140_1.dll-5a9959dd7903d92e: 111 blocks {'entry': 1, 'exports': 3, 'tls': 0, 'pdata': 88, 'pdata_chained_skipped': 0, 'extra': 93}
+vcruntime140_threads.dll-2c764dcf1ad88022: 92 blocks {'entry': 1, 'exports': 28, 'tls': 0, 'pdata': 67, 'pdata_chained_skipped': 0, 'extra': 54}
+xaudio2_9redist.dll-29964347e92a825f: 1434 blocks {'entry': 1, 'exports': 6, 'tls': 0, 'pdata': 1136, 'pdata_chained_skipped': 723, 'extra': 1264}
+concrt140.dll-7f763053b5292164: files=1 exe=no blocks=1508 path=c:\games\rocketleague\binaries\win64\concrt140.dll
+d3dcompiler_47.dll-e08b18ea15dcc731: files=1 exe=no blocks=8358 path=c:\games\rocketleague\binaries\win64\d3dcompiler_47.dll
+discord_game_sdk.dll-f3f723afdaedbdb7: files=1 exe=no blocks=11881 path=c:\games\rocketleague\binaries\win64\discord_game_sdk.dll
+eossdk-win64-shipping.dll-d8b9db2c6b4ebd48: files=1 exe=no blocks=50312 path=c:\games\rocketleague\binaries\win64\eossdk-win64-shipping.dll
+msvcp140_1.dll-08b58cb9ee3bdd56: files=1 exe=no blocks=86 path=c:\games\rocketleague\binaries\win64\msvcp140_1.dll
+msvcp140_2.dll-09bc772df6925206: files=1 exe=no blocks=538 path=c:\games\rocketleague\binaries\win64\msvcp140_2.dll
+msvcp140_atomic_wait.dll-204ef959a5e657cb: files=1 exe=no blocks=136 path=c:\games\rocketleague\binaries\win64\msvcp140_atomic_wait.dll
+msvcp140_codecvt_ids.dll-9320a2bd52f1d137: files=1 exe=no blocks=51 path=c:\games\rocketleague\binaries\win64\msvcp140_codecvt_ids.dll
+msvcp140.dll-fd95b6e92c79d576: files=1 exe=no blocks=1647 path=c:\games\rocketleague\binaries\win64\msvcp140.dll
+rocketleague.exe-92e02b0b487870ca: files=19 exe=yes blocks=94810 path=c:\games\rocketleague\binaries\win64\rocketleague.exe
+ucrtbase.dll-c2e5a88e75662197: files=1 exe=no blocks=5000 path=c:\games\rocketleague\binaries\win64\ucrtbase.dll
+vccorlib140.dll-40b8c9abd848391e: files=1 exe=no blocks=1714 path=c:\games\rocketleague\binaries\win64\vccorlib140.dll
+vcomp140.dll-665178d566361065: files=1 exe=no blocks=571 path=c:\games\rocketleague\binaries\win64\vcomp140.dll
+vcruntime140_1.dll-5a9959dd7903d92e: files=1 exe=no blocks=111 path=c:\games\rocketleague\binaries\win64\vcruntime140_1.dll
+vcruntime140.dll-3d836f467187179c: files=1 exe=no blocks=323 path=c:\games\rocketleague\binaries\win64\vcruntime140.dll
+vcruntime140_threads.dll-2c764dcf1ad88022: files=1 exe=no blocks=92 path=c:\games\rocketleague\binaries\win64\vcruntime140_threads.dll
+xapofx1_5.dll-2ae82042678be421: files=1 exe=no blocks=133 path=c:\games\rocketleague\binaries\win64\xapofx1_5.dll
+xaudio2_7.dll-02fe3eaf35b3739c: files=1 exe=no blocks=738 path=c:\games\rocketleague\binaries\win64\xaudio2_7.dll
+xaudio2_9redist.dll-29964347e92a825f: files=1 exe=no blocks=1434 path=c:\games\rocketleague\binaries\win64\xaudio2_9redist.dll
+exit=0
