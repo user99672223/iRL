@@ -101,10 +101,13 @@ key. No game file is in the public iRL repo, its artifacts or its logs.
 - **Offline / sign-in failure:** RL exits (hands off to the Epic launcher) without the `-AUTH_*`
   arguments. With a dummy code it reaches the menu offline, verified on the laptop and on CI. iRL's
   fallback uses that form.
-- **CI after the menu:** on the ARM64 bench RL reaches the menu, then crashes about 1.7 s later reading
-  a texture-cache range missing from the CI's sparse copy of the game (`Textures5.tfc`). That's a CI
-  test-data gap, not a translation bug; the phone gets the full game. A padded menu-v3 subset is
-  being packed so CI can idle at the menu.
+- **CI after the menu:** across 4 ARM64 bench runs RL reaches the main menu every time, then crashes
+  seconds later reading texture-cache bytes that CI's partial copy of the game doesn't contain. Each run
+  streams from different offsets (most recently `Textures6.tfc`). Proving a long idle in CI would need
+  all 23 GB of texture caches in the private repo, so it stops here. The phone has the full game. Final
+  JIT misses during the boot with PGO: rocketleague.exe 54 (was 2,585), EOS SDK 0, vcruntime 0. The
+  remaining ~480 are tiny x64 stubs in Wine's own DLLs (different builds on the phone; its first Prepare
+  pass picks them up). Runs: 42764735660, 42765992452, 42766823928, 42767673247, 42769758619, 42774986454.
 - **Memory:** CI RSS (5–6.9 GB peak) isn't representative: wined3d on llvmpipe reports 12 GB of "VRAM"
   and keeps GPU resources in process RAM. On the phone DXMT reports the real Metal budget.
   The AOT caches are 385 MB of dirty memory (exe 205 MB, EOS SDK 135 MB). If iOS kills
