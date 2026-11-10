@@ -238,6 +238,12 @@ jobs:
           TFC=$(for f in "$G"/TAGame/CookedPCConsole/*.tfc; do printf -- '-P %q ' "$f"; done)
           (cd "$G/Binaries/Win64" && WINEDEBUG=fixme-all,err+all,+seh,+threadname timeout 3600 strace -f -qq -y --seccomp-bpf -e trace=openat,pread64,preadv,preadv2,read,lseek -o ~/out/tfc-reads.strace $(eval echo $TFC) wine RocketLeague.exe $ARGS > ~/out/rl-stdout.log 2> ~/out/rl-wine.log; echo "exit=$?" >> ~/out/rl-stdout.log) &
           start=$(date +%s); menu_at=""; peak=0
+          # Screenshot burst: one frame per second from t=20 s to t=240 s, so the menu is captured even if
+          # the game dies seconds after reaching it (the 2-minute shots below missed it every run).
+          (for i in $(seq 0 220); do
+             sleep 1; ts=$(( $(date +%s) - start )); [ $ts -lt 20 ] && continue; [ $ts -gt 240 ] && break
+             xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/burst-$(printf %04d $ts).png 2>/dev/null
+           done) &
           while :; do
             sleep 5
             ts=$(( $(date +%s) - start )); t=$(( ts / 60 ))
@@ -266,6 +272,19 @@ jobs:
             [ $t -ge 60 ] && { echo "60 min budget used" | tee -a ~/out/rl-progress.txt; break; }
           done
           xwd -root -silent 2>/dev/null | convert xwd:- ~/out/shots/shot-final.png 2>/dev/null
+          # Keep only frames with picture content (drop all-black / identical consecutive frames).
+          python3 - <<'PY' 2>&1 | tee ~/out/shots-kept.txt
+          import glob, hashlib, os, subprocess
+          prev = None
+          for f in sorted(glob.glob(os.path.expanduser('~/out/shots/burst-*.png'))):
+              mean = subprocess.run(['convert', f, '-colorspace', 'Gray', '-format', '%[fx:mean]', 'info:'], capture_output=True, text=True).stdout.strip()
+              h = hashlib.sha1(open(f, 'rb').read()).hexdigest()
+              if not mean or float(mean) < 0.01 or h == prev:
+                  os.remove(f)
+              else:
+                  print(os.path.basename(f), 'mean', mean)
+              prev = h
+          PY
           echo "peak RSS: $((peak/1024)) MB" | tee -a ~/out/rl-progress.txt
           LL=$(find "$WINEPREFIX/drive_c/users" -path '*TAGame/Logs/Launch.log' 2>/dev/null | head -1); [ -n "$LL" ] && cp "$LL" ~/out/Launch.log
           wineserver -k; sleep 5
