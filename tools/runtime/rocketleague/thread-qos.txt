@@ -1,0 +1,1 @@
+RenderingThread*=user-interactive;AK::EventManage*=user-interactive;PoolThread*=user-initiated;HttpManager*=default;Libwebsockets*=default;ThreadedTickWeb*=utility;AK::BankManage*=utility;RocketL*:disk*=utility;AsyncIOSystem*=utility;EncryptionWorke*=utility;Rtc*=utility;Rocket*:traceq*=background

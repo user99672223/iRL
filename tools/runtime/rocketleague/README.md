@@ -15,3 +15,17 @@
 - **Vsync off in the game:** DXMT paces to 60 against the external display (`dxmt.conf`).
 - **Not done yet:** dynamic resolution driven by GPU frame time needs device frame-time data
   (see REPORT.md, known issues).
+
+## Thread QoS (`thread-qos.txt` → env `MADEIRA_THREAD_QOS`)
+
+Thread names were taken from the real game running under Wine on the laptop (`/proc/<pid>/task/*/comm`,
+2026-11-10). Unnamed threads, which include the main game thread, keep `user-interactive`.
+| Pattern | Class | Why |
+|---|---|---|
+| RenderingThread*, AK::EventManage* | user-interactive | Frame-critical: render submission and Wwise audio mixing (crackles otherwise) |
+| PoolThread* (13 threads) | user-initiated | UE3 worker pool. One level down so 13 workers can't crowd the main and render threads off the 2 P-cores |
+| HttpManager*, Libwebsockets* | default | Online services, latency-tolerant |
+| ThreadedTickWeb*, AK::BankManage*, RocketL*:disk*, AsyncIOSystem*, EncryptionWorke*, Rtc* | utility | Loading, I/O, voice chat |
+| Rocket*:traceq* | background | Telemetry |
+The patterns use `*` because Linux truncates `comm` to 15 characters, while Wine on iOS sees the full
+SetThreadDescription name. Madeira's ECO mode still overrides these rules.
