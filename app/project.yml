@@ -106,6 +106,10 @@ targets:
           - -lc++
           - -lz
           - -lsqlite3
+          # MetalFX (DXMT's spatial upscaler) exists in the device SDK only; linked here so the
+          # simulator self-test build, which overrides OTHER_LDFLAGS, links without it.
+          - -framework
+          - MetalFX
         # iOS Simulator (CI self-test): no Wine/FEX/DXMT (device-only static libraries). The Madeira
         # runtime sources are left out and SimStubs.{c,swift} stand in; device builds leave the stubs out.
         "EXCLUDED_SOURCE_FILE_NAMES[sdk=iphonesimulator*]":
@@ -134,7 +138,6 @@ targets:
         GCC_PREPROCESSOR_DEFINITIONS: ["$(inherited)", "IRL=1"]
     dependencies:
       - sdk: Metal.framework
-      - sdk: MetalFX.framework
       - sdk: QuartzCore.framework
       - sdk: IOSurface.framework
       - sdk: IOKit.framework
