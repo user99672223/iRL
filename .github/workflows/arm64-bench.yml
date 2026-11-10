@@ -171,7 +171,7 @@ jobs:
           [ -n "$IRL_ASSETS_KEY" ] || { echo "no IRL_ASSETS_KEY"; echo "have=false" >> "$GITHUB_OUTPUT"; exit 0; }
           mkdir -p ~/.ssh && echo "$IRL_ASSETS_KEY" > ~/.ssh/irl_assets && chmod 600 ~/.ssh/irl_assets
           cd ~
-          GIT_SSH_COMMAND='ssh -i ~/.ssh/irl_assets -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new' git clone -q --depth 1 --branch menu-v2 git@github.com:user99672223/irl-assets.git irl-assets > ~/out/assets-clone.log 2>&1
+          GIT_SSH_COMMAND='ssh -i ~/.ssh/irl_assets -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new' git clone -q --depth 1 --branch menu-v3 git@github.com:user99672223/irl-assets.git irl-assets > ~/out/assets-clone.log 2>&1
           [ -f irl-assets/restore.sh ] || { cat ~/out/assets-clone.log; echo "have=false" >> "$GITHUB_OUTPUT"; exit 0; }
           bash irl-assets/restore.sh irl-assets "$WINEPREFIX/drive_c/games/rocketleague" > ~/out/assets-restore.log 2>&1; echo "restore exit=$?" >> ~/out/assets-restore.log
           tail -15 ~/out/assets-restore.log
@@ -191,7 +191,16 @@ jobs:
           G="$WINEPREFIX/drive_c/games/rocketleague"
           python3 tools/aot/gen_codemaps.py --game "$G" --out ~/cm-seed > ~/out/rl-codemaps.log 2>&1
           python3 tools/aot/call_targets.py --objdump "$(command -v llvm-objdump)" --game "$G" --manifest ~/cm-seed/manifest.json --out ~/call-targets.json >> ~/out/rl-codemaps.log 2>&1
-          python3 tools/aot/gen_codemaps.py --game "$G" --extra ~/call-targets.json --out ~/cm-ready >> ~/out/rl-codemaps.log 2>&1
+          # Same as main's tools/aot/build-codemaps.sh: seeds + call targets + relocated pointers + PGO JIT misses.
+          python3 - ~/call-targets.json tools/aot/pgo/*.json > ~/extra.json <<'PY'
+          import json, sys
+          out = {}
+          for p in sys.argv[1:]:
+              for k, v in json.load(open(p)).items():
+                  out.setdefault(k.lower(), set()).update(v)
+          json.dump({k: sorted(v) for k, v in out.items()}, sys.stdout)
+          PY
+          python3 tools/aot/gen_codemaps.py --game "$G" --extra ~/extra.json --out ~/cm-ready >> ~/out/rl-codemaps.log 2>&1
           python3 tools/aot/check_codemap.py $(ls ~/cm-ready/* | grep -v manifest.json) >> ~/out/rl-codemaps.log 2>&1; echo "check exit=$?" >> ~/out/rl-codemaps.log
           cp ~/cm-ready/manifest.json ~/out/rl-manifest.json
           grep -E "blocks|skip|exit" ~/out/rl-codemaps.log | tail -30
@@ -248,7 +257,8 @@ jobs:
               echo "MAIN MENU reached at ~${ts}s, RSS at menu: $((rss/1024)) MB (peak so far $((peak/1024)) MB)" | tee -a ~/out/rl-progress.txt
               [ -n "$pid" ] && cp /proc/$pid/status ~/out/rl-proc-status-at-menu.txt
             fi
-            [ -n "$menu_at" ] && [ $t -ge $((menu_at + 5)) ] && break
+            # Success criterion: 10 minutes idle at the menu with no appError / unhandled exception.
+            [ -n "$menu_at" ] && [ $t -ge $((menu_at + 10)) ] && { echo "IDLE 10 min at the menu: OK" | tee -a ~/out/rl-progress.txt; break; }
             [ -z "$pid" ] && { echo "RocketLeague.exe exited at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
             pgrep -x winedbg > /dev/null && { sleep 20; echo "crashed; stopping at t=${t}min" | tee -a ~/out/rl-progress.txt; break; }
             [ $t -ge 60 ] && { echo "60 min budget used" | tee -a ~/out/rl-progress.txt; break; }
@@ -257,7 +267,8 @@ jobs:
           echo "peak RSS: $((peak/1024)) MB" | tee -a ~/out/rl-progress.txt
           LL=$(find "$WINEPREFIX/drive_c/users" -path '*TAGame/Logs/Launch.log' 2>/dev/null | head -1); [ -n "$LL" ] && cp "$LL" ~/out/Launch.log
           wineserver -k; sleep 5
-          { echo "first fatal:"; grep -nm1 -E "Critical|Fatal|appError" ~/out/Launch.log;
+          { echo "fatal after menu:"; grep -nE "appError|Critical error" ~/out/Launch.log; grep -nE "Unhandled exception" ~/out/rl-wine.log;
+            grep -E "OutputDebugStringA.*(appError|Critical error)" ~/out/rl-wine.log | head -5;
             echo "failed-to-find:"; grep -oE "Failed to find file[^.]*|Couldn't (find|load)[^.]*|Can't find file[^.]*" ~/out/Launch.log | sort | uniq -c;
             echo "milestones:"; grep -nE "Bringing World|menu_main_p|GameInfo_GFxMenu_TA|Breadcrumbs" ~/out/Launch.log | tail -20; } | tee ~/out/rl-summary.txt
           python3 tools/bench/codemap_summary.py ~/fexcache/codemap/new | tee ~/out/rl-jit-misses.txt | head -30
