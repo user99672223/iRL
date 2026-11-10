@@ -1,0 +1,28 @@
+{
+  "_doc": "Keys set in [SystemSettings] of <prefix>/drive_c/users/<user>/Documents/My Games/Rocket League/TAGame/Config/TASystemSettings.ini on import and when the render resolution changes. Every other key keeps the game's/the owner's value.",
+  "SystemSettings": {
+    "Fullscreen": "True",
+    "Borderless": "False",
+    "ResX": "1600",
+    "ResY": "900",
+    "ScreenPercentage": "100.000000",
+    "UpscaleScreenPercentage": "True",
+    "UseVsync": "False",
+    "DynamicShadows": "False",
+    "MotionBlur": "False",
+    "DepthOfField": "False",
+    "AmbientOcclusion": "False",
+    "Bloom": "False",
+    "LensFlares": "False",
+    "bAllowHighQualityMaterials": "False",
+    "DetailMode": "1",
+    "MaxMultiSamples": "1",
+    "MaxAnisotropy": "4"
+  },
+  "presets": {
+    "1440p native": {"ResX": "2560", "ResY": "1440", "metalfx": null},
+    "1080p + MetalFX": {"ResX": "1920", "ResY": "1080", "metalfx": 1.3333},
+    "900p + MetalFX (default)": {"ResX": "1600", "ResY": "900", "metalfx": 1.6},
+    "720p + MetalFX": {"ResX": "1280", "ResY": "720", "metalfx": 2.0}
+  }
+}
