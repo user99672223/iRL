@@ -27,7 +27,7 @@ struct HomeView: View {
                     LabeledContent("Game", value: Paths.gameFound ? "found" : "missing")
                     Button(gameCheck.running ? "Checking game files…" : "Check game files") { gameCheck.run() }
                         .disabled(gameCheck.running || runtime.state != .idle)
-                    if let s = gameCheck.summary { Text(s).font(.callout).foregroundStyle(s.hasPrefix("All") ? .green : .red) }
+                    if let s = gameCheck.summary { Text(s).font(.callout).foregroundStyle(s.contains("All ") ? .green : .red) }
                 }
                 StatusSection(diag: diag)
                 Section("Epic Games") {

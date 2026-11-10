@@ -21,12 +21,52 @@ final class GameCheck: ObservableObject {
             await MainActor.run {
                 self.summary = result
                 self.running = false
-                LogStore.shared.log("[game-check] \(result)", level: result.hasPrefix("All") ? .success : .error)
+                LogStore.shared.log("[game-check] \(result)", level: result.contains("All ") ? .success : .error)
             }
         }
     }
 
+    /// Files › iRL › Incoming: a folder sent from the laptop with only the missing files, in the
+    /// game's own layout (tools/release/missing-files.sh). Each file is moved to the same relative
+    /// path under Games/rocketleague, replacing a partial copy; folders are created as needed.
+    nonisolated static var incoming: URL { Paths.documents.appendingPathComponent("Incoming", isDirectory: true) }
+
+    nonisolated static func mergeIncoming() -> Int {
+        let fm = FileManager.default
+        try? fm.createDirectory(at: incoming, withIntermediateDirectories: true)
+        // Accept Incoming/<anything>/Binaries|Engine|TAGame... (the sent folder) or the layout directly.
+        var roots: [URL] = []
+        for top in (try? fm.contentsOfDirectory(at: incoming, includingPropertiesForKeys: nil)) ?? [] {
+            let names = Set(((try? fm.contentsOfDirectory(atPath: top.path)) ?? []))
+            if !names.isDisjoint(with: ["Binaries", "Engine", "TAGame"]) { roots.append(top) }
+        }
+        let direct = Set((try? fm.contentsOfDirectory(atPath: incoming.path)) ?? [])
+        if !direct.isDisjoint(with: ["Binaries", "Engine", "TAGame"]) { roots.append(incoming) }
+        var moved = 0
+        for root in roots {
+            guard let walk = fm.enumerator(at: root, includingPropertiesForKeys: [.isRegularFileKey]) else { continue }
+            let base = root.standardizedFileURL.path + "/"
+            for case let f as URL in walk {
+                guard (try? f.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true else { continue }
+                let rel = String(f.standardizedFileURL.path.dropFirst(base.count))
+                guard ["Binaries/", "Engine/", "TAGame/"].contains(where: rel.hasPrefix) else { continue }
+                let dst = Paths.gameStore.appendingPathComponent(rel)
+                try? fm.createDirectory(at: dst.deletingLastPathComponent(), withIntermediateDirectories: true)
+                try? fm.removeItem(at: dst)
+                if (try? fm.moveItem(at: f, to: dst)) != nil { moved += 1 }
+            }
+            if root != incoming { try? fm.removeItem(at: root) }
+        }
+        return moved
+    }
+
     nonisolated static func check() -> String {
+        let merged = mergeIncoming()
+        let result = verify()
+        return merged > 0 ? "Placed \(merged) files from Incoming. " + result : result
+    }
+
+    nonisolated static func verify() -> String {
         guard let url = Bundle.main.url(forResource: "GameFiles", withExtension: "tsv"),
               let text = try? String(contentsOf: url, encoding: .utf8) else {
             return "No file list in this IPA"

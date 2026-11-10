@@ -18,6 +18,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         logs.collectPreviousRun()
         RuntimeFiles.installFEXConfig()
         try? FileManager.default.createDirectory(at: Paths.gameStore, withIntermediateDirectories: true)
+        try? FileManager.default.createDirectory(at: GameCheck.incoming, withIntermediateDirectories: true)
         Paths.linkGame()
         LogStore.shared.log("[game] \(Paths.gameFound ? "found" : "missing") at Documents/Games/rocketleague")
         let info = Bundle.main.infoDictionary ?? [:]
