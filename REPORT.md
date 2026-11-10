@@ -8,10 +8,10 @@ _Last updated: 2026-11-10 (run in progress)._
 |---|---|---|
 | GitHub repo | Done | Public: https://github.com/user99672223/iRL |
 | Clones and pins | Done | `workspace/` (git-ignored); exact SHAs in `PINS.md` |
-| FEX pin | Done | Madeira's FEX `ios-port-2607` (`1dc6ed49`). See decision D1. |
+| FEX pin | **Blocked: needs your decision** | Madeira's `ios-port-2607` can't load AOT caches on the Windows/ARM64EC path. See D1. |
 | AOT code maps | Done, verified | `tools/aot/gen_codemaps.py`: 22 modules, ~158k seeded blocks (RocketLeague.exe: 81,786) |
-| AOT cache generation | Not done | Runs on the iPhone (decision D2); not testable on the laptop |
-| iRL app / Actions IPA | In progress | Madeira pinned as base plus an iRL overlay (decision D3) |
+| AOT cache generation | Not done | Depends on D1. Plan: run on the iPhone (D2). |
+| iRL app / Actions IPA | Building | Workflow `Build iRL IPA` on macos-26. `plan` passed; LLVM/FEX/Wine native jobs take hours on the first run. |
 | Shaders (.metallib) | Not started | |
 | Step 5 AOT optimizations | Blocked by policy | See decision D4 |
 
@@ -21,10 +21,19 @@ _Filled in once the IPA build is green._
 
 ## 3. Decisions
 
-**D1. FEX pin = Madeira's `ios-port-2607` fork, not a rebase.** It is already newer than the
-2512/2601 offline-cache work (code maps, `FEXOfflineCompiler`, cache validation, PE relocations,
-`ENABLE_OFFLINE_RUNTIME`). Rebasing the iOS changes would only add risk. The FEX that generates
-the caches is the same build that is shipped.
+**D1 (revised). The pinned FEX cannot use AOT caches on Windows yet. Rebase pending your call.**
+In Madeira's `ios-port-2607`, `Source/Windows/Common/ImageTracker.cpp` maps cache files but never
+loads them (`// TODO: CodeCache::LoadCache, CodeCache::RegisterMappedCodeBuffer`, and the same for
+`EnableLoadedSection`). Upstream FEX finished this path (FEX-2609 `DiskCache`). Madeira's fork
+has no newer iOS branch. A test merge of `FEX-2611` into Madeira's 133 iOS commits stops with
+**27 conflicting files**, including `JIT.cpp`, `BranchOps.cpp`, `Allocator.cpp`, `Frontend.cpp` and
+the iOS transition code `ARM64EC/Module.S` / `Module.cpp` (merge aborted, nothing changed; log
+in `logs/fex-merge-*`). Resolving those means writing FEX source by hand, which D4 rules out
+for me. Options:
+1. You (or Madeira upstream) do the rebase onto FEX-2611. Everything else in the AOT pipeline is ready to plug in.
+2. You allow AI-written conflict resolution in a private, never-upstreamed fork. I would do it on a
+   branch with a full log, and nothing is verifiable before a device test.
+3. Ship JIT-only now (Madeira as is) and do AOT later.
 
 **D2. The AOT caches are generated on the iPhone, not on the laptop under qemu-user.** Reasons found in the source:
 - FEX's offline compiler for Windows targets is itself an ARM64EC Windows program
@@ -60,7 +69,7 @@ those may be AI-written in your private fork (never upstreamed), or written by y
 ## 4. Known issues / uncertainties
 
 - Whether `FEXOfflineCompiler.exe` runs cleanly inside Madeira's Wine on iOS (D2) is only testable on the device.
-- The CI runner label: Madeira's CI uses `xcode-27` and needs the iOS 27 SDK. Being probed on GitHub-hosted runners.
+- CI runs on GitHub's `macos-26` (Xcode 26.6, iOS 26.5 SDK, 3 CPU / 7 GB). Madeira's two Xcode-27-only features are already guarded (`build/ntdll-unix/build.sh` page-wait probe, `build-shader-headers.sh` atomic fix). The first full build may approach the 6-hour job limit. Caches make the next runs fast.
 
 ## 5. Logs
 

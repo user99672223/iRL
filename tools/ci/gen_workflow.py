@@ -51,7 +51,7 @@ y = y.replace('name: Build IPA\n', 'name: Build iRL IPA\n', 1)
 y = y.replace('      - name: Build IPA\n        run: tools/build-ipa.sh\n',
               '      - name: Apply iRL overlay\n        run: bash ../tools/overlay/apply.sh "$PWD"\n'
               '      - name: Build IPA\n        run: tools/build-ipa.sh && cp dist/Madeira.ipa dist/iRL.ipa\n', 1)
-y = y.replace("branches: [main, 'codex/pr-build-*']", 'branches: [main]')
+y = y.replace("branches: [main, 'codex/pr-build-*']", "branches: [main]\n    paths-ignore: ['REPORT.md', 'PINS.md', 'logs/**', 'tools/aot/**']")
 # The IPA cache must also change when the overlay changes: key it on iRL's tree (includes the pin).
 y = y.replace("$(git rev-parse 'HEAD^{tree}')", "$(git -C .. rev-parse 'HEAD^{tree}')")
 assert "git -C .. rev-parse 'HEAD^{tree}'" in y

@@ -4,6 +4,7 @@ name: Build iRL IPA
 on:
   push:
     branches: [main]
+    paths-ignore: ['REPORT.md', 'PINS.md', 'logs/**', 'tools/aot/**']
   pull_request:
   workflow_dispatch:
 
