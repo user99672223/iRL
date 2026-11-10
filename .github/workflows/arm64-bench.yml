@@ -171,10 +171,12 @@ jobs:
           [ -n "$IRL_ASSETS_KEY" ] || { echo "no IRL_ASSETS_KEY"; echo "have=false" >> "$GITHUB_OUTPUT"; exit 0; }
           mkdir -p ~/.ssh && echo "$IRL_ASSETS_KEY" > ~/.ssh/irl_assets && chmod 600 ~/.ssh/irl_assets
           cd ~
-          GIT_SSH_COMMAND='ssh -i ~/.ssh/irl_assets -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new' git clone -q --depth 1 --branch menu-v3 git@github.com:user99672223/irl-assets.git irl-assets > ~/out/assets-clone.log 2>&1
+          GIT_SSH_COMMAND='ssh -i ~/.ssh/irl_assets -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new' git clone -q --depth 1 --branch menu-v4 git@github.com:user99672223/irl-assets.git irl-assets > ~/out/assets-clone.log 2>&1
           [ -f irl-assets/restore.sh ] || { cat ~/out/assets-clone.log; echo "have=false" >> "$GITHUB_OUTPUT"; exit 0; }
           bash irl-assets/restore.sh irl-assets "$WINEPREFIX/drive_c/games/rocketleague" > ~/out/assets-restore.log 2>&1; echo "restore exit=$?" >> ~/out/assets-restore.log
           tail -15 ~/out/assets-restore.log
+          cp irl-assets/manifest.json ~/out/assets-manifest.json 2>/dev/null
+          rm -rf irl-assets   # 3.6 GB clone; the restore is all that's needed from here
           G="$WINEPREFIX/drive_c/games/rocketleague"
           if [ -f "$G/Binaries/Win64/RocketLeague.exe" ]; then
             echo "have=true" >> "$GITHUB_OUTPUT"
