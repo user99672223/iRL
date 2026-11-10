@@ -11,10 +11,10 @@ x64 PE carries, so the first on-device AOT pass already covers (nearly) every fu
   * every primary RUNTIME_FUNCTION in .pdata (all non-leaf functions; chained fragments skipped)
 
 The on-disk format mirrors FEXCore/include/FEXCore/Core/CodeCache.h (struct CodeMap) of the
-pinned FEX (Madeira ios-port-2607):
+pinned FEX (user99672223/FEX irl-fex-aot = Madeira ios-port-2607 + upstream code-cache commits):
   Entry          = packed { u64 FileId; u32 BlockOffset }       (BlockOffset = RVA)
   LoadExternal   = Entry{~0, 0xffffffff} + u64 FileId + NUL-terminated path, padded to 4 bytes
-  SetExecutable  = Entry{~0, 0xfffffffe} + u64 FileId
+  SetExecutable  = Entry{~0, 0xffffffef (64-bit) / 0xffffffee (32-bit)} + u64 FileId
 FileId follows Source/Windows/Common/ImageTracker.cpp:
   XXH3_64(lowercase basename) ^ (SizeOfImage << 32 | TimeDateStamp)
 Paths are lowercased Windows paths, as ImageTracker records them.
@@ -28,7 +28,9 @@ import pefile, xxhash
 SCN_MEM_EXECUTE = 0x20000000
 UNW_FLAG_CHAININFO = 0x4
 LOAD_EXTERNAL = struct.pack('<QI', 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFF)
-SET_EXECUTABLE = struct.pack('<QI', 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFE)
+# SetExecutableFileId::Marker64 (irl-fex-aot, upstream 54236df6e: the marker also records bitness;
+# Marker32 = 0xffffffee). Rocket League is 64-bit.
+SET_EXECUTABLE = struct.pack('<QI', 0xFFFFFFFFFFFFFFFF, 0xFFFFFFEF)
 
 # Not part of a no-EAC launch, or never loaded by the game.
 EXCLUDE = ('easyanticheat', 'rocketleague_eac.exe', 'launcher.exe', 'clang_rt.asan', 'api-ms-win-')

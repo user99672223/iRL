@@ -10,8 +10,10 @@ def parse(p):
             end = d.index(b'\0', i); name = d[i:end].decode(); i = end + 1
             i = start + ((i - start + 3) & ~3)
             files.setdefault(ext, [name, set()])
-        elif fid == 0xFFFFFFFFFFFFFFFF and off == 0xFFFFFFFE:
+        elif fid == 0xFFFFFFFFFFFFFFFF and off in (0xFFFFFFEE, 0xFFFFFFEF):
             exe, = struct.unpack_from('<Q', d, i); i += 8
+        elif fid == 0xFFFFFFFFFFFFFFFF:
+            sys.exit(f'{p}: malformed marker {off:#x} (FEX would ERROR_AND_DIE)')
         else:
             if fid not in files: sys.exit(f'{p}: unknown file id {fid:016x}')
             files[fid][1].add(off)
