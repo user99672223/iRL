@@ -91,12 +91,14 @@ struct HomeView: View {
 struct StatusSection: View {
     @ObservedObject var diag: Diagnostics
     var body: some View {
-        let jit = jit_check_debugged()
+        let jit = StikJITHelper.ready
+        let flaggedOnly = !jit && jit_check_debugged()
         let iml = Entitlements.provisioned("com.apple.developer.kernel.increased-memory-limit")
         let limitMB = diag.last.footprintMB + diag.last.availableMB
         Section("Status") {
             LabeledContent("JIT") {
-                Text(jit ? "✅ enabled" : "❌ off: enable in StikDebug").foregroundStyle(jit ? .green : .red)
+                Text(jit ? "✅ enabled" : flaggedOnly ? "⚠️ StikDebug not attached: Start/AOT Prepare asks it" : "❌ off: Start/AOT Prepare asks StikDebug")
+                    .foregroundStyle(jit ? .green : flaggedOnly ? .orange : .red)
             }
             LabeledContent("Increased Memory Limit") {
                 Text(iml == true ? "✅ granted" : iml == false ? "❌ not in profile" : "? no profile")

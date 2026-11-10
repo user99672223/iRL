@@ -20,9 +20,25 @@ final class Runtime: ObservableObject {
 
     func start(_ mode: Mode) {
         guard state == .idle else { return }
-        guard jit_check_debugged() else {
-            state = .failed("JIT is off. Open StikDebug, enable JIT for iRL, then press Start again.")
-            LogStore.shared.log("[launch] JIT not enabled", level: .error)
+        // The JIT pool is allocated by StikDebug running iRL's script (madeira-jit.js) while it stays
+        // attached. Enabling JIT from StikDebug's own app list attaches and leaves, so the pool request
+        // goes unanswered: iRL always asks StikDebug itself, with its script and this process's pid.
+        if !StikJITHelper.ready {
+            state = .preparing("Opening StikDebug to enable JIT… Come back to iRL when it says JIT is enabled.")
+            LogStore.shared.log("[jit] requesting StikDebug with iRL's script (debugged=\(jit_check_debugged() ? 1 : 0), attached=\(isDebuggerAttached() ? 1 : 0))")
+            StikJITHelper.enableJIT { result in
+                Task { @MainActor in
+                    switch result {
+                    case .success:
+                        LogStore.shared.log("[jit] StikDebug attached with iRL's script", level: .success)
+                        self.state = .idle
+                        self.start(mode)
+                    case .failure(let e):
+                        self.state = .failed("JIT could not be enabled: \(e.localizedDescription)")
+                        LogStore.shared.log("[jit] enable failed: \(e.localizedDescription)", level: .error)
+                    }
+                }
+            }
             return
         }
         if mode == .game, !Paths.gameFound {
