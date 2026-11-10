@@ -1,3 +1,7 @@
 [submodule "madeira"]
 	path = madeira
 	url = https://github.com/willfaust/madeira
+[submodule "fex"]
+	path = fex
+	url = https://github.com/user99672223/FEX
+	branch = irl-fex-aot

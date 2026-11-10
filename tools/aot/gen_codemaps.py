@@ -120,6 +120,11 @@ def main():
                 print(f'skip {rel}: {e}', file=sys.stderr); continue
             if pe.FILE_HEADER.Machine != 0x8664:
                 print(f'skip {rel}: machine {pe.FILE_HEADER.Machine:#x} is not x86-64'); continue
+            if pe.OPTIONAL_HEADER.ImageBase < 1 << 32:
+                # Madeira's iOS FEX maps sub-4GB images high and rewrites their memory operands at JIT
+                # time (IosJitAlias.cpp "subfloor" windows). An offline cache can't reproduce that, so these
+                # stay on the JIT. In RL: X3DAudio1_7, dbghelp, xinput1_3 (all cold).
+                print(f'skip {rel}: preferred base {pe.OPTIONAL_HEADER.ImageBase:#x} is below 4 GB (subfloor window, JIT only)'); continue
             pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY[n] for n in (
                 'IMAGE_DIRECTORY_ENTRY_EXPORT', 'IMAGE_DIRECTORY_ENTRY_TLS')])
             blocks, st = seeds(pe)
