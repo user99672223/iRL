@@ -175,6 +175,16 @@ final class Runtime: ObservableObject {
         unsetenv("DXMT_CONFIG")
         if preset.metalfx != nil { env.append(("DXMT_METALFX_SPATIAL_SWAPCHAIN", "1")) } else { unsetenv("DXMT_METALFX_SPATIAL_SWAPCHAIN") }
         if mode == .game { RocketLeagueConfig.apply(preset) }
+        // Precompiled shaders: DXMT's own cache DB in a writable dir (absolute unix path ending in '/',
+        // the only form dxmt_shader_cache.cpp honours). DXMT_SHADER_CACHE=0 or DXMT_PRECISE_MINMAX=0
+        // would bypass or rename the DB, so they are never set.
+        unsetenv("DXMT_SHADER_CACHE")
+        unsetenv("DXMT_PRECISE_MINMAX")
+        if let dir = RuntimeFiles.installShaderCache() {
+            let path = dir.path.hasSuffix("/") ? dir.path : dir.path + "/"
+            env.append(("DXMT_SHADER_CACHE_PATH", path))
+        }
+        env.append(("DXMT_CACHE_STATS", "1"))
         if settings.verboseDXMT { env.append(("DXMT_LOG_LEVEL", "info")) }
         if settings.metalValidation { env.append(("MTL_DEBUG_LAYER", "1")) }
 

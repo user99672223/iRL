@@ -52,6 +52,46 @@ enum RuntimeFiles {
         catch { LogStore.shared.log("[dxmt] could not write dxmt.conf: \(error.localizedDescription)", level: .error) }
     }
 
+    /// DXMT's shader cache database. The IPA carries the precompiled one (Shaders/dxmt/shaders_320.db,
+    /// injected by tools/release/make-final-ipa.sh); DXMT's CacheWriter appends runtime-converted
+    /// shaders to the same file (WAL), so it must live in a writable directory.
+    static let shaderCacheDir: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        .appendingPathComponent("dxmt", isDirectory: true)
+
+    /// Copies the bundled DB when the writable one is missing or the bundled one changed (size+mtime
+    /// stamp). Returns the directory for DXMT_SHADER_CACHE_PATH, or nil when the IPA has no shaders.
+    static func installShaderCache() -> URL? {
+        let fm = FileManager.default
+        let name = "shaders_320.db"
+        let bundled = Bundle.main.bundleURL.appendingPathComponent("Shaders/dxmt/\(name)")
+        let dst = shaderCacheDir.appendingPathComponent(name)
+        let stampURL = shaderCacheDir.appendingPathComponent("\(name).stamp")
+        guard let attrs = try? fm.attributesOfItem(atPath: bundled.path) else {
+            LogStore.shared.log("[shaders] no Shaders/ in this IPA: DXMT converts every shader at run time")
+            return fm.fileExists(atPath: dst.path) ? shaderCacheDir : nil
+        }
+        let size = (attrs[.size] as? NSNumber)?.int64Value ?? 0
+        let mtime = (attrs[.modificationDate] as? Date)?.timeIntervalSince1970 ?? 0
+        let stamp = "\(size) \(Int64(mtime))"
+        try? fm.createDirectory(at: shaderCacheDir, withIntermediateDirectories: true)
+        let current = try? String(contentsOf: stampURL, encoding: .utf8)
+        if !fm.fileExists(atPath: dst.path) || current != stamp {
+            for suffix in ["", "-wal", "-shm"] { try? fm.removeItem(at: shaderCacheDir.appendingPathComponent(name + suffix)) }
+            do {
+                try fm.copyItem(at: bundled, to: dst)
+                try stamp.write(to: stampURL, atomically: true, encoding: .utf8)
+                LogStore.shared.log("[shaders] installed the precompiled DXMT shader DB (\(size >> 20) MB)", level: .success)
+            } catch {
+                LogStore.shared.log("[shaders] could not install the shader DB: \(error.localizedDescription)", level: .error)
+                return nil
+            }
+        }
+        let dbSize = ((try? fm.attributesOfItem(atPath: dst.path))?[.size] as? NSNumber)?.int64Value ?? 0
+        let walSize = ((try? fm.attributesOfItem(atPath: dst.path + "-wal"))?[.size] as? NSNumber)?.int64Value ?? 0
+        LogStore.shared.log("[shaders] DXMT shader DB \(dbSize >> 20) MB (+\(walSize >> 10) KB WAL of runtime conversions)")
+        return shaderCacheDir
+    }
+
     /// Deletes the generated AOT caches so Prepare AOT runs again (code maps are kept).
     static func invalidateAOTCache(reason: String) {
         let dir = Paths.fexCache.appendingPathComponent("cache", isDirectory: true)
