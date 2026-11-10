@@ -103,6 +103,11 @@ Rocket League needs, and build iRL's own small app shell around them.
 
 ## 4. Known issues / uncertainties (the device test settles these)
 
+- **Memory reserve (if iOS kills the game for memory):** Madeira has an opt-in "donor pool": its
+  MadeiraMemoryHost extension hands Wine memory that isn't billed to the app's footprint (`DonorPool.m`,
+  enabled by `donor-pool-mb` in madeira.cfg; off by default in Madeira too). iRL leaves the extension out
+  (lean rule, D5) and stubs the entry point. If the launch log shows a jetsam kill, bringing the extension
+  back is the first memory lever, ahead of lowering texture caps.
 - **Shader cache hits:** precompiled pixel shaders only hit if the phone uses Metal 3.2 (`shaders_320.db`)
   and DXMT's default pixel variant. The launch log prints DXMT's cache hit/miss counts
   (`DXMT_CACHE_STATS=1`). Misses are converted on the phone and saved into the same DB.
