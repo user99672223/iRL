@@ -13,6 +13,7 @@ struct HomeView: View {
     @State private var showDiagnostics = false
     @State private var shareURL: URL?
     @ObservedObject private var selfTest = SelfTest.shared
+    @ObservedObject private var gameCheck = GameCheck.shared
 
     var body: some View {
         NavigationStack {
@@ -24,6 +25,9 @@ struct HomeView: View {
                     .disabled(runtime.state != .idle)
                     Text(statusText).font(.callout).foregroundStyle(.secondary)
                     LabeledContent("Game", value: Paths.gameFound ? "found" : "missing")
+                    Button(gameCheck.running ? "Checking game files…" : "Check game files") { gameCheck.run() }
+                        .disabled(gameCheck.running || runtime.state != .idle)
+                    if let s = gameCheck.summary { Text(s).font(.callout).foregroundStyle(s.hasPrefix("All") ? .green : .red) }
                 }
                 StatusSection(diag: diag)
                 Section("Epic Games") {
