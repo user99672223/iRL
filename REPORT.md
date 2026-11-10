@@ -11,7 +11,7 @@ _Last updated: 2026-11-10 (run in progress)._
 | FEX pin | Done, compiling | `user99672223/FEX` branch `irl-fex-aot` = Madeira `ios-port-2607` + 6 upstream AOT-loader commits (D1). |
 | AOT code maps | Done, verified | `tools/aot/gen_codemaps.py`: 22 modules, ~158k seeded blocks (RocketLeague.exe: 81,786) |
 | AOT cache generation | In progress | FEXOfflineCompiler.exe built with the runtime FEX; runs on the iPhone (D2). |
-| iRL app / Actions IPA | Building (interim) | Workflow `Build iRL IPA` on macos-26. `plan` passed. This interim full-Madeira build mainly seeds the LLVM/FEX caches; the lean shell (D5) replaces it. |
+| iRL app / IPA | Built (interim) | Lean iRL app CI is green (run 42760542459). `dist/iRL-final.ipa` (204 MB) = that IPA + 19 AOT code maps + shader DB. It's being rebuilt as a Release build (the first one was Debug) together with the simulator fixes. |
 | Shaders | Done (pixel), device-fed (vertex) | 21,248 shaders captured by playing RL through Heroic (menus, garage, Free Play, a 4v4 bot match). All 15,428 pixel shaders are precompiled into DXMT's own cache DB (`shaders_320.db`, exact keys), so the phone gets cache hits with no DXMT change. The 5,820 vertex shaders depend on runtime input layouts and get added from the first device log. |
 | Step 5 AOT optimizations | Not started | Needs the merged FEX to build first |
 
