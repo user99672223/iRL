@@ -98,10 +98,30 @@ Rocket League needs, and build iRL's own small app shell around them.
 
 **D6. Never block.** Decide, log it here, keep going (owner, 2026-11-10). Shader capture uses Heroic's existing Epic login.
 
-## 4. Known issues / uncertainties
+## 4. Known issues / uncertainties (the device test settles these)
 
-- Whether `FEXOfflineCompiler.exe` runs cleanly inside Madeira's Wine on iOS (D2) is only testable on the device.
-- CI runs on GitHub's `macos-26` (Xcode 26.6, iOS 26.5 SDK, 3 CPU / 7 GB). Madeira's two Xcode-27-only features are already guarded (`build/ntdll-unix/build.sh` page-wait probe, `build-shader-headers.sh` atomic fix). The first full build may approach the 6-hour job limit. Caches make the next runs fast.
+- **Prepare AOT runs `FEXOfflineCompiler.exe` under Wine on the phone.** It's a verified ARM64EC
+  binary (`llvm-readobj`: COFF-ARM64EC, CHPE metadata) that imports only ntdll, kernel32 and the CRT.
+  It has never run, because there's no ARM64 Windows/Wine on the laptop. If it fails, the game still
+  runs on the JIT, and the log shows why.
+- **AOT coverage:** 19 modules seeded from PE metadata. X3DAudio1_7, dbghelp and xinput1_3 load below
+  4 GB, and Madeira's FEX relocates those at runtime ("subfloor windows"), so they stay on the JIT
+  (all cold code). Every JIT miss is recorded as a code map in `<FEX cache>/codemap/new/`, so the
+  next Prepare pass adds it.
+- **Code-map format:** written to match `irl-fex-aot` exactly (FileId hash, 64-bit executable marker
+  `0xffffffef`, lowercase `c:\games\rocketleague\…` paths) and checked by a parser that mirrors
+  `CodeMap::ParseCodeMap`. The game folder must appear at `C:\games\rocketleague` in the prefix.
+- **AVX hidden:** Rocket League's AVX paths (about 12.5k YMM instructions) are behind `xgetbv` checks,
+  so it uses SSE. If a log shows `STATUS_ILLEGAL_INSTRUCTION` on a VEX opcode, turn on Settings → AVX
+  (compat), which re-runs Prepare.
+- **Resolution:** the default is 900p → MetalFX ×1.6 → 1440p, chosen without device numbers. Pick
+  the highest preset that holds 60 on the diagnostics screen. Dynamic resolution driven by GPU
+  frame time isn't implemented yet; it needs device frame-time logs first.
+- **Not done (Step 5 items 1–4, cross-block register allocation, shadow return stack, relaxed TSO,
+  static indirect-branch resolution):** these are FEX code-generation changes that can't be validated
+  without the device. The first JIT-miss and profile logs from your test decide which one pays off most.
+- **CI:** the first lean build runs on GitHub's macos-26 (Xcode 26.6). Madeira's two Xcode-27-only
+  features are guarded.
 
 ## 5. Logs
 
