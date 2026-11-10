@@ -15,8 +15,18 @@ final class Runtime: ObservableObject {
 
     @Published private(set) var state: State = .idle
 
-    /// JIT pool size. Madeira's default (896 MB); RL's working set decides the next value.
-    private let poolMB = 896
+    /// JIT pool size. The pool's pages count against iOS's memory limit (Madeira ml358: the
+    /// no-footprint exemption is refused for debugger-made pages), and on the iPhone 15 the 4 GB
+    /// limit is the bottleneck. With the AOT caches in place the JIT only compiles misses, so the
+    /// game gets a 256 MB pool; AOT Prepare needs one 128 MB code buffer at a time (the compiler frees
+    /// each module's), plus the image copies. Without caches, Madeira's default (896 MB, shrunk to
+    /// what fits by StikJITHelper).
+    private func poolMB(for mode: Mode) -> Int {
+        let caches = Runtime.aotCacheCount()
+        let mb = mode == .aotPrepare ? 384 : (caches >= 15 ? 256 : 896)
+        LogStore.shared.log("[jit] pool size \(mb) MB for \(mode.rawValue) (\(caches) AOT caches)")
+        return mb
+    }
 
     func start(_ mode: Mode) {
         guard state == .idle else { return }
@@ -78,7 +88,7 @@ final class Runtime: ObservableObject {
             RuntimeFiles.pruneSubfloorAOT()   // before process-all: no caches for relocated sub-4 GB images
         }
 
-        let poolMB = self.poolMB
+        let poolMB = self.poolMB(for: mode)
         let fail: @Sendable (String) -> Void = { msg in Task { @MainActor in Runtime.shared.state = .failed(msg) } }
         DispatchQueue.global(qos: .userInitiated).async {
             winios_phase("pool-alloc-begin")
@@ -140,8 +150,11 @@ final class Runtime: ObservableObject {
                                 level: crashed ? .error : .info)
             LaunchLogs.shared.flush()
             Task { @MainActor in
+                let caches = Runtime.aotCacheCount()
                 Runtime.shared.state = .failed(mode == .aotPrepare
-                    ? "AOT Prepare finished. Close and reopen iRL, then press Start."
+                    ? (crashed
+                        ? "AOT Prepare stopped early (\(caches) caches so far). Close and reopen iRL and run it again: it continues where it stopped."
+                        : "AOT Prepare finished: \(caches) caches. Close and reopen iRL, then press Start.")
                     : "The game exited. Close and reopen iRL before the next launch.")
             }
         }
