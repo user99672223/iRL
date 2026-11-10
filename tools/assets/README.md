@@ -28,5 +28,7 @@ The plain executables and DLLs are also in `irl-assets/game/Binaries/Win64/` (no
 **Rebuild after a game patch:** `WINE_FILE_TRACE=1 TRACE_READS=1 trace-menu.sh dummy 300` (Wine file log plus texture read
 ranges), then `wine_file_paths.py --old <previous menu-files.txt>`, then `package.py --reads <straces...>`, then commit to irl-assets and tag `menu-vN`.
 
-**Caveat:** the read ranges come from one laptop run. If CI's run reads a texture range the laptop
+**menu-v3:** texture streaming order isn't deterministic (on ARM64 CI the game read 2 small spots in Textures5.tfc that both laptop runs had skipped, then failed with "I/O failure"). So every stored .tfc range is now padded ±8 MB (`package.py --pad 8388608`), and blocks CI reports are added explicitly (`--extra-ranges extra-ranges.json`). 281 files, 945 MiB compressed in 10 chunks, restores to 22 GB apparent, 1.1 GB on disk.
+
+**Caveat:** the read ranges come from laptop runs. If CI's run reads a texture range the laptop
 didn't, it gets zeros there (a broken texture, or a decompression error in the log). Re-trace and repack.

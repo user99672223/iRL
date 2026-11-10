@@ -10,6 +10,8 @@ import argparse, hashlib, json, os, re, shutil, subprocess, tempfile
 ap = argparse.ArgumentParser()
 ap.add_argument('--game', required=True); ap.add_argument('--files', required=True)
 ap.add_argument('--reads', required=True, nargs='+', help='one or more read-range straces; ranges are unioned'); ap.add_argument('--out', required=True)
+ap.add_argument('--pad', type=int, default=0, help='grow every stored .tfc range by this many bytes on each side')
+ap.add_argument('--extra-ranges', help='JSON {tfc basename: [[start, end], ...]} added explicitly (e.g. misses seen in CI)')
 ap.add_argument('--stage', required=True, help='scratch dir on the same disk (sparse files take little space)')
 a = ap.parse_args()
 game = os.path.realpath(a.game)
@@ -63,8 +65,11 @@ for line in itertools.chain.from_iterable(open(r, errors='replace') for r in a.r
     elif name == 'openat':
         pos[path] = 0
 
-def merged(rs):
-    rs = sorted((s // ALIGN * ALIGN, -(-e // ALIGN) * ALIGN) for s, e in rs)
+extra = json.load(open(a.extra_ranges)) if a.extra_ranges else {}
+def merged(rs, size, name):
+    # Texture streaming order isn't deterministic: pad every range, add explicit extras, clamp, merge.
+    rs = [(max(0, s - a.pad), e + a.pad) for s, e in rs] + [tuple(r) for r in extra.get(name, [])]
+    rs = sorted((s // ALIGN * ALIGN, min(size, -(-e // ALIGN) * ALIGN)) for s, e in rs)
     out = []
     for s, e in rs:
         if out and s <= out[-1][1]:
@@ -86,7 +91,7 @@ for rel in files:
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     size = os.path.getsize(src)
     if rel.endswith('.tfc'):
-        rs = merged(ranges.get(src, []))
+        rs = merged(ranges.get(src, []), size, os.path.basename(rel))
         with open(src, 'rb') as i, open(dst, 'wb') as o:
             o.truncate(size)
             for s, e in rs:
